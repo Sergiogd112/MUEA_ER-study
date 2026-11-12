@@ -51,7 +51,7 @@ y la fuerza del piloto que evita el giro. Después, una ráfaga.
 <p>Fuselaje trasero modelado como voladizo con masa repartida variable, sustentación del fuselaje, APU en la punta y carga de cola, más una sección circular de pared delgada con suelo.
 <strong>Temas: <a href="t06-vigas-fem.html">6</a>, <a href="t07-flexion.html">7</a>, <a href="t08-idealizacion.html">8</a>, <a href="t09-cortante.html">9</a>.</strong></p>
 <ol>
-  <li>A) Propiedades de la sección: centroide e inercia de un círculo de pared delgada más una cuerda (el suelo). La longitud de la cuerda sale de la intersección con el círculo. Usa Steiner.</li>
+  <li>A) Propiedades de la sección: centroide e inercia de un círculo de pared delgada más una cuerda (el suelo). La longitud de la cuerda sale de la intersección con el círculo. Usa Steiner. Notación: el $I_{zz}$ del enunciado y de ALG_1DBEAM (flexión con flecha $u_y$) es el $I_{xx}$ del tema 7, respecto al eje horizontal centroidal; y si el radio dado es el exterior, en pared delgada se trabaja con el radio medio $R - t_s/2$ (o se justifica la diferencia).</li>
   <li>B) Carga de cola: $M_z(0) = 0$ es una ecuación de momentos en el empotramiento con todas las cargas: integrales de $\lambda(x)g$ y $q(x)$ por su brazo, más las cargas puntuales.</li>
   <li>C) Elementos viga: carga por elemento con su valor medio $\bar q^e$ (fuerzas consistentes), cargas puntuales en el nodo de la punta y postproceso con la guía ALG_1DBEAM.</li>
   <li>D) Convergencia: error relativo de la flecha en la punta frente a una malla muy fina, en escala logarítmica. Comenta la pendiente.</li>

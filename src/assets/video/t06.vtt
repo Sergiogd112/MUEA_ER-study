@@ -1,300 +1,300 @@
 WEBVTT
 
 1
-00:00:00.600 --> 00:00:05.710
+00:00:00.600 --> 00:00:05.803
 La viga añade el giro como grado de
 libertad y resiste cortante y flexión.
 
 2
-00:00:05.760 --> 00:00:08.494
+00:00:05.853 --> 00:00:08.587
 Es la base del tercer
 trabajo, el fuselaje en
 
 3
-00:00:08.534 --> 00:00:12.089
+00:00:08.627 --> 00:00:12.182
 voladizo, así que veremos
 con calma la convergencia.
 
 4
-00:00:13.739 --> 00:00:16.496
+00:00:13.832 --> 00:00:16.462
 El convenio del curso:
 eje equis a lo largo de
 
 5
-00:00:16.536 --> 00:00:19.743
+00:00:16.502 --> 00:00:19.581
 la viga, flecha y carga
 positivas hacia arriba.
 
 6
-00:00:19.793 --> 00:00:24.300
+00:00:19.631 --> 00:00:24.021
 El momento es E I por la curvatura,
 la segunda derivada de la flecha.
 
 7
-00:00:24.350 --> 00:00:27.055
+00:00:24.071 --> 00:00:26.852
 La derivada del momento
 es menos el cortante,
 
 8
-00:00:27.095 --> 00:00:30.191
+00:00:26.892 --> 00:00:30.063
 y la derivada del cortante
 es menos la carga.
 
 9
-00:00:30.241 --> 00:00:34.132
+00:00:30.113 --> 00:00:34.063
 Juntando, la cuarta derivada de
 la flecha por E I es la carga.
 
 10
-00:00:34.182 --> 00:00:38.157
+00:00:34.113 --> 00:00:38.140
 Las condiciones de contorno típicas
 son flecha y giro nulos en un
 
 11
-00:00:38.197 --> 00:00:42.624
+00:00:38.180 --> 00:00:42.659
 empotramiento, y cortante y momento
 conocidos en un extremo libre.
 
 12
-00:00:44.274 --> 00:00:49.559
+00:00:44.309 --> 00:00:49.524
 Cada nodo tiene flecha y giro, así que el
 elemento tiene cuatro grados de libertad.
 
 13
-00:00:49.609 --> 00:00:53.344
+00:00:49.574 --> 00:00:53.272
 Necesitamos cuatro coeficientes
 para imponerlos, es decir, un
 
 14
-00:00:53.384 --> 00:00:58.190
+00:00:53.312 --> 00:00:58.074
 polinomio cúbico; estas son sus cuatro
 funciones de forma, las de Hermite.
 
 15
-00:00:58.240 --> 00:01:01.229
+00:00:58.124 --> 00:01:01.084
 Garantizan que la flecha y
 el giro son continuos entre
 
 16
-00:01:01.269 --> 00:01:04.592
+00:01:01.124 --> 00:01:04.418
 elementos, que es lo que
 exige la energía de flexión.
 
 17
-00:01:04.642 --> 00:01:07.837
+00:01:04.468 --> 00:01:07.567
 Y como la elástica sin carga
 en el vano es cúbica, el
 
 18
-00:01:07.877 --> 00:01:11.645
+00:01:07.607 --> 00:01:11.273
 elemento es exacto cuando las
 cargas están en los nodos.
 
 19
-00:01:13.295 --> 00:01:16.510
+00:01:12.923 --> 00:01:15.999
 La matriz de rigidez de
 cuatro por cuatro tiene doce,
 
 20
-00:01:16.550 --> 00:01:20.196
+00:01:16.039 --> 00:01:19.527
 seis l y cuatro l al cuadrado;
 cada columna es el vector
 
 21
-00:01:20.236 --> 00:01:24.210
+00:01:19.567 --> 00:01:23.386
 de fuerzas y momentos que produce
 un desplazamiento unidad.
 
 22
-00:01:24.260 --> 00:01:27.546
+00:01:23.436 --> 00:01:26.695
 Las cargas repartidas se
 sustituyen por fuerzas nodales
 
 23
-00:01:27.586 --> 00:01:31.866
+00:01:26.735 --> 00:01:30.984
 consistentes: la integral de las
 funciones de forma por la carga.
 
 24
-00:01:31.916 --> 00:01:36.143
+00:01:31.034 --> 00:01:35.238
 Para una carga uniforme salen la mitad
 de la carga en cada nodo y momentos
 
 25
-00:01:36.183 --> 00:01:40.916
+00:01:35.278 --> 00:01:39.987
 de más y menos q l al cuadrado entre
 doce, los de empotramiento perfecto.
 
 26
-00:01:40.966 --> 00:01:44.140
+00:01:40.037 --> 00:01:43.115
 Si la carga varía, la guía
 usa su valor medio en cada
 
 27
-00:01:44.180 --> 00:01:47.476
+00:01:43.155 --> 00:01:46.350
 elemento; eso pierde el primer
 momento de la carga y da
 
 28
-00:01:47.516 --> 00:01:51.324
+00:01:46.390 --> 00:01:50.093
 un error que baja con el
 cuadrado del tamaño de elemento.
 
 29
-00:01:52.974 --> 00:01:56.002
+00:01:51.743 --> 00:01:54.817
 Tras resolver, las fuerzas
 internas en los nodos de
 
 30
-00:01:56.042 --> 00:01:59.581
+00:01:54.857 --> 00:01:58.444
 cada elemento son su rigidez
 por sus desplazamientos.
 
 31
-00:01:59.631 --> 00:02:03.858
+00:01:58.494 --> 00:02:02.860
 La guía define el cortante y el momento
 cambiando el signo en el primer nodo,
 
 32
-00:02:03.898 --> 00:02:08.515
+00:02:02.900 --> 00:02:07.655
 porque allí la fuerza sobre el elemento
 es opuesta al esfuerzo de la sección.
 
 33
-00:02:08.565 --> 00:02:12.101
+00:02:07.705 --> 00:02:11.286
 Así el cortante sale constante
 y el momento lineal en cada
 
 34
-00:02:12.141 --> 00:02:16.438
+00:02:11.326 --> 00:02:15.672
 elemento, y los diagramas son
 escalonados; convergen al refinar.
 
 35
-00:02:16.488 --> 00:02:19.165
+00:02:15.722 --> 00:02:18.362
 La flecha dentro de cada
 elemento es la cúbica
 
 36
-00:02:19.205 --> 00:02:22.863
+00:02:18.402 --> 00:02:22.016
 cuyos coeficientes da la guía,
 y el giro es su derivada.
 
 37
-00:02:24.513 --> 00:02:27.444
+00:02:23.666 --> 00:02:26.591
 Con flecha y giro nulos en
 el empotramiento queda un
 
 38
-00:02:27.484 --> 00:02:31.261
+00:02:26.631 --> 00:02:30.401
 sistema de dos por dos para la
 flecha y el giro de la punta.
 
 39
-00:02:31.311 --> 00:02:36.235
+00:02:30.451 --> 00:02:35.434
 Resolviendo salen P L al cubo entre tres
 E I y P L al cuadrado entre dos E I.
 
 40
-00:02:36.285 --> 00:02:40.050
+00:02:35.484 --> 00:02:39.217
 Con los datos, la flecha
-en la punta es 13.33
+en la punta es 13,33
 
 41
-00:02:40.090 --> 00:02:42.685
+00:02:39.257 --> 00:02:41.829
 milímetros, y el postproceso
 da un momento en
 
 42
-00:02:42.725 --> 00:02:46.236
+00:02:41.869 --> 00:02:45.354
 el empotramiento de P por
-L, dos kiloniútons metro.
+L, dos kilonewtons metro.
 
 43
-00:02:46.286 --> 00:02:49.067
+00:02:45.404 --> 00:02:48.167
 Es exactamente la solución
 analítica, porque con
 
 44
-00:02:49.107 --> 00:02:52.453
+00:02:48.207 --> 00:02:51.536
 una carga puntual en un
 nodo la elástica es cúbica.
 
 45
-00:02:54.103 --> 00:02:57.266
+00:02:53.186 --> 00:02:56.376
 Un voladizo de diez metros
 con una carga en coseno y
 
 46
-00:02:57.306 --> 00:03:01.291
+00:02:56.416 --> 00:03:00.432
 otra en la punta, resuelto con
 uno, dos y cuatro elementos.
 
 47
-00:03:01.341 --> 00:03:06.347
+00:03:00.482 --> 00:03:05.604
 Como referencia tomamos una malla muy
 fina, igual que pide el tercer trabajo.
 
 48
-00:03:06.397 --> 00:03:11.391
+00:03:05.654 --> 00:03:10.543
 Medimos el error relativo de la flecha en
 la punta para mallas cada vez más finas.
 
 49
-00:03:11.441 --> 00:03:13.988
+00:03:10.593 --> 00:03:13.157
 En escala logarítmica
 los puntos quedan en una
 
 50
-00:03:14.028 --> 00:03:17.189
+00:03:13.197 --> 00:03:16.377
 recta, y su pendiente es
 el orden de convergencia.
 
 51
-00:03:17.239 --> 00:03:19.799
+00:03:16.427 --> 00:03:18.991
 Aquí la pendiente es
 dos: el error viene de
 
 52
-00:03:19.839 --> 00:03:23.151
+00:03:19.031 --> 00:03:22.350
 sustituir la carga por su
 media en cada elemento.
 
 53
-00:03:23.201 --> 00:03:26.270
+00:03:22.400 --> 00:03:25.526
 Con una carga uniforme y
 fuerzas consistentes, los
 
 54
-00:03:26.310 --> 00:03:29.832
+00:03:25.566 --> 00:03:29.147
 valores nodales serían
 exactos con cualquier malla.
 
 55
-00:03:31.482 --> 00:03:33.620
+00:03:30.797 --> 00:03:32.946
 Las preguntas del oral de vigas.
 
 56
-00:03:33.670 --> 00:03:38.408
+00:03:32.996 --> 00:03:37.653
 Por qué cúbicas: cuatro grados de
 libertad y elástica cúbica sin carga.
 
 57
-00:03:38.458 --> 00:03:40.939
+00:03:37.703 --> 00:03:40.190
 Qué son las fuerzas
 nodales equivalentes y de
 
 58
-00:03:40.979 --> 00:03:44.242
+00:03:40.230 --> 00:03:43.499
 dónde sale el momento q l
 al cuadrado entre doce.
 
 59
-00:03:44.292 --> 00:03:49.332
+00:03:43.549 --> 00:03:48.647
 Por qué el cortante y el momento salen
 escalonados y cómo mejoran al refinar.
 
 60
-00:03:49.382 --> 00:03:54.109
+00:03:48.697 --> 00:03:53.261
 Y de dónde viene el error de tu estudio
 de convergencia y qué pendiente esperas.

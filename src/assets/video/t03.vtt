@@ -1,355 +1,360 @@
 WEBVTT
 
 1
-00:00:00.600 --> 00:00:05.095
+00:00:00.600 --> 00:00:05.222
 Ahora la barra se inclina y forma
 celosías planas y espaciales.
 
 2
-00:00:05.145 --> 00:00:08.632
+00:00:05.272 --> 00:00:08.695
 Veremos la matriz de rotación,
 cómo se eliminan los modos
 
 3
-00:00:08.672 --> 00:00:11.664
+00:00:08.735 --> 00:00:11.672
 de sólido rígido, cómo
 saber si una estructura es
 
 4
-00:00:11.704 --> 00:00:16.385
+00:00:11.712 --> 00:00:16.315
 isostática y cómo se incluyen el peso
 propio y las fuerzas de inercia.
 
 5
-00:00:18.035 --> 00:00:22.913
+00:00:17.965 --> 00:00:23.041
 Una barra inclinada sigue trabajando solo
 a axil, pero a lo largo de su propio eje.
 
 6
-00:00:22.963 --> 00:00:26.784
+00:00:23.091 --> 00:00:26.889
 Definimos el eje local equis
 prima del nodo uno al nodo dos.
 
 7
-00:00:26.834 --> 00:00:29.851
+00:00:26.939 --> 00:00:29.981
 El coseno y el seno del ángulo
 salen de las coordenadas:
 
 8
-00:00:29.891 --> 00:00:34.336
+00:00:30.021 --> 00:00:34.498
 diferencia de equis entre la longitud,
 y diferencia de y entre la longitud.
 
 9
-00:00:34.386 --> 00:00:38.083
+00:00:34.548 --> 00:00:38.224
 Los desplazamientos locales se
 obtienen girando los globales con
 
 10
-00:00:38.123 --> 00:00:42.561
+00:00:38.264 --> 00:00:42.677
 la matriz R, que es ortogonal, así
 que su inversa es su traspuesta.
 
 11
-00:00:42.611 --> 00:00:45.245
+00:00:42.727 --> 00:00:45.335
 En ejes locales solo la
 dirección axial tiene
 
 12
-00:00:45.285 --> 00:00:49.021
+00:00:45.375 --> 00:00:49.080
 rigidez, y la transversal no
 aporta nada en primer orden.
 
 13
-00:00:50.671 --> 00:00:56.188
+00:00:50.730 --> 00:00:56.083
 Las fuerzas también se giran: la fuerza
 global es la traspuesta de R por la local.
 
 14
-00:00:56.238 --> 00:01:01.040
+00:00:56.133 --> 00:01:00.993
 Sustituyendo, la rigidez global es R
 traspuesta por la local por R, y queda en
 
 15
-00:01:01.080 --> 00:01:06.387
+00:01:01.033 --> 00:01:06.398
 bloques de más y menos n por n traspuesto,
 con n el vector unitario de la barra.
 
 16
-00:01:06.437 --> 00:01:10.095
+00:01:06.448 --> 00:01:10.114
 En dos dimensiones esos bloques
 contienen coseno al cuadrado,
 
 17
-00:01:10.135 --> 00:01:13.550
+00:01:10.154 --> 00:01:13.577
 coseno por seno y seno al
 cuadrado, y en tres dimensiones
 
 18
-00:01:13.590 --> 00:01:18.002
+00:01:13.617 --> 00:01:18.037
 usamos los tres cosenos directores
 y la matriz es de seis por seis.
 
 19
-00:01:18.052 --> 00:01:21.360
+00:01:18.087 --> 00:01:21.433
 La deformación es la proyección
 del desplazamiento relativo
 
 20
-00:01:21.400 --> 00:01:24.423
+00:01:21.473 --> 00:01:24.532
 sobre el eje de la barra,
 dividida por la longitud; la
 
 21
-00:01:24.463 --> 00:01:28.445
+00:01:24.572 --> 00:01:28.596
 misma matriz sale también de la
 invariancia del trabajo interno.
 
 22
-00:01:30.095 --> 00:01:33.163
+00:01:30.246 --> 00:01:33.298
 La matriz global es
 semidefinida: los movimientos de
 
 23
-00:01:33.203 --> 00:01:37.260
+00:01:33.338 --> 00:01:37.376
 sólido rígido no deforman ninguna
 barra y no producen energía.
 
 24
-00:01:37.310 --> 00:01:39.977
+00:01:37.426 --> 00:01:40.099
 Hay uno en una dimensión,
 tres en el plano,
 
 25
-00:01:40.017 --> 00:01:43.453
+00:01:40.139 --> 00:01:43.581
 dos traslaciones y un giro,
 y seis en el espacio.
 
 26
-00:01:43.503 --> 00:01:46.241
+00:01:43.631 --> 00:01:46.388
 El primer método los elimina
 prescribiendo tantos
 
 27
-00:01:46.281 --> 00:01:49.586
+00:01:46.428 --> 00:01:49.756
 desplazamientos como modos,
 elegidos para impedir todos los
 
 28
-00:01:49.626 --> 00:01:54.058
+00:01:49.796 --> 00:01:54.256
 movimientos rígidos, por ejemplo un
 nodo fijo y otro que impida el giro.
 
 29
-00:01:54.108 --> 00:01:57.282
+00:01:54.306 --> 00:01:57.502
 Si las cargas están autoequilibradas,
 como en un avión en
 
 30
-00:01:57.322 --> 00:02:00.552
+00:01:57.542 --> 00:02:00.796
 vuelo, cualquier elección
 isostática da reacciones nulas y
 
 31
-00:02:00.592 --> 00:02:04.269
+00:02:00.836 --> 00:02:04.536
 las mismas tensiones; solo
 cambia el desplazamiento rígido.
 
 32
-00:02:04.319 --> 00:02:06.844
+00:02:04.586 --> 00:02:07.187
 El segundo método usa
 la inversa generalizada
 
 33
-00:02:06.884 --> 00:02:09.742
+00:02:07.227 --> 00:02:10.160
 espectral, que ignora
 los autovalores nulos.
 
 34
-00:02:09.792 --> 00:02:13.102
+00:02:10.210 --> 00:02:13.490
 Si tu programa avisa de que la
 matriz es casi singular, te
 
 35
-00:02:13.142 --> 00:02:16.783
+00:02:13.530 --> 00:02:17.143
 queda un modo rígido sin
 eliminar o un mecanismo interno.
 
 36
-00:02:18.433 --> 00:02:20.504
+00:02:18.793 --> 00:02:20.891
 Contamos barras más grados de libertad
 
 37
-00:02:20.544 --> 00:02:23.450
+00:02:20.931 --> 00:02:23.868
 prescritos menos dos
 veces el número de nodos.
 
 38
-00:02:23.500 --> 00:02:28.552
+00:02:23.918 --> 00:02:28.889
 Si sale negativo, sobran grados de
 libertad y la estructura es un mecanismo.
 
 39
-00:02:28.602 --> 00:02:32.933
+00:02:28.939 --> 00:02:33.413
 Si sale cero y no hay mecanismos, la
 estructura es isostática: los axiles
 
 40
-00:02:32.973 --> 00:02:37.753
+00:02:33.453 --> 00:02:38.380
 salen solo del equilibrio, y una
 deformación térmica no produce tensiones.
 
 41
-00:02:37.803 --> 00:02:41.457
+00:02:38.430 --> 00:02:42.073
 Si sale positivo, es hiperestática:
 los axiles dependen de las
 
 42
-00:02:41.497 --> 00:02:46.674
-rigideces, y los desplazamientos impuestos
-o la temperatura sí generan tensiones.
+00:02:42.113 --> 00:02:45.578
+rigideces, y los desplazamientos
+impuestos o la temperatura
 
 43
-00:02:46.724 --> 00:02:49.805
+00:02:45.618 --> 00:02:49.948
+pueden generar tensiones, si no son
+compatibles con las coacciones.
+
+44
+00:02:49.998 --> 00:02:53.075
 Ojo, la cuenta es necesaria
 pero no suficiente: una
 
-44
-00:02:49.845 --> 00:02:52.680
+45
+00:02:53.115 --> 00:02:55.947
 parte puede tener barras
 de sobra y otra ser un
 
-45
-00:02:52.720 --> 00:02:57.047
+46
+00:02:55.987 --> 00:03:00.310
 mecanismo, así que la prueba
 definitiva es el rango de la matriz.
 
-46
-00:02:58.697 --> 00:03:01.748
+47
+00:03:01.960 --> 00:03:05.014
 Un triángulo con base de
 cuatro metros y altura de un
 
-47
-00:03:01.788 --> 00:03:04.955
+48
+00:03:05.054 --> 00:03:08.225
 metro, articulado a la izquierda
 y con apoyo móvil a la
 
-48
-00:03:04.995 --> 00:03:09.253
-derecha, y una carga de diez
-kiloniútons hacia abajo en el vértice.
-
 49
-00:03:09.303 --> 00:03:14.134
+00:03:08.265 --> 00:03:12.527
+derecha, y una carga de diez
+kilonewtons hacia abajo en el vértice.
+
+50
+00:03:12.577 --> 00:03:17.420
 Tres barras y tres reacciones para seis
 grados de libertad: es isostática.
 
-50
-00:03:14.184 --> 00:03:17.437
+51
+00:03:17.470 --> 00:03:20.652
 Por simetría cada apoyo
 lleva la mitad de la carga.
 
-51
-00:03:17.487 --> 00:03:22.174
+52
+00:03:20.702 --> 00:03:25.253
 El equilibrio del vértice da en cada
 diagonal un axil de menos P partido por
 
-52
-00:03:22.214 --> 00:03:28.274
-dos veces el seno del ángulo, es decir,
-menos 11.18 kiloniútons, de compresión.
-
 53
-00:03:28.324 --> 00:03:31.037
+00:03:25.293 --> 00:03:31.188
+dos veces el seno del ángulo, es decir,
+menos 11,18 kilonewtons, de compresión.
+
+54
+00:03:31.238 --> 00:03:33.932
 Y el equilibrio del nudo
 izquierdo da en la barra
 
-54
-00:03:31.077 --> 00:03:35.303
-inferior P por L entre cuatro h,
-diez kiloniútons de tracción.
-
 55
-00:03:36.953 --> 00:03:40.332
+00:03:33.972 --> 00:03:38.171
+inferior P por L entre cuatro h,
+diez kilonewtons de tracción.
+
+56
+00:03:39.821 --> 00:03:43.177
 El peso propio de una barra se
 reparte como fuerzas nodales
 
-56
-00:03:40.372 --> 00:03:44.258
+57
+00:03:43.217 --> 00:03:47.079
 equivalentes: con interpolación
 lineal, la mitad a cada nodo.
 
-57
-00:03:44.308 --> 00:03:46.627
+58
+00:03:47.129 --> 00:03:49.428
 Si la estructura acelera como un sólido
 
-58
-00:03:46.667 --> 00:03:50.103
+59
+00:03:49.468 --> 00:03:52.877
 rígido, la tratamos como
 un problema casi estático.
 
-59
-00:03:50.153 --> 00:03:52.366
+60
+00:03:52.927 --> 00:03:55.168
 Según d'Alembert añadimos en cada nodo la
 
-60
-00:03:52.406 --> 00:03:55.356
+61
+00:03:55.208 --> 00:03:58.188
 fuerza de inercia menos
 masa por aceleración.
 
-61
-00:03:55.406 --> 00:03:58.589
+62
+00:03:58.238 --> 00:04:01.455
 Así cargas, peso e inercia
 quedan autoequilibrados, y
 
-62
-00:03:58.629 --> 00:04:02.629
+63
+00:04:01.495 --> 00:04:05.531
 basta con apoyos isostáticos
 que eliminen los modos rígidos.
 
-63
-00:04:02.679 --> 00:04:05.130
+64
+00:04:05.581 --> 00:04:08.028
 Las reacciones deben salir nulas: si no lo
 
-64
-00:04:05.170 --> 00:04:08.427
+65
+00:04:08.068 --> 00:04:11.318
 son, el equilibrio global
 de tus cargas está mal.
 
-65
-00:04:08.477 --> 00:04:11.521
+66
+00:04:11.368 --> 00:04:14.493
 Es la comprobación clave
 del segundo trabajo.
 
-66
-00:04:13.171 --> 00:04:15.669
+67
+00:04:16.143 --> 00:04:18.641
 Las preguntas típicas de este tema.
 
-67
-00:04:15.719 --> 00:04:20.736
+68
+00:04:18.691 --> 00:04:23.580
 La deducción de la rigidez global y la
 ortogonalidad de la matriz de rotación.
 
-68
-00:04:20.786 --> 00:04:23.830
+69
+00:04:23.630 --> 00:04:26.729
 Qué grados de libertad
 prescribes y por qué impiden
 
-69
-00:04:23.870 --> 00:04:27.788
+70
+00:04:26.769 --> 00:04:30.749
 todos los movimientos rígidos
 sin añadir reacciones de más.
 
-70
-00:04:27.838 --> 00:04:32.031
+71
+00:04:30.799 --> 00:04:34.934
 Por qué las reacciones salen nulas
 cuando las cargas están en equilibrio.
 
-71
-00:04:32.081 --> 00:04:34.272
+72
+00:04:34.984 --> 00:04:37.160
 Y cómo detectas un mecanismo: matriz
 
-72
-00:04:34.312 --> 00:04:37.575
+73
+00:04:37.200 --> 00:04:40.442
 singular, rango deficiente
 o autovalores nulos.

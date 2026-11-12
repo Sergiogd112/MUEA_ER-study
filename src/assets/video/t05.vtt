@@ -1,248 +1,252 @@
 WEBVTT
 
 1
-00:00:00.600 --> 00:00:03.288
+00:00:00.600 --> 00:00:03.244
 Una barra comprimida y
 esbelta puede fallar por
 
 2
-00:00:03.328 --> 00:00:07.335
+00:00:03.284 --> 00:00:07.231
 inestabilidad con tensiones muy
 por debajo del límite elástico.
 
 3
-00:00:07.385 --> 00:00:11.845
-Por eso los tres trabajos piden revisar
-el pandeo de cada barra comprimida.
+00:00:07.281 --> 00:00:09.262
+Por eso los trabajos uno y dos piden
 
 4
-00:00:13.495 --> 00:00:16.641
+00:00:09.302 --> 00:00:12.066
+revisar el pandeo de
+cada barra comprimida.
+
+5
+00:00:13.716 --> 00:00:16.850
 En la configuración desviada
 el momento es menos P por
 
-5
-00:00:16.681 --> 00:00:19.710
+6
+00:00:16.890 --> 00:00:19.909
 v, y la ecuación de la
 elástica se convierte en una
 
-6
-00:00:19.750 --> 00:00:23.807
+7
+00:00:19.949 --> 00:00:23.993
 ecuación armónica con mu al
 cuadrado igual a P partido por E I.
 
-7
-00:00:23.857 --> 00:00:26.170
+8
+00:00:24.043 --> 00:00:26.443
 La solución es una combinación de seno y
 
-8
-00:00:26.210 --> 00:00:29.501
+9
+00:00:26.483 --> 00:00:29.884
 coseno, y la condición en
 la base anula el coseno.
 
-9
-00:00:29.551 --> 00:00:33.497
+10
+00:00:29.934 --> 00:00:33.921
 La condición en el extremo exige
 que B por el seno de mu l sea cero;
 
-10
-00:00:33.537 --> 00:00:37.761
+11
+00:00:33.961 --> 00:00:38.225
 para una solución no trivial, mu l
 tiene que ser un múltiplo de pi.
 
-11
-00:00:37.811 --> 00:00:40.956
+12
+00:00:38.275 --> 00:00:41.401
 De ahí la carga crítica, n
 al cuadrado pi al cuadrado
 
-12
-00:00:40.996 --> 00:00:44.083
+13
+00:00:41.441 --> 00:00:44.509
 E I partido por l al cuadrado;
 manda el primer modo,
 
-13
-00:00:44.123 --> 00:00:47.658
+14
+00:00:44.549 --> 00:00:48.064
 y como B queda indeterminado,
 el equilibrio es neutro.
 
-14
-00:00:49.308 --> 00:00:53.663
+15
+00:00:49.714 --> 00:00:54.046
 A la izquierda, los tres primeros
 modos de la columna biarticulada.
 
-15
-00:00:53.713 --> 00:00:58.580
+16
+00:00:54.096 --> 00:00:59.079
 Solo importa el primero: en cuanto se
 supera, la columna ya es inestable.
 
-16
-00:00:58.630 --> 00:01:01.829
+17
+00:00:59.129 --> 00:01:02.328
 La columna pandea alrededor
 de su eje débil, así que la
 
-17
-00:01:01.869 --> 00:01:05.068
+18
+00:01:02.368 --> 00:01:05.567
 inercia es el menor momento
 principal, que coincide con
 
-18
-00:01:05.108 --> 00:01:09.521
+19
+00:01:05.607 --> 00:01:10.021
 el mínimo de I x x e I y y solo
 si esos ejes son principales.
 
-19
-00:01:09.571 --> 00:01:12.418
+20
+00:01:10.071 --> 00:01:12.849
 Dividiendo por el área, la
 tensión crítica es pi al
 
-20
-00:01:12.458 --> 00:01:15.475
+21
+00:01:12.889 --> 00:01:15.833
 cuadrado E partido por la
 esbeltez al cuadrado, con la
 
-21
-00:01:15.515 --> 00:01:18.588
+22
+00:01:15.873 --> 00:01:18.872
 esbeltez igual a la longitud
 efectiva entre el radio de
 
-22
-00:01:18.628 --> 00:01:23.110
+23
+00:01:18.912 --> 00:01:23.296
 giro; a la derecha ves cómo cambia la
 longitud efectiva con los extremos.
 
-23
-00:01:23.160 --> 00:01:26.766
+24
+00:01:23.346 --> 00:01:26.910
 En una celosía cada barra es
 biarticulada, así que la longitud
 
-24
-00:01:26.806 --> 00:01:31.742
+25
+00:01:26.950 --> 00:01:31.835
 efectiva es la longitud de la barra, que
 es la fórmula que piden los trabajos.
 
-25
-00:01:33.392 --> 00:01:38.559
+26
+00:01:33.485 --> 00:01:38.548
 Calculamos primero la
 inercia, 4637 milímetros a
 
-26
-00:01:38.599 --> 00:01:43.076
-la cuarta, y el área, 113.1
+27
+00:01:38.588 --> 00:01:42.983
+la cuarta, y el área, 113,1
 milímetros cuadrados.
 
-27
-00:01:43.126 --> 00:01:49.490
-El radio de giro es 6.40
+28
+00:01:43.033 --> 00:01:49.374
+El radio de giro es 6,40
 milímetros y la esbeltez, 234.
 
-28
-00:01:49.540 --> 00:01:54.443
-La carga crítica de Euler sale
-1424 niútons, y la tensión
-
 29
-00:01:54.483 --> 00:01:59.120
-crítica 12.6 megapascales, muy
-por debajo del límite elástico.
+00:01:49.424 --> 00:01:54.296
+La carga crítica de Euler sale
+1424 newtons, y la tensión
 
 30
-00:01:59.170 --> 00:02:04.417
+00:01:54.336 --> 00:01:58.946
+crítica 12,6 megapascales, muy
+por debajo del límite elástico.
+
+31
+00:01:58.996 --> 00:02:04.260
 La esbeltez de transición para un
 límite elástico de 270 megapascales es
 
-31
-00:02:04.457 --> 00:02:10.399
-50.6: estamos muy por encima, así que
+32
+00:02:04.300 --> 00:02:10.259
+50,6: estamos muy por encima, así que
 manda el pandeo y no la plastificación.
 
-32
-00:02:12.049 --> 00:02:14.779
+33
+00:02:11.909 --> 00:02:14.556
 El procedimiento: para
 cada barra comprimida
 
-33
-00:02:14.819 --> 00:02:18.947
+34
+00:02:14.596 --> 00:02:18.610
 calculamos su tensión crítica
 con sus propios E, I, A y l.
 
-34
-00:02:18.997 --> 00:02:21.824
+35
+00:02:18.660 --> 00:02:21.550
 El factor de seguridad es
 la crítica entre el valor
 
-35
-00:02:21.864 --> 00:02:24.804
+36
+00:02:21.590 --> 00:02:24.594
 absoluto de la tensión; si
 es menor que uno, la barra
 
-36
-00:02:24.844 --> 00:02:29.018
+37
+00:02:24.634 --> 00:02:28.890
 pandea y la solución lineal solo es
 una predicción antes del pandeo.
 
-37
-00:02:29.068 --> 00:02:31.813
+38
+00:02:28.940 --> 00:02:31.696
 En diseño se pide un
 margen, por ejemplo uno
 
-38
-00:02:31.853 --> 00:02:35.304
+39
+00:02:31.736 --> 00:02:35.200
 coma cinco, por imperfecciones
 y excentricidades.
 
-39
-00:02:35.354 --> 00:02:38.200
+40
+00:02:35.250 --> 00:02:38.101
 Para mejorar, se aumenta
 la inercia por unidad de
 
-40
-00:02:38.240 --> 00:02:41.416
+41
+00:02:38.141 --> 00:02:41.323
 área, con un tubo más
 ancho y de pared más fina.
 
-41
-00:02:41.466 --> 00:02:44.117
+42
+00:02:41.373 --> 00:02:44.062
 O se arriostra la barra
 a media longitud, lo que
 
-42
-00:02:44.157 --> 00:02:47.088
+43
+00:02:44.102 --> 00:02:47.074
 multiplica la tensión crítica
 por cuatro, siempre que
 
-43
-00:02:47.128 --> 00:02:50.953
+44
+00:02:47.114 --> 00:02:50.988
 el arriostramiento impida de
 verdad el desplazamiento lateral.
 
-44
-00:02:52.603 --> 00:02:54.799
+45
+00:02:52.638 --> 00:02:54.788
 Preguntas típicas sobre pandeo.
 
-45
-00:02:54.849 --> 00:02:57.253
+46
+00:02:54.838 --> 00:02:57.186
 La deducción completa desde la elástica,
 
-46
-00:02:57.293 --> 00:03:00.331
+47
+00:02:57.226 --> 00:03:00.203
 con la interpretación
 del equilibrio neutro.
 
-47
-00:03:00.381 --> 00:03:04.980
+48
+00:03:00.253 --> 00:03:05.096
 Por qué se usa la inercia mínima y por
 qué las barras traccionadas no pandean.
 
-48
-00:03:05.030 --> 00:03:08.387
+49
+00:03:05.146 --> 00:03:08.468
 Por qué un factor de seguridad
 de uno no basta en diseño.
 
-49
-00:03:08.437 --> 00:03:11.236
+50
+00:03:08.518 --> 00:03:11.288
 Y, sobre todo, qué propuesta
 concreta harías para
 
-50
-00:03:11.276 --> 00:03:14.522
+51
+00:03:11.328 --> 00:03:14.546
 la barra más crítica de tu
 trabajo, y por qué esa.

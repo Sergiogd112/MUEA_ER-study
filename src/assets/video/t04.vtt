@@ -1,214 +1,214 @@
 WEBVTT
 
 1
-00:00:00.600 --> 00:00:02.875
+00:00:00.600 --> 00:00:02.836
 Un cambio de temperatura no es una fuerza:
 
 2
-00:00:02.915 --> 00:00:05.745
+00:00:02.876 --> 00:00:05.664
 es una deformación que
 la barra quiere tener.
 
 3
-00:00:05.795 --> 00:00:08.543
+00:00:05.714 --> 00:00:08.541
 En este vídeo vemos cómo
 entra en el método y,
 
 4
-00:00:08.583 --> 00:00:11.903
+00:00:08.581 --> 00:00:11.985
 sobre todo, cuándo produce
 tensiones y cuándo no.
 
 5
-00:00:13.553 --> 00:00:18.466
+00:00:13.635 --> 00:00:18.466
 Una barra libre que se calienta se
 alarga alfa por delta T, sin tensión.
 
 6
-00:00:18.516 --> 00:00:22.625
+00:00:18.516 --> 00:00:22.609
 La tensión depende solo de la parte
 mecánica de la deformación: E por
 
 7
-00:00:22.665 --> 00:00:27.945
+00:00:22.649 --> 00:00:27.910
 épsilon menos épsilon cero, que escribimos
 como E épsilon más una tensión inicial.
 
 8
-00:00:27.995 --> 00:00:31.387
+00:00:27.960 --> 00:00:31.224
 Esa tensión inicial vale
 menos E alfa delta T.
 
 9
-00:00:31.437 --> 00:00:35.514
+00:00:31.274 --> 00:00:35.301
 Es la tensión que tendría la barra
 con los extremos bloqueados: para un
 
 10
-00:00:35.554 --> 00:00:41.354
+00:00:35.341 --> 00:00:41.075
 aluminio calentado sesenta grados,
-menos 96.6 megapascales, de compresión.
+menos 96,6 megapascales, de compresión.
 
 11
-00:00:43.004 --> 00:00:45.034
+00:00:42.725 --> 00:00:44.780
 El axil pasa a ser la rigidez por el
 
 12
-00:00:45.074 --> 00:00:48.183
+00:00:44.820 --> 00:00:47.963
 alargamiento más el área
 por la tensión inicial.
 
 13
-00:00:48.233 --> 00:00:52.821
+00:00:48.013 --> 00:00:52.717
 Al ensamblar, el término térmico es
 conocido y se pasa al lado de las cargas.
 
 14
-00:00:52.871 --> 00:00:56.466
+00:00:52.767 --> 00:00:56.387
 En dos dimensiones se gira igual
 que la rigidez, y queda sigma
 
 15
-00:00:56.506 --> 00:01:00.159
+00:00:56.427 --> 00:01:00.106
 cero por el área por el vector
 c, s, menos c, menos s; al
 
 16
-00:01:00.199 --> 00:01:05.005
+00:01:00.146 --> 00:01:04.982
 calentar, estas fuerzas separan los
 nodos, como haría la barra al dilatarse.
 
 17
-00:01:05.055 --> 00:01:08.943
+00:01:05.032 --> 00:01:08.994
 Y tras resolver, la tensión de
 cada barra es la inicial más E por
 
 18
-00:01:08.983 --> 00:01:13.381
+00:01:09.034 --> 00:01:13.509
 la deformación: olvidar sumar sigma
 cero es el error más frecuente.
 
 19
-00:01:15.031 --> 00:01:19.518
+00:01:15.159 --> 00:01:19.571
 La regla general: una deformación inicial
 produce tensiones solo si el campo
 
 20
-00:01:19.558 --> 00:01:24.553
+00:01:19.611 --> 00:01:24.530
 de dilatación libre es incompatible con
 los apoyos o con la propia estructura.
 
 21
-00:01:24.603 --> 00:01:28.830
+00:01:24.580 --> 00:01:28.806
 En una estructura isostática los axiles
 salen del equilibrio, y sin cargas
 
 22
-00:01:28.870 --> 00:01:33.428
+00:01:28.846 --> 00:01:33.405
 el equilibrio da axil nulo: la dilatación
 se acomoda con desplazamientos.
 
 23
-00:01:33.478 --> 00:01:37.703
+00:01:33.455 --> 00:01:37.674
 Una estructura de un solo material con
 incremento uniforme se dilata como una
 
 24
-00:01:37.743 --> 00:01:42.524
+00:01:37.714 --> 00:01:42.489
 homotecia; si los apoyos la permiten, no
 hay tensiones aunque sea hiperestática.
 
 25
-00:01:42.574 --> 00:01:45.605
+00:01:42.539 --> 00:01:45.675
 En cambio, dos materiales
 con coeficientes distintos
 
 26
-00:01:45.645 --> 00:01:49.066
+00:01:45.715 --> 00:01:49.240
 unidos de forma redundante
 sí desarrollan tensiones.
 
 27
-00:01:49.116 --> 00:01:54.307
+00:01:49.290 --> 00:01:54.389
 Y el caso extremo es la barra entre dos
 paredes, con la tensión inicial completa.
 
 28
-00:01:55.957 --> 00:01:59.258
+00:01:56.039 --> 00:01:59.358
 Cada tramo se alarga por el
 axil y por la temperatura, y la
 
 29
-00:01:59.298 --> 00:02:02.600
+00:01:59.398 --> 00:02:02.717
 compatibilidad dice que el
 alargamiento total es cero entre
 
 30
-00:02:02.640 --> 00:02:06.954
+00:02:02.757 --> 00:02:07.093
 paredes rígidas; el axil es el mismo
 en los dos tramos por equilibrio.
 
 31
-00:02:07.004 --> 00:02:10.352
+00:02:07.143 --> 00:02:10.452
 Despejando, el axil es menos
 delta T por la suma de alfa
 
 32
-00:02:10.392 --> 00:02:14.250
+00:02:10.492 --> 00:02:14.308
 por longitud, dividido entre
 la suma de las flexibilidades.
 
 33
-00:02:14.300 --> 00:02:19.451
+00:02:14.358 --> 00:02:19.361
 Con los datos sale un axil de menos
-9.07 kiloniútons, de compresión, y una
+9,07 kilonewtons, de compresión, y una
 
 34
-00:02:19.491 --> 00:02:25.203
-tensión de menos 90.7 megapascales en
+00:02:19.401 --> 00:02:24.960
+tensión de menos 90,7 megapascales en
 ambos tramos, porque tienen la misma área.
 
 35
-00:02:26.853 --> 00:02:30.361
+00:02:26.610 --> 00:02:30.071
 Para el oral, ten clara la
 respuesta a estas preguntas.
 
 36
-00:02:30.411 --> 00:02:32.984
+00:02:30.121 --> 00:02:32.726
 El signo de la tensión
 inicial: es la tensión
 
 37
-00:02:33.024 --> 00:02:36.276
+00:02:32.766 --> 00:02:36.055
 con la barra bloqueada, de
 compresión al calentar.
 
 38
-00:02:36.326 --> 00:02:39.532
+00:02:36.105 --> 00:02:39.294
 Cómo entra la temperatura:
 fuerzas nodales equivalentes a
 
 39
-00:02:39.572 --> 00:02:43.224
+00:02:39.334 --> 00:02:42.969
 la derecha, y la tensión inicial
 sumada en el postproceso.
 
 40
-00:02:43.274 --> 00:02:46.241
+00:02:43.019 --> 00:02:46.038
 Por qué la estructura
 isostática no tiene tensiones
 
 41
-00:02:46.281 --> 00:02:49.638
+00:02:46.078 --> 00:02:49.487
 térmicas: el equilibrio sin
 cargas da axiles nulos.
 
 42
-00:02:49.688 --> 00:02:52.635
+00:02:49.537 --> 00:02:52.473
 Y cómo eliminas los modos
 rígidos cuando quitas los
 
 43
-00:02:52.675 --> 00:02:56.714
+00:02:52.513 --> 00:02:56.540
 desplazamientos impuestos, con
 un apoyo isostático justificado.

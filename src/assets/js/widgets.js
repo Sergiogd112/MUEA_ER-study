@@ -16,9 +16,10 @@
   const s = (tag, attrs, parent, text) => h('svg:' + tag, attrs, parent, text);
   const fmt = (v, d = 2) => {
     if (!isFinite(v)) return '∞';
+    if (Math.abs(v) < 1e-12) v = 0;   // round-off (e.g. a resultant that should vanish) prints as 0
     const a = Math.abs(v);
     let str = (a !== 0 && (a < 1e-3 || a >= 1e6)) ? v.toExponential(d) : v.toFixed(d);
-    return str.replace('-', '−');
+    return str.replace(/-/g, '−');
   };
   const fmtEs = (v, d = 2) => fmt(v, d).replace('.', ',');
 
@@ -233,13 +234,14 @@
       }
       const amp = st.amp, u = r.u, def = T.nodes.map((p, i) => [p[0] + amp * u[2 * i], p[1] + amp * u[2 * i + 1]]);
       let smax = Math.max(...r.bars.map(b => Math.abs(b.sig)));
+      const Nmax = Math.max(1, ...r.bars.map(b => Math.abs(b.N)), st.P * 1e3);   // scale for round-off clamping
       if (smax < 1e3) smax = 0;   // below 1 kPa: round-off, draw as unstressed
       T.bars.forEach(([a, b], e) => { const br = r.bars[e];
         s('line', { x1: X(def[a][0]), y1: Y(def[a][1]), x2: X(def[b][0]), y2: Y(def[b][1]), stroke: stressColor(br.sig, smax), 'stroke-width': 5, 'stroke-linecap': 'round' }, svg);
         const mx = X((def[a][0] + def[b][0]) / 2), my = Y((def[a][1] + def[b][1]) / 2);
         const buck = br.sig < 0 && -br.sig > br.scr;
         s('text', { x: mx, y: my - 6, 'text-anchor': 'middle', 'font-size': 11.5, fill: buck ? c.bad : c.ink, 'paint-order': 'stroke', stroke: c.surface, 'stroke-width': 3 }, svg,
-          (buck ? '⚠ ' : '') + fmt(br.N / 1e3, 1)); });
+          (buck ? '⚠ ' : '') + fmt(Math.abs(br.N) < 1e-9 * Nmax ? 0 : br.N / 1e3, 2)); });
       def.forEach(([x, y], i) => s('circle', { cx: X(x), cy: Y(y), r: 4.5, fill: c.surface, stroke: c.ink, 'stroke-width': 1.6 }, svg));
       if (st.P) { const [x, y] = def[T.load], px = X(x), py = Y(y), L = 46; const ex = px + L * Math.cos(t), ey = py - L * Math.sin(t);
         s('line', { x1: px, y1: py, x2: ex, y2: ey, stroke: c.bad, 'stroke-width': 2.5 }, svg);
@@ -519,7 +521,7 @@
         let Ain = 0; segs.forEach(sg => { Ain += 0.5 * (sg.p[0] * sg.q[1] - sg.q[0] * sg.p[1]); });
         const Mo = FEM.shearMoment(segs, samples, [sp.xc, sp.yc]), qs0 = -Mo / (2 * Ain);
         samples.forEach(o => { o.q += qs0; });
-        note = `Sección cerrada: corte en $s=0$ (abajo a la derecha), $q_{s,0} = ${fmt(qs0, 2)}$ N/mm de la ecuación de momentos respecto al centroide ($A_{in} = ${fmt(Ain, 0)}$ mm²). Por la doble simetría, el centro de cortante es el centroide.`;
+        note = `Sección cerrada: corte en $s=0$ (${st.kind === 'tube' ? 'abajo, sobre el eje de simetría' : 'abajo a la derecha'}), $q_{s,0} = ${fmt(qs0, 2)}$ N/mm de la ecuación de momentos respecto al centroide ($A_{in} = ${fmt(Ain, 0)}$ mm²). Por la doble simetría, el centro de cortante es el centroide.`;
       } else {
         const Mq = FEM.shearMoment(segs, samples, [sp.xc, sp.yc]); xS = sp.xc + Mq / Fy;
         const okR = Math.abs(Math.abs(Fy) - Sy) < 2e-3 * Sy && Math.abs(Fx) < 2e-3 * Sy;
@@ -544,8 +546,8 @@
       s('circle', { cx: X(sp.xc), cy: Y(sp.yc), r: 4.5, fill: c.ink }, svg); s('text', { x: X(sp.xc) + 7, y: Y(sp.yc) - 7, 'font-size': 12, fill: c.ink }, svg, 'C');
       const sx = xS !== null ? xS : sp.xc;
       s('line', { x1: X(sx), x2: X(sx), y1: Y(cy + span * 0.42), y2: Y(cy + span * 0.2), stroke: c.bad, 'stroke-width': 2.5 }, svg);
-      s('path', { d: `M${X(sx)} ${Y(cy + span * 0.2)} l-6 -10 h12 z`, fill: c.bad, transform: `rotate(180 ${X(sx)} ${Y(cy + span * 0.2)})` }, svg);
-      s('text', { x: X(sx) + 8, y: Y(cy + span * 0.4), 'font-size': 13, fill: c.bad }, svg, 'S_y');
+      s('path', { d: `M${X(sx)} ${Y(cy + span * 0.42)} l-6 10 h12 z`, fill: c.bad }, svg);   // S_y > 0 upwards: head at the top
+      s('text', { x: X(sx) + 8, y: Y(cy + span * 0.36), 'font-size': 13, fill: c.bad }, svg, 'S_y');
       const ySknown = ['U', 'Z', 'I'].includes(st.kind);   // y_S known by symmetry: U (x axis), Z (point symmetry), I (double)
       if (xS !== null && ySknown) { s('path', { d: `M${X(xS) - 7} ${Y(sp.yc)} h14 M${X(xS)} ${Y(sp.yc) - 7} v14`, stroke: c.bad, 'stroke-width': 2.5 }, svg);
         s('text', { x: X(xS) - 10, y: Y(sp.yc) + 4, 'font-size': 12, fill: c.bad, 'text-anchor': 'end' }, svg, 'C.C.'); }

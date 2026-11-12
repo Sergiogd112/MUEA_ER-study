@@ -172,7 +172,7 @@ explain("t05", "Deduce la carga crítica de Euler de una columna biarticulada.",
 explain("t05", "En tu celosía, una barra comprimida tiene un FS de pandeo de 0,8. ¿Qué propones y por qué?",
         "<p>FS < 1 indica que pandea antes de alcanzar la carga, y la solución lineal deja de valer para esa barra. Hay que aumentar $\\sigma_{cr} = \\pi^2EI/(l^2A)$: "
         "(1) más inercia por unidad de área, con un tubo de mayor diámetro y pared delgada, porque $I/A = r^2$ crece; (2) acortar la longitud libre con un arriostramiento, que multiplica por 4 al dividir $l$ por 2; "
-        "(3) un material con más $E$; o (4) cambiar la geometría para que esa barra trabaje a tracción. Con margen: FS ≥ 1,5 por imperfecciones.</p>",
+        "(3) un material con más $E$; o (4) cambiar la geometría para que esa barra trabaje a tracción. Con un margen, por ejemplo FS ≥ 1,5, por imperfecciones.</p>",
         ["FS < 1: pandea", "aumentar r² = I/A", "arriostrar (l/2 → ×4)", "margen por imperfecciones"])
 D, d, Ec, l = 20.0, 16.0, 70e3, 1500.0
 I = pi / 64 * (D**4 - d**4)
