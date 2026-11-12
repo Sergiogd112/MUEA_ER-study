@@ -86,7 +86,7 @@
 
   /* Thin-walled section made of straight segments [{p:[x,y], q:[x,y], t}] (and optional booms [{p,B}]).
      Exact rectangle properties of each segment (t^3 terms included). Returns centroid and second moments about it. */
-  FEM.section = function (segs, booms) {
+  FEM.section = function (segs, booms, thin) {   // thin: mid-line idealisation, own t^3 terms dropped
     let A = 0, Sx = 0, Sy = 0;
     const parts = segs.map(s => { const L = Math.hypot(s.q[0] - s.p[0], s.q[1] - s.p[1]); const a = L * s.t;
       const cx = (s.p[0] + s.q[0]) / 2, cy = (s.p[1] + s.q[1]) / 2; A += a; Sx += a * cx; Sy += a * cy; return { L, a, cx, cy, s }; });
@@ -94,7 +94,7 @@
     const xc = Sx / A, yc = Sy / A; let Ixx = 0, Iyy = 0, Ixy = 0;
     parts.forEach(({ L, a, cx, cy, s }) => {
       const c = (s.q[0] - s.p[0]) / L, sn = (s.q[1] - s.p[1]) / L;
-      const I1 = s.t * L ** 3 / 12, I2 = L * s.t ** 3 / 12;            // about own axes (along, across)
+      const I1 = s.t * L ** 3 / 12, I2 = thin ? 0 : L * s.t ** 3 / 12;  // about own axes (along, across)
       Ixx += I1 * sn * sn + I2 * c * c + a * (cy - yc) ** 2;
       Iyy += I1 * c * c + I2 * sn * sn + a * (cx - xc) ** 2;
       Ixy += (I1 - I2) * c * sn + a * (cx - xc) * (cy - yc);
@@ -114,7 +114,7 @@
      q(s) = -(Sx Ixx - Sy Ixy)/D int t x ds - (Sy Iyy - Sx Ixy)/D int t y ds  (x, y from the centroid).
      Returns samples [{seg, s, x, y, q}] and the moment of q about point P (positive anticlockwise). */
   FEM.shearOpen = function (segs, Sx, Sy, nsub) {
-    const sp = FEM.section(segs.map(s => ({ ...s, t: s.t })));
+    const sp = FEM.section(segs, null, true);   // same thin-wall model as the flow integration
     const D = sp.Ixx * sp.Iyy - sp.Ixy ** 2, ax = -(Sx * sp.Ixx - Sy * sp.Ixy) / D, ay = -(Sy * sp.Iyy - Sx * sp.Ixy) / D;
     let q = 0; const out = []; nsub = nsub || 40;
     segs.forEach((s, k) => {

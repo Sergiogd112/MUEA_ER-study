@@ -15,7 +15,11 @@
   document.addEventListener('DOMContentLoaded', () => { if (!ERA.topicCounts()) load().catch(() => {}); });
 
   const esc = s => String(s);
-  function parseNum(str) { if (typeof str !== 'string') return NaN; return parseFloat(str.trim().replace(/\s/g, '').replace('−', '-').replace(',', '.')); }
+  function parseNum(str) {
+    if (typeof str !== 'string') return NaN;
+    const t = str.trim().replace(/\s/g, '').replace('−', '-').replace(',', '.');
+    return /^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/.test(t) ? parseFloat(t) : NaN;   // whole string must be a number
+  }
 
   function statusChip(id) {
     const p = ERA.progress()[id]; if (p === undefined) return '<span class="qstatus">sin hacer</span>';

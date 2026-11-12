@@ -149,6 +149,7 @@
       Reacciones: ${R.map((r, a) => `R<sub>${r + 1}</sub> = <span class="num">${fmt(reac[a], 2)}</span> kN`).join(', ')}. Equilibrio: ΣR + F = <span class="num">${fmt(reac.reduce((a, b) => a + b, 0) + st.F, 6)}</span>.</p>`;
       out.innerHTML = html; ERA.renderMath(out);
     }
+    root._rerender = render;
     render();
   };
 
@@ -178,6 +179,7 @@
         <p>Filas 1-2: fuerzas en el nodo 1; filas 3-4: en el nodo 2. Cada bloque 2×2 es $\\pm\\mathbf n\\mathbf n^T$ con $\\mathbf n = (c, s)$.</p>`;
       ERA.renderMath(right);
     }
+    root._rerender = render;
     render();
   };
 
@@ -252,6 +254,7 @@
         <p class="svg-muted">Prueba: pon $P = 0$ y $\\Delta T \\neq 0$. Isostática → todas las barras grises, también con el acero (una estructura isostática acomoda cualquier dilatación). Activa el apoyo redundante → aparecen tensiones térmicas, y con el acero cambia su reparto.</p>`;
       ERA.renderMath(out);
     }
+    root._rerender = render;
     render();
   };
 
@@ -300,6 +303,7 @@
         de las rigideces axiales y de las dilataciones libres a la vez (compatibilidad y equilibrio), no solo de qué material dilata más.</p>`;
       ERA.renderMath(out);
     }
+    root._rerender = render;
     render();
   };
 
@@ -336,6 +340,7 @@
         ${lam > lamT ? 'la barra es <strong>esbelta</strong>, manda el pandeo de Euler.' : 'la barra es <strong>corta</strong>: plastifica antes de pandear y Euler sobrestima la carga.'}</p>`;
       ERA.renderMath(out);
     }
+    root._rerender = render;
     render();
   };
 
@@ -353,7 +358,7 @@
     function render() {
       const c = C(), fe = solve(st.ne), ref = solve(512);
       const wref = curve(ref, 1), wfe = curve(fe, 16);
-      const all = wref.map(p => p[1] * 1e3); const ymin = Math.min(0, ...all), ymax = Math.max(0, ...all), pad = (ymax - ymin) * 0.1 || 1;
+      const all = wref.concat(wfe).map(p => p[1] * 1e3); const ymin = Math.min(0, ...all), ymax = Math.max(0, ...all), pad = (ymax - ymin) * 0.1 || 1;
       a.innerHTML = ''; const f = frame(a, { w: 320, h: 250, xr: [0, L], yr: [ymin - pad, ymax + pad], xlabel: 'x (m)', ylabel: 'u_y (mm)', xd: 0, m: { l: 52 } });
       s('path', { d: path(wref.map(p => [f.X(p[0]), f.Y(p[1] * 1e3)])), stroke: c.ink2, 'stroke-width': 1.5, fill: 'none', 'stroke-dasharray': '5 4' }, f.svg);
       s('path', { d: path(wfe.map(p => [f.X(p[0]), f.Y(p[1] * 1e3)])), stroke: c.accent, 'stroke-width': 2.5, fill: 'none' }, f.svg);
@@ -387,6 +392,7 @@
         `Pendiente de convergencia (de h=${fmt(L / 16, 3)} a ${fmt(L / 32, 3)} m) ≈ ${fmt(sl, 2)}: el error viene de sustituir $q(x)$ por su media en cada elemento en lugar de integrar $\\int \\mathbf N^Tq\\,dx$.`}</p>`;
       ERA.renderMath(out);
     }
+    root._rerender = render;
     render();
   };
 
@@ -449,6 +455,7 @@
         ${Math.abs(sp.Ixy) > 1e-6 * sp.Ixx && Mx ? `Fórmula simétrica (incorrecta aquí): $M_xy_{\\max}/I_{xx} = ${fmt(Mx * (Math.max(...ys) - sp.yc) / sp.Ixx, 1)}$ MPa.` : ''}</p>`;
       ERA.renderMath(out);
     }
+    root._rerender = render;
     render();
   };
 
@@ -473,6 +480,7 @@
         (exactamente $-\\tfrac{(t/r)^2}{4+(t/r)^2}$: casi nulo para $t/r<0{,}1$).<br>Pared inclinada a ${st.th}°: $I_{xx} = ${fmt(Math.sin(th) ** 2 / 12, 4)}\\,ta^3$ (azul), $I_{yy} = ${fmt(Math.cos(th) ** 2 / 12, 4)}\\,ta^3$ (rojo), $I_{xy} = ${fmt(Math.sin(2 * th) / 24, 4)}\\,ta^3$ (verde).</p>`;
       ERA.renderMath(out);
     }
+    root._rerender = render;
     render();
   };
 
@@ -490,7 +498,7 @@
         // branched: treat each flange half and the web with q from free edges (symmetric about y)
         const H = st.h / 2, b = st.b, t = st.t;
         segs = [{ p: [-b / 2, H], q: [0, H], t }, { p: [b / 2, H], q: [0, H], t }, { p: [0, H], q: [0, -H], t }, { p: [0, -H], q: [-b / 2, -H], t }, { p: [0, -H], q: [b / 2, -H], t }];
-        sp = FEM.section(segs); const k = -Sy / sp.Ixx; samples = [];
+        sp = FEM.section(segs, null, true); const k = -Sy / sp.Ixx; samples = [];
         const run = (sg, q0, idx) => { const L = Math.hypot(sg.q[0] - sg.p[0], sg.q[1] - sg.p[1]); let q = q0; const n = 40;
           for (let i = 0; i <= n; i++) { const f = i / n, y = sg.p[1] + f * (sg.q[1] - sg.p[1]) - sp.yc; if (i) { const yp = sg.p[1] + (i - 1) / n * (sg.q[1] - sg.p[1]) - sp.yc; q += k * t * L / n * (y + yp) / 2; }
             samples.push({ seg: idx, f, s: f * L, x: sg.p[0] + f * (sg.q[0] - sg.p[0]), y: y + sp.yc, q }); } return q; };
@@ -501,8 +509,9 @@
         const r = FEM.shearOpen(segs, 0, Sy, closed ? 6 : 40); samples = r.samples; sp = r.sp;
       }
       // resultant check and closed-section correction
-      const Fy = (() => { let F = 0; segs.forEach((sg, k) => { const pts = samples.filter(o => o.seg === k), L = Math.hypot(sg.q[0] - sg.p[0], sg.q[1] - sg.p[1]), ty = (sg.q[1] - sg.p[1]) / L;
-        for (let i = 1; i < pts.length; i++) F += (pts[i].q + pts[i - 1].q) / 2 * ty * (pts[i].s - pts[i - 1].s); }); return F; })();
+      const res2 = (() => { let fx = 0, fy = 0; segs.forEach((sg, k) => { const pts = samples.filter(o => o.seg === k), L = Math.hypot(sg.q[0] - sg.p[0], sg.q[1] - sg.p[1]), tx = (sg.q[0] - sg.p[0]) / L, ty = (sg.q[1] - sg.p[1]) / L;
+        for (let i = 1; i < pts.length; i++) { const dq = (pts[i].q + pts[i - 1].q) / 2 * (pts[i].s - pts[i - 1].s); fx += dq * tx; fy += dq * ty; } }); return [fx, fy]; })();
+      const Fy = res2[1], Fx = res2[0];
       let xS = null;
       if (closed) {
         // cut at s = 0 (start of the first wall), q = q_open + q_s0; moment balance about the centroid (load line)
@@ -512,7 +521,8 @@
         note = `Sección cerrada: corte en $s=0$ (abajo a la derecha), $q_{s,0} = ${fmt(qs0, 2)}$ N/mm de la ecuación de momentos respecto al centroide ($A_{in} = ${fmt(Ain, 0)}$ mm²). Por la doble simetría, el centro de cortante es el centroide.`;
       } else {
         const Mq = FEM.shearMoment(segs, samples, [sp.xc, sp.yc]); xS = sp.xc + Mq / Fy;
-        note = `Resultante vertical de $q$: ${fmt(Math.abs(Fy) / 1e3, 3)} kN (= $S_y$ ✓). Línea de acción de $S_y$ que no produce torsión: $x_S = ${fmt(xS, 2)}$ mm (el centroide está en $\\bar x = ${fmt(sp.xc, 2)}$ mm).`;
+        const okR = Math.abs(Math.abs(Fy) - Sy) < 2e-3 * Sy && Math.abs(Fx) < 2e-3 * Sy;
+        note = `Resultante de $q$: vertical ${fmt(Math.abs(Fy) / 1e3, 3)} kN, horizontal ${fmt(Fx / 1e3, 3)} kN ${okR ? '(= $S_y$ ✓)' : '(<strong>no coincide con $S_y$</strong>: revisa la discretización)'}. Línea de acción de $S_y$ que no produce torsión: $x_S = ${fmt(xS, 2)}$ mm (el centroide está en $\\bar x = ${fmt(sp.xc, 2)}$ mm).`;
         if (st.kind === 'U') note += ` Fórmula del canal: $3b^2/(h+6b) = ${fmt(3 * st.b ** 2 / (st.h + 6 * st.b), 2)}$ mm desde el alma.`;
         if (!['U', 'Z', 'I'].includes(st.kind)) note += ` Un cortante vertical solo fija la recta vertical $x = x_S$; la altura $y_S$ del centro de cortante requiere un segundo caso con $S_x$${st.kind === 'L' ? ' (en el ángulo, el centro de cortante es la esquina, donde se cortan las dos alas)' : ''}.`;
       }
@@ -542,6 +552,7 @@
         <p class="svg-muted">El diagrama se dibuja perpendicular a cada pared; rojo y azul indican el sentido respecto al recorrido de $s$.</p>`;
       ERA.renderMath(out);
     }
+    root._rerender = render;
     render();
   };
 
@@ -553,7 +564,7 @@
       const body = h('div', { class: 'wbody' }, div);
       const run = () => { body.innerHTML = ''; try { fn(body); } catch (e) { body.textContent = 'Error en el widget: ' + e.message; console.error(e); } };
       run();
-      document.addEventListener('era-theme', run);
+      document.addEventListener('era-theme', () => { if (body._rerender) { try { body._rerender(); } catch (e) { run(); } } else run(); });
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 0)); else boot();

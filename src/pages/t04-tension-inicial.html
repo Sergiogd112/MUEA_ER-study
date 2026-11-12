@@ -44,8 +44,10 @@ $\sigma^e = \sigma_0^e + E^e\varepsilon^e$. No olvides sumar $\sigma_0$: es el e
     <li>Dos materiales con distinto $\alpha$ unidos de forma redundante, o apoyos que impiden la dilatación: aparecen tensiones.</li>
   </ul>
 </div>
-<p>Para comprobarlo en el código, calcula la dilatación libre. Si con $\Delta T$ uniforme y apoyos isostáticos las reacciones son nulas pero
-todas las tensiones salen distintas de cero, hay un error de signo en $\mathbf f^e$ o falta sumar $\sigma_0$.</p>
+<p>Para comprobarlo en el código: en una estructura <strong>isostática</strong> (también internamente, $h=0$), un $\Delta T$ uniforme
+debe dar reacciones nulas <em>y</em> tensiones nulas; si salen tensiones, hay un error de signo en $\mathbf f^e$ o falta sumar $\sigma_0$.
+En una estructura con redundancia interna y materiales distintos, en cambio, puede haber tensiones autoequilibradas con reacciones nulas:
+ahí la comprobación es comparar con el campo de dilatación libre o con un cálculo independiente.</p>
 
 <div class="card">
 <p><strong>Ejercicio (barra compuesta entre paredes).</strong> Dos barras en serie, de longitudes $l_1,l_2$, con $E_1A_1$, $E_2A_2$ y coeficientes $\alpha_1,\alpha_2$,
