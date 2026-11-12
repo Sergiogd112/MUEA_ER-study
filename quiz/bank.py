@@ -146,13 +146,13 @@ explain("t04", "¿Por qué una estructura hiperestática puede no tener tensione
         "hiperestática. En cambio, dos materiales con $\\alpha$ distinto unidos de forma redundante o una barra entre dos paredes sí tienen tensiones.</p>",
         ["compatibilidad de la dilatación libre", "homotecia con un solo material", "apoyos compatibles", "contraejemplo con α distintos"])
 E_, a_, dT_ = 70e3, 23e-6, 60.0
-num("t04", "Barra de aluminio ($E=70$ GPa, $\\alpha = 23\\times10^{-6}$ K⁻¹) empotrada en ambos extremos y calentada 60 °C. ¿$\\sigma$ (MPa)?",
+num("t04", "Barra de aluminio ($E=70$ GPa, $\\alpha = 23\\times10^{-6}$ K⁻¹) empotrada en ambos extremos y calentada 60 °C. ¿$\\sigma$ (MPa, con signo; tracción positiva)?",
     -E_ * a_ * dT_, "MPa", f"$\\sigma = -E\\alpha\\Delta T = -70\\,000\\cdot23\\times10^{{-6}}\\cdot60 = {-E_*a_*dT_:.1f}$ MPa (compresión).")
 l1, l2, E1, E2, a1, a2, A1, A2, dT2 = 1.0, 1.0, 70e3, 200e3, 23e-6, 12e-6, 100.0, 100.0, 50.0
 Nc = -dT2 * (a1 * l1 + a2 * l2) / (l1 / (E1 * A1) + l2 / (E2 * A2))
-num("t04", "Barra de aluminio (1 m, $E=70$ GPa, $\\alpha=23\\times10^{-6}$) seguida de una de acero (1 m, $E=200$ GPa, $\\alpha=12\\times10^{-6}$), ambas de 100 mm², entre paredes rígidas y calentadas 50 °C. ¿Axil (kN)?",
+num("t04", "Barra de aluminio (1 m, $E=70$ GPa, $\\alpha=23\\times10^{-6}$) seguida de una de acero (1 m, $E=200$ GPa, $\\alpha=12\\times10^{-6}$), ambas de 100 mm², entre paredes rígidas y calentadas 50 °C. ¿Axil (kN, con signo; tracción positiva)?",
     Nc / 1e3, "kN", f"$N = -\\dfrac{{\\Delta T(\\alpha_1l_1+\\alpha_2l_2)}}{{l_1/E_1A_1+l_2/E_2A_2}} = {Nc/1e3:.2f}$ kN.")
-num("t04", "Una barra de 2 m de acero ($\\alpha = 12\\times10^{-6}$ K⁻¹), libre, se enfría 40 °C. ¿Cambio de longitud (mm)?",
+num("t04", "Una barra de 2 m de acero ($\\alpha = 12\\times10^{-6}$ K⁻¹), libre, se enfría 40 °C. ¿Cambio de longitud (mm, con signo; alargamiento positivo)?",
     12e-6 * -40 * 2000, "mm", "$\\Delta l = \\alpha\\Delta T\\,l = 12\\times10^{-6}\\cdot(-40)\\cdot2000 = -0{,}96$ mm, sin tensión.")
 
 # ---------------------------------------------------------------- t05
@@ -178,10 +178,10 @@ D, d, Ec, l = 20.0, 16.0, 70e3, 1500.0
 I = pi / 64 * (D**4 - d**4)
 num("t05", "Tubo de aluminio $D = 20$ mm, $d = 16$ mm, $E = 70$ GPa, biarticulado y de 1,5 m. ¿$P_{cr}$ (N)?",
     pi**2 * Ec * I / l**2, "N", f"$I = \\frac{{\\pi}}{{64}}(D^4-d^4) = {I:.0f}$ mm⁴; $P_{{cr}} = \\pi^2EI/l^2 = {pi**2*Ec*I/l**2:.0f}$ N.")
-Dm, Em, lm = 3.0, 120e3, 1000.0
+Dm, Em, lm = 4.0, 200e3, 1000.0
 Am, Im = pi / 4 * Dm**2, pi / 64 * Dm**4
-num("t05", "Varilla maciza de $D = 3$ mm, $E = 120$ GPa y 1 m de longitud, biarticulada. ¿$\\sigma_{cr}$ (MPa)?",
-    pi**2 * Em * Im / (lm**2 * Am), "MPa", f"$\\sigma_{{cr}} = \\pi^2EI/(l^2A) = \\pi^2E(D/4)^2/l^2 = {pi**2*Em*Im/(lm**2*Am):.3f}$ MPa: prácticamente no resiste compresión, es un cable.")
+num("t05", "Varilla maciza de acero de $D = 4$ mm, $E = 200$ GPa y 1 m de longitud, biarticulada. ¿$\\sigma_{cr}$ (MPa)?",
+    pi**2 * Em * Im / (lm**2 * Am), "MPa", f"$\\sigma_{{cr}} = \\pi^2EI/(l^2A) = \\pi^2E(D/4)^2/l^2 = {pi**2*Em*Im/(lm**2*Am):.3f}$ MPa: muy bajo, porque una varilla tan esbelta casi no admite compresión.")
 num("t05", "Esbeltez de transición $\\lambda_t = \\pi\\sqrt{E/\\sigma_y}$ para un aluminio con $E = 70$ GPa y $\\sigma_y = 270$ MPa:",
     pi * math.sqrt(70e3 / 270), "", f"$\\lambda_t = \\pi\\sqrt{{70\\,000/270}} = {pi*math.sqrt(70e3/270):.1f}$. Por encima de este valor manda Euler.")
 
@@ -269,9 +269,9 @@ explain("t08", "¿Qué es la idealización en largueros (booms) y para qué sirv
         "solo a cortante. Las integrales de la sección se convierten en sumas ($I_{xx} = \\sum B_iy_i^2$) y el flujo de cortante es constante entre booms, con saltos en cada uno. Simplifica mucho el análisis de "
         "las secciones semimonocasco.</p>",
         ["área concentrada", "revestimiento solo a cortante", "fórmula de B", "sumas en lugar de integrales"])
-R_, ts_ = 2000.0, 3.0
-num("t08", "Tubo de pared delgada $R = 2$ m (radio medio) y $t = 3$ mm. ¿$I_{xx}$ en m⁴?",
-    pi * (R_ / 1e3)**3 * ts_ / 1e3, "m⁴", f"$\\pi R^3t = \\pi\\cdot8\\cdot0{{,}}003 = {pi*8*0.003:.4f}$ m⁴.")
+R_, ts_ = 1500.0, 2.0
+num("t08", "Tubo de pared delgada $R = 1{,}5$ m (radio medio) y $t = 2$ mm. ¿$I_{xx}$ en m⁴?",
+    pi * (R_ / 1e3)**3 * ts_ / 1e3, "m⁴", f"$\\pi R^3t = \\pi\\cdot1{{,}}5^3\\cdot0{{,}}002 = {pi*1.5**3*0.002:.4f}$ m⁴.")
 num("t08", "Semicírculo de pared delgada: ¿a qué distancia del centro (en múltiplos de $r$) está su centroide?", 2 / pi, "r",
     "$\\bar x = -2r/\\pi \\approx -0{,}637\\,r$ (distancia $2r/\\pi$).")
 a8, t8 = 100.0, 2.0
@@ -304,6 +304,15 @@ explain("t09", "¿Cómo combinas flexión y cortante para localizar el punto cr�
         "$\\sigma_{VM} = \\sqrt{\\sigma^2+3\\tau^2}$, se recorre la sección (y las secciones candidatas: la de momento máximo y la de cortante máximo) buscando el máximo. Hay que tener en cuenta que en una sección "
         "cerrada multicelular $q$ requiere ecuaciones adicionales.</p>",
         ["σ y τ en el mismo punto", "von Mises √(σ²+3τ²)", "barrido de la sección", "secciones candidatas"])
+explain("t09", "¿Cómo se reparte un momento torsor en una sección cerrada de pared delgada de una célula, y cuánto gira?",
+        "<p>Torsión pura (Bredt-Batho): el flujo es <strong>constante</strong> a lo largo de la pared, $q = T/(2A)$, con $A$ el área encerrada por la "
+        "línea media, y la tensión es $\\tau = q/t$ (máxima donde la pared es más delgada). El giro por unidad de longitud es "
+        "$\\theta' = \\frac{T}{4A^2G}\\oint\\frac{ds}{t}$. Si la carga cortante no pasa por el centro de cortante, se descompone en un cortante por el centro "
+        "de cortante más este torsor, y se suman los flujos.</p>",
+        ["q = T/(2A) constante", "τ = q/t", "θ' = T/(4A²G)∮ds/t", "superposición con el cortante"])
+Tq, Aq, tq = 1e6, 0.2e6, 2.0
+num("t09", "Cajón cerrado de pared delgada que encierra 0,2 m² (por la línea media), con $t = 2$ mm, sometido a un torsor de 1 kN·m. ¿$\\tau$ (MPa)?",
+    Tq / (2 * Aq * tq), "MPa", f"$q = T/(2A) = 10^6/(2\\cdot2\\times10^5) = 2{{,}}5$ N/mm y $\\tau = q/t = {Tq/(2*Aq*tq):.2f}$ MPa.")
 Sy, hc, bc = 10000.0, 200.0, 100.0
 num("t09", "Canal de espesor uniforme, alma $h = 200$ mm y alas $b = 100$ mm. ¿Distancia del centro de cortante al alma (mm)?",
     3 * bc**2 / (hc + 6 * bc), "mm", f"$\\xi_S = 3b^2/(h+6b) = 30\\,000/800 = {3*bc**2/(hc+6*bc):.1f}$ mm, por fuera del alma.")
@@ -338,7 +347,7 @@ explain("A1", "Trabajo 1: ¿qué comprobaciones independientes harías de tus re
         ["ΣR = 0", "momentos respecto al nodo fijo", "código independiente", "dilatación libre analítica"])
 explain("A2", "Trabajo 2: ¿cómo obtienes $L$, $D$ y $T$ antes de resolver la celosía?",
         "<p>Con equilibrio de sólido rígido de toda el ala delta (descenso a velocidad constante, así que no hay aceleración): $\\sum F_x = 0$, $\\sum F_z = 0$ y $\\sum M_y = 0$ respecto a un punto conveniente, "
-        "con el peso de la masa, el peso de las barras (calculado con $\\rho$, $A$ y $l$ de cada una), la sustentación y la resistencia en los nodos del intradós/extradós, y $T$ en los nodos 1-2. Son tres ecuaciones "
+        "con el peso de la masa, el peso de las barras (calculado con $\\rho$, $A$ y $l$ de cada una), la sustentación y la resistencia repartidas en los nodos de la superficie superior, y $T$ en los nodos 1-2. Son tres ecuaciones "
         "con tres incógnitas; los brazos salen de las coordenadas de los nodos.</p>",
         ["sólido rígido, a = 0", "ΣFx, ΣFz, ΣMy", "peso propio incluido", "3 incógnitas"])
 explain("A2", "Trabajo 2: ¿qué grados de libertad prescribes y qué esperas en las reacciones?",

@@ -418,14 +418,15 @@
 
   /* ---------------- bending of a thin-walled section ---------------- */
   WIDGETS.section = function (root) {
-    const st = { kind: 'Z', h: 200, b: 100, t: 8, Mx: 10, My: 0 };
+    const st = { kind: 'Z', h: 200, b: 100, t: 8, Mx: 10, My: 0, thin: true };
     const ctl = h('div', {}, root), plot = h('div', {}, root), out = h('div', { class: 'wout' }, root);
     controls(ctl, [{ type: 'select', key: 'kind', label: 'Forma', options: [['Z', 'Z'], ['U', 'U (canal)'], ['L', 'L (ángulo)'], ['I', 'I (doble T)'], ['box', 'cajón'], ['hat', 'sombrero (omega)']] },
       { key: 'h', label: 'Canto h', min: 50, max: 300, step: 10, unit: 'mm' }, { key: 'b', label: 'Ala b', min: 20, max: 200, step: 5, unit: 'mm' },
       { key: 't', label: 'Espesor t', min: 1, max: 15, step: 0.5, unit: 'mm' },
-      { key: 'Mx', label: 'Mₓ', min: -20, max: 20, step: 0.5, unit: 'kN·m' }, { key: 'My', label: 'M_y', min: -20, max: 20, step: 0.5, unit: 'kN·m' }], st, render);
+      { key: 'Mx', label: 'Mₓ', min: -20, max: 20, step: 0.5, unit: 'kN·m' }, { key: 'My', label: 'M_y', min: -20, max: 20, step: 0.5, unit: 'kN·m' },
+      { type: 'check', key: 'thin', label: 'Aproximación de pared delgada (sin términos en t³)' }], st, render);
     function render() {
-      const segs = shapeSegs(st.kind, st.h, st.b, st.t), sp = FEM.section(segs), Mx = st.Mx * 1e6, My = st.My * 1e6, c = C();
+      const segs = shapeSegs(st.kind, st.h, st.b, st.t), sp = FEM.section(segs, null, st.thin), Mx = st.Mx * 1e6, My = st.My * 1e6, c = C();
       const sig = (x, y) => FEM.sigmaBending(sp, Mx, My, x - sp.xc, y - sp.yc);
       let smax = 0, at = null, smin = 0, atm = null;
       segs.forEach(sg => { for (let i = 0; i <= 20; i++) { const x = sg.p[0] + i / 20 * (sg.q[0] - sg.p[0]), y = sg.p[1] + i / 20 * (sg.q[1] - sg.p[1]), v = sig(x, y);
@@ -547,7 +548,7 @@
       s('text', { x: X(sx) + 8, y: Y(cy + span * 0.4), 'font-size': 13, fill: c.bad }, svg, 'S_y');
       const ySknown = ['U', 'Z', 'I'].includes(st.kind);   // y_S known by symmetry: U (x axis), Z (point symmetry), I (double)
       if (xS !== null && ySknown) { s('path', { d: `M${X(xS) - 7} ${Y(sp.yc)} h14 M${X(xS)} ${Y(sp.yc) - 7} v14`, stroke: c.bad, 'stroke-width': 2.5 }, svg);
-        s('text', { x: X(xS) + 8, y: Y(sp.yc) + 16, 'font-size': 12, fill: c.bad }, svg, 'centro de cortante'); }
+        s('text', { x: X(xS) - 10, y: Y(sp.yc) + 4, 'font-size': 12, fill: c.bad, 'text-anchor': 'end' }, svg, 'C.C.'); }
       out.innerHTML = `<p>$I_{xx} = ${fmt(sp.Ixx / 1e6, 3)}\\times10^6$ mm⁴, $|q|_{\\max} = ${fmt(qmax, 2)}$ N/mm, $\\tau_{\\max} = |q|_{\\max}/t = ${fmt(qmax / st.t, 1)}$ MPa. ${note}</p>
         <p class="svg-muted">El diagrama se dibuja perpendicular a cada pared; rojo y azul indican el sentido respecto al recorrido de $s$.</p>`;
       ERA.renderMath(out);

@@ -64,7 +64,7 @@ $$q(s) = q_{\text{open}}(s) + q_{s,0}.$$
 <p>$q_{s,0}$ sale del equilibrio de momentos respecto a un punto $A$: el momento de la carga aplicada iguala al de los flujos. Como $\oint \mathbf r\times\mathbf t\,ds = 2A_{in}\,\mathbf e_3$,
 con $A_{in}$ el área encerrada por la línea media,</p>
 $$2A_{in}\,q_{s,0}\,\mathbf e_3 = \mathbf r_A\times\mathbf S - \oint\mathbf r(s)\times\mathbf q_{\text{open}}(s)\,ds .$$
-<p>Si $A$ está sobre la línea de acción de $\mathbf S$, el primer término desaparece. Si la sección es simétrica y la carga actúa en el plano de simetría, se puede elegir el origen sobre ese eje,
+<p>Aquí $\mathbf r_A$ es el vector desde $A$ hasta cualquier punto de la línea de acción de $\mathbf S$, y $\mathbf r(s)$ se mide también desde $A$. Si $A$ está sobre la línea de acción de $\mathbf S$, el primer término desaparece. Si la sección es simétrica y la carga actúa en el plano de simetría, se puede elegir el origen sobre ese eje,
 donde $q=0$, y entonces $q_{s,0}=0$.</p>
 <div class="box key">
   <span class="box-title">Tubo circular de pared delgada</span>
@@ -77,8 +77,14 @@ donde $q=0$, y entonces $q_{s,0}=0$.</p>
 condiciones de <strong>compatibilidad</strong>: todas las células giran lo mismo por unidad de longitud,</p>
 $$\theta'_i = \frac{1}{2A_iG}\oint_{i}\frac{q}{t}\,ds,\qquad \theta'_1 = \theta'_2 = \dots ,$$
 <p>donde $A_i$ es el área encerrada por la célula $i$ y, en una pared compartida, el flujo es la diferencia de los flujos de las dos células (con el signo de cada
-recorrido). Si la carga actúa en un plano de simetría de la sección, el flujo se anula en los puntos donde las paredes cortan el eje de simetría. Cortando por
+recorrido). Si la carga actúa en un plano de simetría de la sección y ninguna pared está sobre el eje (una pared central a lo largo del eje sí lleva flujo), el flujo se anula en los puntos donde las paredes cortan el eje de simetría. Cortando por
 esos puntos, cada mitad es una sección abierta ramificada y no hace falta la compatibilidad.</p>
+
+<h3>Torsión de secciones cerradas (Bredt-Batho)</h3>
+<p>Un momento torsor $T$ en una sección cerrada de una célula produce un flujo <strong>constante</strong> a lo largo de toda la pared, y el giro por unidad de longitud sale de la misma integral que la compatibilidad:</p>
+$$q = \frac{T}{2A},\qquad \tau = \frac{q}{t},\qquad \theta' = \frac{T}{4A^2G}\oint\frac{ds}{t},$$
+<p>con $A$ el área encerrada por la línea media. La tensión es máxima donde la pared es más delgada. Una carga cortante que no pasa por el centro de cortante se trata
+como un cortante por el centro de cortante más este torsor, y los flujos se suman. Las secciones abiertas, en cambio, son muy poco rígidas a torsión.</p>
 
 <h2>6. Combinación con flexión: punto crítico</h2>
 <p>En cada punto de la pared hay a la vez $\sigma_z$ (flexión, máxima lejos del eje neutro) y $\tau$ (cortante, máxima cerca del eje neutro). El criterio de von Mises para
