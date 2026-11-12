@@ -18,8 +18,9 @@ son <strong>semimonocasco</strong>: revestimiento con larguerillos, cuadernas y 
 
 <h2>2. Flexión pura simétrica (Euler-Bernoulli)</h2>
 <p>Hipótesis: la sección plana sigue plana y perpendicular al eje deformado, los desplazamientos son pequeños y el material es elástico lineal.
-Las fibras de la <strong>superficie neutra</strong> no cambian de longitud. Con curvatura $\kappa = 1/\rho \approx w''$:</p>
-$$\varepsilon_z = \frac{y}{\rho},\qquad \sigma_z = E\frac{y}{\rho},\qquad M_x = \int_A\sigma_z\,y\,dA = \frac{E I_{xx}}{\rho}\ \Rightarrow\ \boxed{\sigma_z = \frac{M_x\,y}{I_{xx}}}$$
+Las fibras de la <strong>superficie neutra</strong> no cambian de longitud. Con la flecha $w$ hacia arriba y curvatura $w''$ (positiva si la viga se curva hacia arriba, comprimiendo las fibras superiores):</p>
+$$\varepsilon_z = -y\,w'',\qquad \sigma_z = -E\,y\,w'',\qquad M_x = \int_A\sigma_z\,y\,dA = -E I_{xx}\,w''\ \Rightarrow\ \boxed{\sigma_z = \frac{M_x\,y}{I_{xx}}}$$
+<p>con $M_x$ el momento como vector (regla de la mano derecha). En la viga 1D del tema 6 se usa $M = EIw''$, es decir, $M = -M_x$.</p>
 <p>El axil nulo, $\int\sigma\,dA = 0$, obliga a que el eje neutro pase por el <strong>centroide</strong>. Ejemplo de la importancia de la orientación: un rectángulo $b\times h$
 con $h = 3{,}5\,b$ es $3{,}5^2 \approx 12$ veces más rígido de canto ($bh^3/12$) que de plano ($hb^3/12$).</p>
 

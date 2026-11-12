@@ -31,7 +31,7 @@ $$\begin{bmatrix}F_1^e\\ F_2^e\end{bmatrix} = \underbrace{k^e\begin{bmatrix}1&-1
 <h2>2. Ensamblaje</h2>
 <p>Cada nodo tiene dos numeraciones: <strong>local</strong> (1, 2 dentro del elemento) y <strong>global</strong> (en la estructura).
 La compatibilidad dice que los extremos que comparten un nodo global tienen el mismo desplazamiento. El equilibrio de cada nodo dice
-que la suma de las fuerzas que los elementos ejercen sobre él es la fuerza exterior más la reacción. El resultado es</p>
+que la suma de las fuerzas que el nodo aplica a los extremos de los elementos que concurren en él (las fuerzas $F^e$ de cada elemento) es igual a la fuerza exterior más la reacción. El resultado es</p>
 $$\mathbf K = \sum_{e=1}^{n_{el}} \tilde{\mathbf K}^e,\qquad \mathbf K\,\mathbf u = \mathbf F^{\text{ext}} + \mathbf R,$$
 <p>donde $\tilde{\mathbf K}^e$ es $\mathbf K^e$ «expandida» con ceros al tamaño global. En código no se expande: se usa la
 tabla de grados de libertad $\mathbf T_d$ y se suma <code>KG(Td(e,i),Td(e,j)) += Kel(i,j,e)</code>.</p>

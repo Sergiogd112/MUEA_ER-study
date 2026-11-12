@@ -35,6 +35,19 @@ def parse(page: Path):
     return meta, text
 
 
+def video_html(m):
+    """Embed assets/video/<id>.mp4 (+ .vtt subtitles) if the file exists; otherwise drop the slot."""
+    vid = m.group(1)
+    mp4 = SRC / "assets" / "video" / f"{vid}.mp4"
+    if not mp4.exists():
+        return ""
+    vtt = mp4.with_suffix(".vtt")
+    track = f'<track kind="subtitles" srclang="es" label="Español" src="assets/video/{vid}.vtt" default>' if vtt.exists() else ""
+    mb = mp4.stat().st_size / 1e6
+    return (f'<div class="video-card"><video controls preload="metadata" playsinline src="assets/video/{vid}.mp4">{track}</video>'
+            f'<p class="meta">Vídeo del tema (narración en español, subtítulos incluidos, {mb:.0f} MB).</p></div>')
+
+
 def main():
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -63,6 +76,7 @@ def main():
             prev = f'<a class="pn prev" href="{order[i-1]}.html">&larr; {dict((s, m) for _, s, m in navitems)[order[i-1]].get("short")}</a>' if i > 0 else "<span></span>"
             nxt = f'<a class="pn next" href="{order[i+1]}.html">{dict((s, m) for _, s, m in navitems)[order[i+1]].get("short")} &rarr;</a>' if i + 1 < len(order) else "<span></span>"
             pn = f'<nav class="prevnext">{prev}{nxt}</nav>'
+        body = re.sub(r'<div class="video-slot" data-video="(\w+)"></div>', video_html, body)
         html = (layout.replace("{{title}}", meta.get("title", "ERA"))
                 .replace("{{description}}", meta.get("description", "Estudio de 220375 Elements Resistents en l'Aeronàutica"))
                 .replace("{{nav}}", "\n".join(nav))

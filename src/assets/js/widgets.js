@@ -107,7 +107,7 @@
       const n = st.n, nn = n + 1, k = [st.k1, st.k2, st.k3, st.k4].slice(0, n);
       const K = FEM.zeros(nn, nn), who = Array.from({ length: nn }, () => Array.from({ length: nn }, () => []));
       k.forEach((ki, e) => { [[e, e, 1], [e, e + 1, -1], [e + 1, e, -1], [e + 1, e + 1, 1]].forEach(([i, j, sg]) => { K[i][j] += sg * ki; who[i][j].push(e); }); });
-      const F = new Array(nn).fill(0); const ln = st.loadAt === 'last' ? (st.right === 'fixed' ? Math.ceil(n / 2) : n) : Math.ceil(n / 2);
+      const F = new Array(nn).fill(0); const ln = st.loadAt === 'last' ? n : Math.ceil(n / 2);   // selected node, kept as chosen
       F[ln] = st.F;
       const R = st.right === 'fixed' ? [0, n] : [0]; const L = []; for (let i = 0; i < nn; i++) if (!R.includes(i)) L.push(i);
       const uL = FEM.solve(L.map(i => L.map(j => K[i][j])), L.map(i => F[i]));
@@ -271,28 +271,33 @@
       const N = -dT * (m1.a * st.l1 + m2.a * st.l2) / (st.l1 / (m1.E * A1) + st.l2 / (m2.E * A2));
       const s1 = N / A1, s2 = N / A2, dl1 = N * st.l1 / (m1.E * A1) + m1.a * dT * st.l1;
       const c = C(); plot.innerHTML = '';
-      const svg = s('svg', { viewBox: '0 0 640 210', class: 'wplot' }, plot);
-      const row = (y, label) => s('text', { x: 10, y: y + 5, 'font-size': 13, fill: c.ink2 }, svg, label);
-      // free bar
-      row(35, 'Libre'); const fl = Math.max(200, 300 * (1 + m1.a * dT * 40));
-      s('rect', { x: 150, y: 25, width: 300, height: 20, fill: 'none', stroke: c.line, 'stroke-dasharray': '4 3' }, svg);
-      s('rect', { x: 150, y: 25, width: fl, height: 20, fill: stressColor(0, 1), opacity: 0.8 }, svg);
-      s('text', { x: 158 + Math.min(fl, 330), y: 40, 'font-size': 12, fill: c.ink }, svg, 'σ = 0');
-      s('text', { x: 150, y: 18, 'font-size': 11, fill: c.muted }, svg, 'dilatación dibujada ×40');
-      // fixed bar
-      row(100, 'Empotrada'); s('rect', { x: 140, y: 80, width: 10, height: 40, fill: c.line }, svg); s('rect', { x: 450, y: 80, width: 10, height: 40, fill: c.line }, svg);
-      s('rect', { x: 150, y: 90, width: 300, height: 20, fill: stressColor(sFix, Math.abs(sFix) || 1) }, svg);
-      s('text', { x: 470, y: 105, 'font-size': 12, fill: c.ink }, svg, `σ = −Eα ΔT = ${fmt(sFix / 1e6, 1)} MPa`);
-      // compound
-      row(170, 'Compuesta'); const L = st.l1 + st.l2, w1 = 300 * st.l1 / L, w2 = 300 * st.l2 / L, smax = Math.max(Math.abs(s1), Math.abs(s2)) || 1;
-      s('rect', { x: 140, y: 145, width: 10, height: 50, fill: c.line }, svg); s('rect', { x: 450, y: 145, width: 10, height: 50, fill: c.line }, svg);
+      const svg = s('svg', { viewBox: '0 0 380 215', class: 'wplot' }, plot);
+      const x0 = 110, bw = 230;
+      const row = (y, label) => s('text', { x: 4, y: y + 5, 'font-size': 15, fill: c.ink2 }, svg, label);
+      // free bar (expansion drawn x40)
+      row(38, 'Libre'); const fl = Math.max(120, Math.min(260, bw * (1 + m1.a * dT * 40)));
+      s('rect', { x: x0, y: 28, width: bw, height: 20, fill: 'none', stroke: c.line, 'stroke-dasharray': '4 3' }, svg);
+      s('rect', { x: x0, y: 28, width: fl, height: 20, fill: stressColor(0, 1), opacity: 0.8 }, svg);
+      s('text', { x: x0, y: 18, 'font-size': 13, fill: c.muted }, svg, 'dilatación dibujada ×40');
+      // bar between walls
+      row(103, 'Empotrada'); s('rect', { x: x0 - 10, y: 83, width: 10, height: 40, fill: c.line }, svg); s('rect', { x: x0 + bw, y: 83, width: 10, height: 40, fill: c.line }, svg);
+      s('rect', { x: x0, y: 93, width: bw, height: 20, fill: stressColor(sFix, Math.abs(sFix) || 1) }, svg);
+      // compound bar
+      row(173, 'Compuesta'); const L = st.l1 + st.l2, w1 = bw * st.l1 / L, w2 = bw * st.l2 / L, smax = Math.max(Math.abs(s1), Math.abs(s2)) || 1;
+      s('rect', { x: x0 - 10, y: 148, width: 10, height: 50, fill: c.line }, svg); s('rect', { x: x0 + bw, y: 148, width: 10, height: 50, fill: c.line }, svg);
       const h1 = 20, h2 = Math.max(6, Math.min(40, 20 * Math.sqrt(st.A2)));
-      s('rect', { x: 150, y: 170 - h1 / 2, width: w1, height: h1, fill: stressColor(s1, smax) }, svg);
-      s('rect', { x: 150 + w1, y: 170 - h2 / 2, width: w2, height: h2, fill: stressColor(s2, smax) }, svg);
-      s('text', { x: 470, y: 165, 'font-size': 12, fill: c.ink }, svg, `σ₁ = ${fmt(s1 / 1e6, 1)} MPa`);
-      s('text', { x: 470, y: 183, 'font-size': 12, fill: c.ink }, svg, `σ₂ = ${fmt(s2 / 1e6, 1)} MPa`);
-      out.innerHTML = `<p>Compuesta: $N = -\\dfrac{\\Delta T(\\alpha_1l_1+\\alpha_2l_2)}{l_1/E_1A_1 + l_2/E_2A_2} = ${fmt(N / 1e3, 2)}$ kN (con $A_1 = 1$ cm²).
-        La unión se desplaza $\\Delta l_1 = ${fmt(dl1 * 1e3, 3)}$ mm: el material que más se dilata empuja al otro.</p>`;
+      s('rect', { x: x0, y: 173 - h1 / 2, width: w1, height: h1, fill: stressColor(s1, smax) }, svg);
+      s('rect', { x: x0 + w1, y: 173 - h2 / 2, width: w2, height: h2, fill: stressColor(s2, smax) }, svg);
+      s('text', { x: x0 + w1 / 2, y: 173 + 5, 'font-size': 14, fill: c.surface, 'text-anchor': 'middle' }, svg, '1');
+      s('text', { x: x0 + w1 + w2 / 2, y: 173 + 5, 'font-size': 14, fill: c.surface, 'text-anchor': 'middle' }, svg, '2');
+      out.innerHTML = `<table class="data"><tr><th>Caso</th><th>Tensión</th></tr>
+        <tr><td>Libre</td><td class="num">σ = 0 (se alarga α ΔT l)</td></tr>
+        <tr><td>Empotrada</td><td class="num">σ = −Eα ΔT = ${fmt(sFix / 1e6, 1)} MPa</td></tr>
+        <tr><td>Compuesta, barra 1</td><td class="num">σ₁ = ${fmt(s1 / 1e6, 1)} MPa</td></tr>
+        <tr><td>Compuesta, barra 2</td><td class="num">σ₂ = ${fmt(s2 / 1e6, 1)} MPa</td></tr></table>
+        <p>Compuesta: $N = -\\dfrac{\\Delta T(\\alpha_1l_1+\\alpha_2l_2)}{l_1/E_1A_1 + l_2/E_2A_2} = ${fmt(N / 1e3, 2)}$ kN (con $A_1 = 1$ cm²).
+        La unión se desplaza $\\Delta l_1 = \\frac{Nl_1}{E_1A_1}+\\alpha_1\\Delta T\\,l_1 = ${fmt(dl1 * 1e3, 3)}$ mm: su signo depende de las longitudes,
+        de las rigideces axiales y de las dilataciones libres a la vez (compatibilidad y equilibrio), no solo de qué material dilata más.</p>`;
       ERA.renderMath(out);
     }
     render();
@@ -366,7 +371,8 @@
       for (let i = 0; i <= N; i++) { const xi = L * i / N, wgt = (i === 0 || i === N) ? 1 : (i % 2 ? 4 : 2); Iq += wgt * qq(xi) * (L * xi * xi / 2 - xi ** 3 / 6); }
       const tipRef = (Iq * L / N / 3 + st.P * 1e3 * L ** 3 / 3) / EI;
       const ns = [1, 2, 4, 8, 16, 32, 64];
-      if (Math.abs(tipRef) < 1e-12) { cdiv.innerHTML = '<p class="svg-muted">Sin carga: la flecha es nula y no hay error que estudiar.</p>'; out.innerHTML = ''; return; }
+      if (st.q === 0 && st.P === 0) { cdiv.innerHTML = '<p class="svg-muted">Sin carga: la flecha es nula y no hay error que estudiar.</p>'; out.innerHTML = ''; return; }
+      if (Math.abs(tipRef) < 1e-9) { cdiv.innerHTML = `<p class="svg-muted">Con estas cargas la flecha exacta de la punta es nula, aunque la viga se flecta: el error relativo no está definido. Error absoluto con ${st.ne} elemento(s): ${fmt(Math.abs(fe.u[2 * st.ne]) * 1e3, 5)} mm.</p>`; out.innerHTML = ''; return; }
       const errs = ns.map(n => { const r = solve(n); return [L / n, Math.max(1e-16, Math.abs((r.u[2 * n] - tipRef) / tipRef))]; });
       const emin = Math.max(1e-16, Math.min(...errs.map(e => e[1]))), emax = Math.max(...errs.map(e => e[1]));
       cdiv.innerHTML = '';
