@@ -212,10 +212,10 @@ explain("t06", "Explica el convenio de signos de cortante y momento del curso y 
         "Comprobación: un voladizo con carga $P$ hacia arriba en la punta tiene $M(0) = PL > 0$.</p>",
         ["M = EI w''", "dM/dx = −S, dS/dx = −q", "signos de la guía", "comprobación en voladizo"])
 Pb, Lb, EIb = 1000.0, 2.0, 2e5
-num("t06", "Voladizo de 2 m con $EI = 2\\times10^5$ N·m² y 1 kN en la punta. ¿Flecha en la punta (mm)?",
+num("t06", "Voladizo de 2 m con $EI = 2\\times10^5$ N·m² y 1 kN en la punta. ¿Magnitud de la flecha en la punta (mm)?",
     Pb * Lb**3 / (3 * EIb) * 1e3, "mm", f"$\\delta = PL^3/(3EI) = 1000\\cdot8/(6\\times10^5) = {Pb*Lb**3/(3*EIb)*1e3:.2f}$ mm.")
 qb = 500.0
-num("t06", "Mismo voladizo ($L = 2$ m, $EI = 2\\times10^5$ N·m²) con una carga uniforme de 500 N/m. ¿Flecha en la punta (mm)?",
+num("t06", "Mismo voladizo ($L = 2$ m, $EI = 2\\times10^5$ N·m²) con una carga uniforme de 500 N/m. ¿Magnitud de la flecha en la punta (mm)?",
     qb * Lb**4 / (8 * EIb) * 1e3, "mm", f"$\\delta = qL^4/(8EI) = 500\\cdot16/(1{{,}}6\\times10^6) = {qb*Lb**4/(8*EIb)*1e3:.2f}$ mm.")
 num("t06", "Elemento de 0,5 m con carga uniforme de 2 kN/m. ¿Momento nodal equivalente en el primer nodo (N·m)?",
     2000 * 0.5**2 / 12, "N·m", "$ql^2/12 = 2000\\cdot0{,}25/12 = 41{,}7$ N·m.")
@@ -227,7 +227,7 @@ mcq("t07", "¿Cuándo es nulo $I_{xy}$?", ["Siempre", "Cuando $x$ o $y$ es eje d
     "Por simetría, las contribuciones $xy\\,dA$ se cancelan dos a dos.")
 mcq("t07", "En flexión asimétrica, el eje neutro…", ["Es perpendicular al plano del momento", "En general no es perpendicular al plano del momento", "Coincide con el eje $x$", "No pasa por el centroide"], 1,
     "Solo es perpendicular si el momento actúa según un eje principal.")
-mcq("t07", "Con el convenio del curso, un $M_y>0$ en una sección simétrica produce en $x>0$…",
+mcq("t07", "Con el convenio del curso, en una sección con ejes principales $x, y$ sobre la que actúa <strong>solo</strong> $M_y>0$ ($M_x=0$), las fibras con $x>0$ están a…",
     ["tracción", "compresión", "nada", "cortante"], 1, "$\\sigma_z = M_xy/I_{xx} - M_yx/I_{yy}$: con $M_y>0$ y $x>0$, $\\sigma<0$.")
 explain("t07", "Escribe la fórmula general de la tensión de flexión y deduce el caso simétrico.",
         "$$\\sigma_z = -\\frac{M_yI_{xx}+M_xI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\\,x + \\frac{M_xI_{yy}+M_yI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\\,y$$"
@@ -236,7 +236,7 @@ explain("t07", "Escribe la fórmula general de la tensión de flexión y deduce 
         ["σ lineal en x, y", "M_x = ∫σy dA, M_y = −∫σx dA", "fórmula general", "I_xy = 0 → caso simétrico"])
 explain("t07", "¿Cómo encuentras el punto más solicitado de una sección en flexión asimétrica?",
         "<p>(1) Centroide e inercias $I_{xx}$, $I_{yy}$, $I_{xy}$ (Steiner). (2) $\\sigma_z(x,y)$ con la fórmula general. (3) Eje neutro: $y/x = (M_yI_{xx}+M_xI_{xy})/(M_xI_{yy}+M_yI_{xy})$. "
-        "(4) El máximo está en el punto más alejado del <em>eje neutro</em> (no del eje $x$). En una Z, por ejemplo, está en las uniones alma-ala.</p>",
+        "(4) El máximo está en el punto más alejado del <em>eje neutro</em> (no del eje $x$). En la Z del ejemplo del curso (alas $h/2$, solo $M_x$) resulta estar en las uniones alma-ala; con otras proporciones o con $M_y$ puede estar en las puntas.</p>",
         ["propiedades de la sección", "fórmula general", "eje neutro", "punto más alejado del eje neutro"])
 h_, t_, Mx = 200.0, 8.0, 10e6
 Ixx = t_ * h_**3 / 3
@@ -249,7 +249,7 @@ num("t07", "El mismo rectángulo de 50×100 mm girado 90° (flexión de plano, c
     (hr / b_), "", "$\\sigma = 6M/(bh^2)$: al intercambiar $b$ y $h$ el cociente vale $h/b = 2$.")
 Ixx2, Iyy2, Ixy2 = 21.333e6, 5.333e6, 8.0e6
 alpha = 0.5 * math.degrees(math.atan2(-2 * Ixy2, Ixx2 - Iyy2))
-num("t07", "Una sección tiene $I_{xx} = 21{,}33$, $I_{yy} = 5{,}33$ e $I_{xy} = 8{,}00$ ($\\times10^6$ mm⁴). ¿Ángulo de los ejes principales, $\\alpha$ en grados, con $\\tan2\\alpha = -2I_{xy}/(I_{xx}-I_{yy})$?",
+num("t07", "Una sección tiene $I_{xx} = 21{,}33$, $I_{yy} = 5{,}33$ e $I_{xy} = 8{,}00$ ($\\times10^6$ mm⁴). ¿Ángulo $\\alpha\\in(-45°,45°]$ del eje principal más próximo a $x$, con $\\tan2\\alpha = -2I_{xy}/(I_{xx}-I_{yy})$?",
     alpha, "°", f"$\\tan2\\alpha = -16/16 = -1$, así que $\\alpha = {alpha:.1f}°$.", tol=0.03)
 
 # ---------------------------------------------------------------- t08
@@ -367,10 +367,11 @@ explain("A3", "Trabajo 3: ¿qué esperas del estudio de convergencia y por qué?
         "el error viene de aproximar $q(x)$ por su media por elemento (y de las discontinuidades de la carga). Se usa como referencia la malla de $h = 0{,}15625$ m.</p>",
         ["error decrece con h", "log-log y pendiente", "origen del error", "malla de referencia"])
 explain("A3", "Trabajo 3: la sección tiene un suelo que corta el círculo. ¿Qué implica para el cálculo del cortante?",
-        "<p>La sección es <strong>cerrada y de dos células</strong> (encima y debajo del suelo). Hay dos incógnitas de flujo ($q_{s,0}$ en cada célula): además del equilibrio de momentos hace falta una "
-        "condición de compatibilidad (el mismo giro por unidad de longitud en las dos células, $\\oint q\\,ds/(Gt)$). Simplificaciones razonables, que hay que justificar: tratar el suelo como no estructural a cortante, "
-        "o usar la simetría respecto al eje vertical, que permite cortar en los puntos de $q = 0$ del eje.</p>",
-        ["dos células", "dos incógnitas q_s0", "compatibilidad de giro", "simplificación justificada"])
+        "<p>La sección es <strong>cerrada y de dos células</strong> (encima y debajo del suelo). En general hay dos incógnitas $q_{s,0}$: además del equilibrio de momentos hace falta la "
+        "compatibilidad de giro, $\\theta' = \\frac{1}{2A_iG}\\oint_i \\frac{q}{t}ds$ igual en las dos células ($A_i$ = área de cada célula; en el suelo compartido el flujo es la diferencia de los dos). "
+        "Pero la sección es simétrica respecto al eje vertical y el cortante actúa sobre ese eje: el flujo se anula donde las paredes cortan el eje (arriba, abajo y en el centro del suelo). "
+        "Cortando por esos puntos cada mitad es una sección abierta ramificada y $q(s)$ sale directamente de la fórmula de sección abierta, sin compatibilidad.</p>",
+        ["dos células", "compatibilidad con 1/(2A_i G)", "simetría: q = 0 en el eje", "mitades como secciones abiertas"])
 
 
 def main(out):

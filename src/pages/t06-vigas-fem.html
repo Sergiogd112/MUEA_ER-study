@@ -32,7 +32,7 @@ Al refinar la malla el error de esa aproximación desaparece. Las cargas puntual
 
 <h2>4. Postproceso: esfuerzos y elástica</h2>
 <ol>
-  <li>Fuerzas internas en los nodos del elemento: $\hat{\mathbf F}^e_{int} = \mathbf K^e\mathbf u^e$. Es lo que hace la guía. Si el elemento lleva carga repartida, restar sus fuerzas equivalentes, $\mathbf K^e\mathbf u^e-\mathbf F^e$, da los esfuerzos exactos en los nodos; sin restarlas, la diferencia desaparece al refinar.</li>
+  <li>Fuerzas internas en los nodos del elemento: $\hat{\mathbf F}^e_{int} = \mathbf K^e\mathbf u^e$. Es lo que hace la guía. Si el elemento lleva carga repartida, restar sus fuerzas equivalentes, $\mathbf K^e\mathbf u^e-\mathbf F^e$, da los esfuerzos en los nodos (exactos cuando $\mathbf u^e$ y $\mathbf F^e$ lo son); sin restarlas, la diferencia desaparece al refinar.</li>
   <li>Cortante y momento con el convenio de la guía: $F_y(e,1) = -\hat F^e_{int,1}$, $F_y(e,2) = \hat F^e_{int,3}$, $M_z(e,1) = -\hat F^e_{int,2}$, $M_z(e,2) = \hat F^e_{int,4}$.</li>
   <li>Flecha dentro del elemento: el polinomio cúbico $u_y(x') = a x'^3 + b x'^2 + c x' + d$, con</li>
 </ol>
@@ -42,7 +42,7 @@ $$\begin{bmatrix}a\\b\\c\\d\end{bmatrix} = \frac{1}{l^3}\begin{bmatrix}2 & l & -
   <span class="box-title">Qué es exacto y qué no</span>
   <ul>
     <li>Con <strong>cargas puntuales</strong> en los nodos la cúbica es la solución exacta de la elástica: un elemento por tramo basta.</li>
-    <li>Con <strong>carga distribuida</strong> y fuerzas consistentes, los desplazamientos y giros <em>nodales</em> son exactos en 1D si $\bar q$ se integra exactamente. Entre nodos la cúbica no reproduce la cuártica exacta.</li>
+    <li>Con <strong>carga distribuida</strong>, los desplazamientos y giros <em>nodales</em> son exactos en 1D si las fuerzas consistentes $\mathbf F^e = \int_0^{l}\mathbf N^T q(x)\,dx$ se integran exactamente. Para una carga uniforme eso es justo la fórmula de arriba. Para una carga variable, sustituirla por su media $\bar q^e$ (aunque la media se calcule exactamente) pierde su primer momento en el elemento y los valores nodales dejan de ser exactos: el error baja como $h^2$. Entre nodos la cúbica tampoco reproduce la cuártica exacta.</li>
     <li>El cortante que sale de $\mathbf K^e\mathbf u^e$ es constante por elemento y el momento, lineal: los diagramas en escalera convergen al refinar.</li>
   </ul>
 </div>

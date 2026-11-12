@@ -25,13 +25,21 @@ $$\frac{\partial q}{\partial s} + t\,\frac{\partial\sigma_z}{\partial z} = 0 .$$
 <p>Con la fórmula de flexión del tema 7 y $S_y = \dfrac{\partial M_x}{\partial z}$, $S_x = -\dfrac{\partial M_y}{\partial z}$ (convenio del curso):</p>
 $$\frac{\partial\sigma_z}{\partial z} = \frac{S_xI_{xx}-S_yI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\,x + \frac{S_yI_{yy}-S_xI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\,y .$$
 
+<div class="box warn">
+  <span class="box-title">Convenios de signos entre temas</span>
+  <p>Aquí $S_x, S_y$ son las componentes de la fuerza cortante sobre la cara de normal $+z$ y $M_x, M_y$ los momentos como vectores (regla de la mano derecha),
+  con $S_y = \partial M_x/\partial z$ y $S_x = -\partial M_y/\partial z$. En la viga 1D (temas 6 y 7) se usa $M = EIw''$ con $dM/dz = -S$. Las dos descripciones
+  son coherentes: para flexión en el plano vertical, $M_x = -M$ (un momento que curva la viga hacia arriba, $w''>0$, comprime las fibras superiores) y $S_y = S$.
+  Cambian los nombres y el signo del momento, no el esfuerzo cortante.</p>
+</div>
+
 <h2>3. Secciones abiertas</h2>
 <p>Integrando desde un borde libre (donde $q=0$):</p>
 $$\boxed{\ q(s) = -\frac{S_xI_{xx}-S_yI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\int_0^s t\,x\,ds - \frac{S_yI_{yy}-S_xI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\int_0^s t\,y\,ds\ }$$
 <p>Si $x$ o $y$ es eje de simetría ($I_{xy}=0$):</p>
 $$q(s) = -\frac{S_x}{I_{yy}}\int_0^s t\,x\,ds - \frac{S_y}{I_{xx}}\int_0^s t\,y\,ds .$$
 <p>Las integrales son los <strong>momentos estáticos</strong> de la parte de sección recorrida. Por eso $q$ es lineal en las paredes paralelas al eje neutro y parabólica en las perpendiculares,
-y es máximo donde se cruza el eje neutro. Un $q$ negativo significa que fluye en sentido contrario a $s$.</p>
+y en una pared $dq/ds$ es proporcional a $t\,y$: si no se le unen otras ramas, $|q|$ tiene un extremo local donde la pared cruza el eje neutro ($y=0$). Un $q$ negativo significa que fluye en sentido contrario a $s$.</p>
 <p>Esta fórmula supone que la carga pasa por el <strong>centro de cortante</strong>: así la sección no gira. Si no pasa, al cortante se le suma un torsor.</p>
 
 <h2>4. Centro de cortante</h2>
@@ -63,6 +71,14 @@ donde $q=0$, y entonces $q_{s,0}=0$.</p>
   <p>Con $S_y$ por el centro y $I_{xx} = \pi r^3t$: $q(\theta) = \dfrac{S_y}{\pi r}\cos\theta$ (con $\theta$ medido desde el eje neutro), así que
   $\tau_{\max} = \dfrac{S_y}{\pi rt} = \dfrac{2S_y}{A}$ en el eje neutro: el doble del cortante medio.</p>
 </div>
+
+<h3>Secciones multicelulares</h3>
+<p>Con $n$ células hay $n$ incógnitas $q_{s,0}$ (una por célula, cortándolas todas). Las ecuaciones son el equilibrio de momentos de toda la sección y $n-1$
+condiciones de <strong>compatibilidad</strong>: todas las células giran lo mismo por unidad de longitud,</p>
+$$\theta'_i = \frac{1}{2A_iG}\oint_{i}\frac{q}{t}\,ds,\qquad \theta'_1 = \theta'_2 = \dots ,$$
+<p>donde $A_i$ es el área encerrada por la célula $i$ y, en una pared compartida, el flujo es la diferencia de los flujos de las dos células (con el signo de cada
+recorrido). Si la carga actúa en un plano de simetría de la sección, el flujo se anula en los puntos donde las paredes cortan el eje de simetría. Cortando por
+esos puntos, cada mitad es una sección abierta ramificada y no hace falta la compatibilidad.</p>
 
 <h2>6. Combinación con flexión: punto crítico</h2>
 <p>En cada punto de la pared hay a la vez $\sigma_z$ (flexión, máxima lejos del eje neutro) y $\tau$ (cortante, máxima cerca del eje neutro). El criterio de von Mises para

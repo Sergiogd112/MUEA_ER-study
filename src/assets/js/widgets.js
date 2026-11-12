@@ -190,7 +190,7 @@
       fix: [[0, 0], [0, 1], [3, 1]], extra: [3, 0], load: 5 },
     mensula: { name: 'Ménsula', nodes: [[0, 0], [0, 1.5], [1.5, 0], [1.5, 1.5], [3, 0], [3, 1.5], [4.5, 0.75]],
       bars: [[0, 2], [1, 3], [2, 3], [1, 2], [2, 4], [3, 5], [4, 5], [3, 4], [4, 6], [5, 6]],
-      fix: [[0, 0], [0, 1], [1, 0]], extra: [1, 1], load: 6 }
+      fix: [[0, 0], [0, 1], [1, 0], [1, 1]], extra: [6, 1], load: 6 }
   };
   WIDGETS.truss = function (root) {
     const st = { model: 'warren', P: 20, ang: -90, dT: 0, mat2: false, extra: false, amp: 100 };
@@ -214,7 +214,9 @@
       const t = st.ang * Math.PI / 180, loads = [{ n: T.load, d: 0, F: st.P * 1e3 * Math.cos(t) }, { n: T.load, d: 1, F: st.P * 1e3 * Math.sin(t) }];
       const r = FEM.truss2d(T.nodes, bars, fix, loads, st.dT);
       plot.innerHTML = ''; const c = C();
-      const xs = T.nodes.map(p => p[0]), ys = T.nodes.map(p => p[1]);
+      // drawing box: undeformed nodes plus the amplified deformed nodes (if the solution exists)
+      const defPts = r.singular ? [] : T.nodes.map((p, i) => [p[0] + st.amp * r.u[2 * i], p[1] + st.amp * r.u[2 * i + 1]]);
+      const xs = T.nodes.concat(defPts).map(p => p[0]), ys = T.nodes.concat(defPts).map(p => p[1]);
       const xmin = Math.min(...xs) - 0.8, xmax = Math.max(...xs) + 0.8, ymin = Math.min(...ys) - 0.8, ymax = Math.max(...ys) + 0.9;
       const W = narrow(root) ? 440 : 640, sc = (W - 20) / (xmax - xmin), H = Math.max(200, (ymax - ymin) * sc + 20);
       const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, class: 'wplot' }, plot);
@@ -228,7 +230,8 @@
         out.innerHTML = '<p>La estructura no está bien apoyada.</p>'; return;
       }
       const amp = st.amp, u = r.u, def = T.nodes.map((p, i) => [p[0] + amp * u[2 * i], p[1] + amp * u[2 * i + 1]]);
-      const smax = Math.max(...r.bars.map(b => Math.abs(b.sig)));
+      let smax = Math.max(...r.bars.map(b => Math.abs(b.sig)));
+      if (smax < 1e3) smax = 0;   // below 1 kPa: round-off, draw as unstressed
       T.bars.forEach(([a, b], e) => { const br = r.bars[e];
         s('line', { x1: X(def[a][0]), y1: Y(def[a][1]), x2: X(def[b][0]), y2: Y(def[b][1]), stroke: stressColor(br.sig, smax), 'stroke-width': 5, 'stroke-linecap': 'round' }, svg);
         const mx = X((def[a][0] + def[b][0]) / 2), my = Y((def[a][1] + def[b][1]) / 2);
@@ -246,7 +249,7 @@
       out.innerHTML = `<p>Números sobre las barras: axil $N$ en kN. Tubos de aluminio Ø50×3 mm (acero opcional en el cordón inferior).<br>
         $h = b + r - 2n = ${nb} + ${nr} - ${2 * nn} = ${hdeg}$ → <strong>${hdeg === 0 ? 'isostática' : hdeg > 0 ? 'hiperestática de grado ' + hdeg : 'mecanismo'}</strong>.
         Reacciones (kN): ${reacs}. $|\\sigma|_{\\max}$ = <span class="num">${fmt(smax / 1e6, 1)}</span> MPa. Barras que pandean: <strong>${nbuck}</strong>.</p>
-        <p class="svg-muted">Prueba: pon $P = 0$ y $\\Delta T \\neq 0$. Isostática → todas las barras grises. Activa el apoyo redundante o el acero → aparecen tensiones térmicas.</p>`;
+        <p class="svg-muted">Prueba: pon $P = 0$ y $\\Delta T \\neq 0$. Isostática → todas las barras grises, también con el acero (una estructura isostática acomoda cualquier dilatación). Activa el apoyo redundante → aparecen tensiones térmicas, y con el acero cambia su reparto.</p>`;
       ERA.renderMath(out);
     }
     render();
@@ -310,7 +313,7 @@
       // mode shape
       left.innerHTML = ''; const f = frame(left, { w: 300, h: 300, xr: [-1.2, 1.2], yr: [0, 1], xlabel: 'modo de pandeo v (escala libre)', ylabel: 'z / l', m: { l: 44, b: 38 }, xfmt: () => '' });
       const shape = z => st.bc === 1 ? Math.sin(Math.PI * z) : st.bc === 2 ? 1 - Math.cos(Math.PI * z / 2) : st.bc === 0.5 ? (1 - Math.cos(2 * Math.PI * z)) / 2 :
-        (() => { const k = 4.4934; const v = Math.sin(k * z) - k * z * Math.cos(k) - ((Math.sin(k) - k * Math.cos(k)) * z); return v; })();
+        (() => { const k = 4.4934; return Math.sin(k * z) + k * (1 - Math.cos(k * z)) - k * z; })();  // clamped z=0, pinned z=1: tan k = k
       let pts = []; let mx = 0; for (let i = 0; i <= 60; i++) { const z = i / 60, v = shape(z); mx = Math.max(mx, Math.abs(v)); pts.push([v, z]); }
       s('line', { x1: f.X(0), y1: f.Y(0), x2: f.X(0), y2: f.Y(1), stroke: c.line, 'stroke-dasharray': '4 3' }, f.svg);
       s('path', { d: path(pts.map(([v, z]) => [f.X(v / mx), f.Y(z)])), fill: 'none', stroke: c.accent, 'stroke-width': 3 }, f.svg);
@@ -358,7 +361,12 @@
       s('path', { d: path(Mref.map(p => [g.X(p[0]), g.Y(p[1] / 1e3)])), stroke: c.ink2, 'stroke-width': 1.5, fill: 'none', 'stroke-dasharray': '5 4' }, g.svg);
       fe.els.forEach(e => s('line', { x1: g.X(e.x0), x2: g.X(e.x0 + e.l), y1: g.Y(e.Mz[0] / 1e3), y2: g.Y(e.Mz[1] / 1e3), stroke: c.accent, 'stroke-width': 2.5 }, g.svg));
       // convergence
-      const ns = [1, 2, 4, 8, 16, 32, 64], tipRef = ref.u[2 * 512];
+      // exact tip deflection: w(L) = (1/EI)[ int q(xi) (L xi^2/2 - xi^3/6) dxi + P L^3/3 ] (Simpson, 2000 panels)
+      const qq = qf(); let Iq = 0; const N = 2000;
+      for (let i = 0; i <= N; i++) { const xi = L * i / N, wgt = (i === 0 || i === N) ? 1 : (i % 2 ? 4 : 2); Iq += wgt * qq(xi) * (L * xi * xi / 2 - xi ** 3 / 6); }
+      const tipRef = (Iq * L / N / 3 + st.P * 1e3 * L ** 3 / 3) / EI;
+      const ns = [1, 2, 4, 8, 16, 32, 64];
+      if (Math.abs(tipRef) < 1e-12) { cdiv.innerHTML = '<p class="svg-muted">Sin carga: la flecha es nula y no hay error que estudiar.</p>'; out.innerHTML = ''; return; }
       const errs = ns.map(n => { const r = solve(n); return [L / n, Math.max(1e-16, Math.abs((r.u[2 * n] - tipRef) / tipRef))]; });
       const emin = Math.max(1e-16, Math.min(...errs.map(e => e[1]))), emax = Math.max(...errs.map(e => e[1]));
       cdiv.innerHTML = '';
@@ -366,11 +374,11 @@
       const k = frame(cdiv, { w: narrow(root) ? 400 : 640, h: 260, xr: [L / 64, L], yr: [lo, hi], logx: true, logy: true, xlabel: 'tamaño de elemento h (m), escala log', ylabel: 'error relativo flecha punta' });
       s('path', { d: path(errs.map(([hh, e]) => [k.X(hh), k.Y(Math.max(e, lo))])), stroke: c.bad, 'stroke-width': 2, fill: 'none' }, k.svg);
       errs.forEach(([hh, e]) => s('circle', { cx: k.X(hh), cy: k.Y(Math.max(e, lo)), r: 4, fill: L / hh === st.ne ? c.accent : c.bad }, k.svg));
-      const sl = Math.log(errs[4][1] / errs[5][1]) / Math.log(2);
-      out.innerHTML = `<p>Azul: MEF con ${st.ne} elemento(s), con la flecha de cada elemento interpolada por su cúbica. Discontinua: referencia con 512 elementos.
-        Flecha en la punta: MEF $${fmt(fe.u[2 * st.ne] * 1e3, 4)}$ mm, referencia $${fmt(tipRef * 1e3, 4)}$ mm.
-        ${st.load === 'unif' ? 'Con carga uniforme y fuerzas consistentes los valores nodales son <strong>exactos</strong> con cualquier malla: el error está en el nivel de redondeo.' :
-        `Pendiente de convergencia (de h=${fmt(L / 16, 3)} a ${fmt(L / 32, 3)} m) ≈ ${fmt(sl, 2)}: el error viene de sustituir $q(x)$ por su media en cada elemento.`}</p>`;
+      const sl = Math.log(errs[4][1] / errs[5][1]) / Math.log(2), roundoff = Math.max(...errs.map(e => e[1])) < 1e-7;   // exact up to the conditioning of K (about n^4 eps)
+      out.innerHTML = `<p>Azul: MEF con ${st.ne} elemento(s), con la flecha de cada elemento interpolada por su cúbica. Discontinua: referencia con 512 elementos (curvas); el error se mide frente a la flecha exacta de la punta.
+        Flecha en la punta: MEF $${fmt(fe.u[2 * st.ne] * 1e3, 4)}$ mm, exacta $${fmt(tipRef * 1e3, 4)}$ mm.
+        ${roundoff ? 'Con carga uniforme y cargas puntuales las fuerzas consistentes son exactas, y los valores nodales también, con cualquier malla: el error es de redondeo y no hay pendiente que medir.' :
+        `Pendiente de convergencia (de h=${fmt(L / 16, 3)} a ${fmt(L / 32, 3)} m) ≈ ${fmt(sl, 2)}: el error viene de sustituir $q(x)$ por su media en cada elemento en lugar de integrar $\\int \\mathbf N^Tq\\,dx$.`}</p>`;
       ERA.renderMath(out);
     }
     render();
@@ -500,6 +508,7 @@
         const Mq = FEM.shearMoment(segs, samples, [sp.xc, sp.yc]); xS = sp.xc + Mq / Fy;
         note = `Resultante vertical de $q$: ${fmt(Math.abs(Fy) / 1e3, 3)} kN (= $S_y$ ✓). Línea de acción de $S_y$ que no produce torsión: $x_S = ${fmt(xS, 2)}$ mm (el centroide está en $\\bar x = ${fmt(sp.xc, 2)}$ mm).`;
         if (st.kind === 'U') note += ` Fórmula del canal: $3b^2/(h+6b) = ${fmt(3 * st.b ** 2 / (st.h + 6 * st.b), 2)}$ mm desde el alma.`;
+        if (!['U', 'Z', 'I'].includes(st.kind)) note += ` Un cortante vertical solo fija la recta vertical $x = x_S$; la altura $y_S$ del centro de cortante requiere un segundo caso con $S_x$${st.kind === 'L' ? ' (en el ángulo, el centro de cortante es la esquina, donde se cortan las dos alas)' : ''}.`;
       }
       const qmax = Math.max(...samples.map(o => Math.abs(o.q))) || 1;
       // draw
@@ -520,8 +529,9 @@
       s('line', { x1: X(sx), x2: X(sx), y1: Y(cy + span * 0.42), y2: Y(cy + span * 0.2), stroke: c.bad, 'stroke-width': 2.5 }, svg);
       s('path', { d: `M${X(sx)} ${Y(cy + span * 0.2)} l-6 -10 h12 z`, fill: c.bad, transform: `rotate(180 ${X(sx)} ${Y(cy + span * 0.2)})` }, svg);
       s('text', { x: X(sx) + 8, y: Y(cy + span * 0.4), 'font-size': 13, fill: c.bad }, svg, 'S_y');
-      if (xS !== null) { s('path', { d: `M${X(xS) - 7} ${Y(sp.yc)} h14 M${X(xS)} ${Y(sp.yc) - 7} v14`, stroke: c.bad, 'stroke-width': 2.5 }, svg);
-        s('text', { x: X(xS) + 8, y: Y(sp.yc) + 16, 'font-size': 12, fill: c.bad }, svg, st.kind === 'U' ? 'centro de cortante' : 'x_S'); }
+      const ySknown = ['U', 'Z', 'I'].includes(st.kind);   // y_S known by symmetry: U (x axis), Z (point symmetry), I (double)
+      if (xS !== null && ySknown) { s('path', { d: `M${X(xS) - 7} ${Y(sp.yc)} h14 M${X(xS)} ${Y(sp.yc) - 7} v14`, stroke: c.bad, 'stroke-width': 2.5 }, svg);
+        s('text', { x: X(xS) + 8, y: Y(sp.yc) + 16, 'font-size': 12, fill: c.bad }, svg, 'centro de cortante'); }
       out.innerHTML = `<p>$I_{xx} = ${fmt(sp.Ixx / 1e6, 3)}\\times10^6$ mm⁴, $|q|_{\\max} = ${fmt(qmax, 2)}$ N/mm, $\\tau_{\\max} = |q|_{\\max}/t = ${fmt(qmax / st.t, 1)}$ MPa. ${note}</p>
         <p class="svg-muted">El diagrama se dibuja perpendicular a cada pared; rojo y azul indican el sentido respecto al recorrido de $s$.</p>`;
       ERA.renderMath(out);
