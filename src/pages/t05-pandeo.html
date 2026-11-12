@@ -1,0 +1,80 @@
+<!--meta
+title: Tema 5 · Pandeo de Euler
+nav: 5
+short: 5 · Pandeo
+topic: t05
+-->
+<p class="kicker">Tema 5</p>
+<h1>Pandeo de columnas (Euler)</h1>
+<p class="lede">Una barra comprimida y esbelta puede fallar por inestabilidad con tensiones muy por debajo del límite elástico. Por eso
+en los tres trabajos toca revisar el pandeo de cada barra comprimida.</p>
+
+<div class="video-slot" data-video="t05"></div>
+
+<h2>1. Dos tipos de inestabilidad</h2>
+<ol>
+  <li><strong>Pandeo global de columna</strong>: la sección no cambia, el eje se curva. Es el modo típico de columnas macizas o de pared gruesa (Euler).</li>
+  <li><strong>Pandeo local</strong>: la sección se deforma. Le ocurre a las paredes delgadas y a las placas rigidizadas, como el revestimiento comprimido.</li>
+</ol>
+
+<h2>2. Carga crítica de Euler</h2>
+<p>Columna biarticulada de longitud $l$, cargada con $P$ en compresión. En la configuración ligeramente desviada $v(z)$, el momento es
+$M = -Pv$, y la ecuación de la elástica $EI\,v'' = M$ queda</p>
+$$v'' + \mu^2 v = 0,\qquad \mu^2 = \frac{P}{EI}\ \Rightarrow\ v = A\cos\mu z + B\sin\mu z .$$
+<p>Con $v(0)=0$ se obtiene $A=0$, y con $v(l)=0$, $B\sin\mu l=0$. Para que exista solución no trivial ($B\neq0$) hace falta $\mu l=n\pi$:</p>
+$$P_{cr,n} = \frac{n^2\pi^2EI}{l^2},\qquad v = B\sin\frac{n\pi z}{l}\quad(B\ \text{indeterminado: equilibrio neutro}).$$
+<p>Vale el modo $n=1$, porque al superar la primera carga crítica la columna ya es inestable. Con $I = \min(I_{xx},I_{yy})$, ya que pandea alrededor del eje débil:</p>
+$$\boxed{\ P_{cr} = \frac{\pi^2EI}{l_e^2},\qquad \sigma_{cr} = \frac{P_{cr}}{A} = \frac{\pi^2EI}{l_e^2A} = \frac{\pi^2E}{\lambda^2},\quad \lambda=\frac{l_e}{r},\ r=\sqrt{I/A}\ }$$
+
+<h2>3. Longitud efectiva</h2>
+<div class="tablewrap">
+<table class="data">
+<thead><tr><th>Condiciones de extremo</th><th>$l_e/l$</th><th>$P_{cr}$ relativo a biarticulada</th></tr></thead>
+<tbody>
+<tr><td>Articulada – articulada</td><td>1</td><td>1</td></tr>
+<tr><td>Empotrada – libre (ménsula)</td><td>2</td><td>1/4</td></tr>
+<tr><td>Empotrada – articulada</td><td>≈ 0,699</td><td>≈ 2,05</td></tr>
+<tr><td>Empotrada – empotrada</td><td>0,5</td><td>4</td></tr>
+</tbody></table>
+</div>
+<p>En una celosía, cada barra es <strong>biarticulada</strong> ($l_e = l$): es la fórmula que piden los trabajos 1 y 2,
+$\sigma_{cr}=\pi^2EI/(l^2A)$.</p>
+
+<div class="widget" data-widget="euler">
+  <p class="widget-title">Explorador de pandeo</p>
+  <p class="widget-sub">Ajusta la sección tubular, la longitud y las condiciones de extremo. A la izquierda, el modo; a la derecha, la curva $\sigma_{cr}(\lambda)$ con el límite elástico. Por debajo de la esbeltez de transición manda la plastificación, no Euler.</p>
+</div>
+
+<h2>4. Cómo evaluar el riesgo de pandeo</h2>
+<ol>
+  <li>Para cada barra <strong>comprimida</strong> ($\sigma<0$), calcula $\sigma_{cr}$ con su $E$, $I$, $A$ y $l$.</li>
+  <li>Calcula el factor de seguridad $\text{FS} = \sigma_{cr}/|\sigma|$. Si $\text{FS}<1$, la barra pandea y la solución lineal deja de valer para ella.</li>
+  <li>Las barras traccionadas no pandean (los cables, por ejemplo, solo pueden trabajar a tracción).</li>
+  <li>Propuestas de mejora: más $I$ con la misma área (tubo de mayor diámetro y pared más delgada), acortar la barra (arriostrarla a mitad, con lo que $\sigma_{cr}$ se multiplica por 4),
+  cambiar de material ($E$ mayor) o reducir la carga.</li>
+</ol>
+<div class="box warn">
+  <span class="box-title">Pandeo con muelle (ejemplo de clase)</span>
+  <p>Una columna con un muelle lateral de rigidez $k$ en el centro tiene una carga crítica entre la biarticulada ($k=0$) y la de dos tramos de
+  longitud $l/2$ ($k\to\infty$, es decir, $4\times$). El muelle «arriostra» la columna. Esta es la idea de las barras de arriostramiento en un diseño real.</p>
+</div>
+
+<div class="card">
+<p><strong>Ejercicio.</strong> Tubo de aluminio ($E=70$ GPa), $D=20$ mm, $d=16$ mm, biarticulado y de 1,5 m. ¿Qué compresión máxima admite sin pandear?</p>
+<details class="sol"><summary>Solución</summary>
+<p>$I = \frac{\pi}{64}(D^4-d^4)$, $A = \frac{\pi}{4}(D^2-d^2)$. Numéricamente: $I = 4\,637\ \text{mm}^4$, $A = 113{,}1\ \text{mm}^2$, $r=\sqrt{I/A}=6{,}40$ mm y $\lambda = l/r = 234$.</p>
+<p>$P_{cr} = \pi^2EI/l^2 = \pi^2\cdot 70\,000\cdot 4\,637/1\,500^2 = 1\,424\ \text{N}$, $\sigma_{cr} = 12{,}6$ MPa. Es muy bajo frente al límite elástico del aluminio:
+manda el pandeo. Doblar la longitud reduce $P_{cr}$ a la cuarta parte.</p>
+</details>
+</div>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>Deduce $P_{cr}$ a partir de la elástica e interpreta $B$ indeterminado como equilibrio neutro.</li>
+    <li>¿Por qué se usa $I_{\min}$? ¿Por qué solo se revisan las barras comprimidas?</li>
+    <li>¿Por qué no basta con $\text{FS}>1$ en diseño? Por imperfecciones, excentricidades y la interacción con la plastificación; se exige un margen.</li>
+    <li>¿Qué propuesta harías para la barra más crítica de tu trabajo, y por qué esa?</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Buckling of columns».</p>

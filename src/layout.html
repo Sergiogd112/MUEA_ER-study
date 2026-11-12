@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}} · ERA estudio</title>
+<meta name="description" content="{{description}}">
+<link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>
+  try { const t = localStorage.getItem('era-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body data-topic="{{topic}}">
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="topbar">
+  <button class="menu-btn" aria-label="Menú" aria-expanded="false" aria-controls="sidenav">☰</button>
+  <a class="brand" href="index.html"><span class="brand-mark">ERA</span><span class="brand-text">Elements Resistents · estudio</span></a>
+  <button class="theme-btn" aria-label="Cambiar tema claro/oscuro" title="Tema">◐</button>
+</header>
+<div class="shell">
+  <nav id="sidenav" class="sidenav" aria-label="Temas">
+    <ul>
+{{nav}}
+    </ul>
+    <p class="navnote">Material no oficial. Explicaciones originales basadas en los apuntes de 220375 (ESEIAAT-UPC).</p>
+  </nav>
+  <main id="main" class="content">
+{{content}}
+  </main>
+</div>
+<footer class="foot">
+  <p>Material de estudio <strong>no oficial</strong> para 220375 Elements Resistents en l'Aeronàutica (MUEA, ESEIAAT-UPC).
+  Las referencias a diapositivas remiten a los apuntes de la asignatura en Atenea, que no se reproducen aquí.</p>
+</footer>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/fem.js"></script>
+<script defer src="assets/js/widgets.js"></script>
+<script defer src="assets/js/quiz.js"></script>
+</body>
+</html>

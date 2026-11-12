@@ -1,0 +1,53 @@
+<!--meta
+title: Banco de preguntas y simulacro de oral
+nav: 11
+short: Preguntas y simulacro
+-->
+<p class="kicker">Preparar el oral</p>
+<h1>Banco de preguntas y simulacro de oral</h1>
+<p class="lede">Tres tipos de pregunta: <strong>concepto</strong> (opción múltiple con explicación), <strong>explica/deriva</strong> (responde en voz alta o en papel
+y luego compara con la respuesta modelo) y <strong>cálculo</strong> (corrección inmediata). Tu progreso por tema se guarda en este navegador.</p>
+
+<div id="quiz-app">
+  <div class="qtoolbar" role="tablist">
+    <button class="wbtn primary" data-mode="practice">Practicar</button>
+    <button class="wbtn" data-mode="mock" id="mock-tab">Simulacro de oral</button>
+    <button class="wbtn" data-mode="progress">Mi progreso</button>
+  </div>
+  <section id="mode-practice">
+    <div class="qtoolbar">
+      <label>Tema <select id="f-topic"></select></label>
+      <label>Tipo <select id="f-type">
+        <option value="">Todos</option><option value="mcq">Concepto</option><option value="explain">Explica/deriva</option><option value="num">Cálculo</option>
+      </select></label>
+      <label>Mostrar <select id="f-status">
+        <option value="">Todas</option><option value="todo">Pendientes o falladas</option>
+      </select></label>
+      <span id="f-count" class="svg-muted" style="font-size:14px"></span>
+    </div>
+    <div id="qlist"></div>
+  </section>
+  <section id="mode-mock" hidden>
+    <div class="card">
+      <p><strong>Simulacro.</strong> Se extrae una pregunta de «explica/deriva» o de concepto por cada tema elegido, en orden aleatorio, como haría el profesor.
+      Tienes un tiempo por pregunta para contestar en voz alta. Después revela la respuesta modelo y puntúate con sinceridad.</p>
+      <div class="qtoolbar">
+        <label>Temas <select id="m-scope">
+          <option value="all">Todo el temario + trabajos</option>
+          <option value="theory">Solo teoría (temas 1-9)</option>
+          <option value="A1">Oral del trabajo 1 (temas 2-5 + A1)</option>
+          <option value="A2">Oral del trabajo 2 (temas 3, 5 + A2)</option>
+          <option value="A3">Oral del trabajo 3 (temas 6-9 + A3)</option>
+        </select></label>
+        <label>Preguntas <select id="m-n"><option>5</option><option selected>8</option><option>12</option></select></label>
+        <label>Tiempo por pregunta <select id="m-t"><option value="90">1:30</option><option value="120" selected>2:00</option><option value="180">3:00</option></select></label>
+        <button class="wbtn primary" id="m-start">Empezar</button>
+      </div>
+    </div>
+    <div id="mock-area"></div>
+  </section>
+  <section id="mode-progress" hidden>
+    <div id="progress-area"></div>
+    <button class="wbtn" id="p-reset">Borrar mi progreso</button>
+  </section>
+</div>

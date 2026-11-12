@@ -1,0 +1,72 @@
+<!--meta
+title: Tema 8 · Secciones de pared delgada: aproximaciones
+nav: 8
+short: 8 · Pared delgada
+topic: t08
+-->
+<p class="kicker">Tema 8</p>
+<h1>Secciones de pared delgada: aproximaciones e idealización</h1>
+<p class="lede">En las estructuras aeronáuticas el espesor es mucho menor que las dimensiones de la sección. Eso permite trabajar con la
+línea media y despreciar los términos en $t^2$ y $t^3$, y vuelve las propiedades de sección casi triviales de calcular.</p>
+
+<div class="video-slot" data-video="t08"></div>
+
+<h2>1. Hipótesis de pared delgada</h2>
+<ol>
+  <li>El espesor $t$ es pequeño frente a las dimensiones de la sección ($t \ll D$).</li>
+  <li>Las tensiones son <strong>constantes a través del espesor</strong> (salvo en torsión).</li>
+  <li>Se desprecian $t^2, t^3, \dots$ al calcular las propiedades de sección.</li>
+  <li>La sección se representa por la <strong>línea media</strong> de sus paredes, con $dA = t\,ds$.</li>
+</ol>
+<p>Una consecuencia: la inercia propia de una pared respecto a su eje longitudinal, $Lt^3/12$, es despreciable. Por ejemplo, en un cajón de lado $a$, las paredes paralelas al eje de flexión contribuyen
+solo con su término de Steiner.</p>
+
+<h2>2. Pared recta inclinada</h2>
+<p>Pared de longitud $a$ y espesor $t$, centrada en el origen e inclinada $\theta$ respecto a $x$. Con $x = s\cos\theta$, $y = s\sin\theta$, $dA = t\,ds$:</p>
+$$I_{xx} = \int_{-a/2}^{a/2}(s\sin\theta)^2t\,ds = \frac{ta^3}{12}\sin^2\theta,\quad I_{yy} = \frac{ta^3}{12}\cos^2\theta,\quad I_{xy} = \frac{ta^3}{24}\sin2\theta .$$
+<p>Casos límite: $\theta = 90°$ (alma vertical) da $I_{xx} = ta^3/12$, y $\theta = 0$ da $I_{xx}\approx 0$ (solo el término $at^3/12$, despreciado).</p>
+
+<h2>3. Pared curva: arco y círculo</h2>
+<p>Arco de radio $r$ con $s = r\theta$, $ds = r\,d\theta$, $x = r\cos\theta$, $y = r\sin\theta$:</p>
+$$I_{xx} = \int y^2\,t\,r\,d\theta = t r^3\int\sin^2\theta\,d\theta,\qquad I_{yy} = t r^3\int\cos^2\theta\,d\theta .$$
+<ul>
+  <li><strong>Círculo completo</strong>: $I_{xx} = I_{yy} = \pi r^3 t$, con área $A = 2\pi rt$.</li>
+  <li><strong>Semicírculo</strong> ($x\le0$, de $\theta=\pi/2$ a $3\pi/2$): $I_{xx} = \tfrac12\pi r^3t$, área $\pi rt$, centroide en $\bar x = -2r/\pi$. Respecto a su centroide, $I_{yy} = \tfrac{\pi}{2}r^3t - A\bar x^2 \approx 0{,}30\,r^3t$.</li>
+</ul>
+<div class="box key">
+  <span class="box-title">Secciones compuestas (cuerda + arco, cajones, perfiles)</span>
+  <p>Calcula las propiedades de cada pared respecto a <em>sus</em> ejes, ponlas todas respecto a un sistema común con Steiner, halla el centroide
+  $\bar y = \sum A_i y_i/\sum A_i$ y traslada al centroide: $I_{xx} = \sum I_i + \sum A_i y_i^2 - A\bar y^2$. Si una pared corta a otra (un suelo que corta el círculo),
+  calcula primero los puntos de intersección para conocer la longitud de la cuerda.</p>
+</div>
+
+<div class="widget" data-widget="thinwall">
+  <p class="widget-title">¿Cuánto se equivoca la aproximación de pared delgada?</p>
+  <p class="widget-sub">Tubo circular: propiedad exacta (anillo) frente a la aproximación $\pi r^3t$, y pared inclinada: $I_{xx}$ en función de $\theta$. Aumenta $t/r$ y observa cuándo deja de valer.</p>
+</div>
+
+<h2>4. Ejemplo del curso: sección en Z</h2>
+<p>Alma $h$, alas $h/2$, espesor $t$ uniforme, centroide en el centro del alma (antisimetría). Despreciando los términos marcados como pequeños:</p>
+$$I_{xx} = \frac{th^3}{12} + 2\cdot\frac h2 t\left(\frac h2\right)^2 = \frac{th^3}{3},\qquad I_{yy} = 2\left[\frac{t}{12}\left(\frac h2\right)^3 + \left(\frac h4\right)^2\frac{th}{2}\right] = \frac{th^3}{12},\qquad I_{xy} = \frac{th^3}{8}.$$
+<p>Con un momento $M_x$ positivo, $\sigma_z = \dfrac{I_{yy}y - I_{xy}x}{I_{xx}I_{yy}-I_{xy}^2}M_x = \dfrac{M_x}{th^3}(6{,}86\,y - 10{,}3\,x)$. El eje neutro es $y = \tfrac32x$
+y la tensión máxima, $3{,}43\,M_x/(th^2)$, aparece en las uniones alma-ala, no en las puntas de las alas. Explóralo en el widget del
+<a href="t07-flexion.html">tema 7</a> (forma «Z» con $b = h/2$).</p>
+
+<h2>5. Complemento: idealización en largueros (booms)</h2>
+<p>En una sección semimonocasco real, la tensión normal la llevan sobre todo los larguerillos. El modelo idealizado concentra el área en
+<strong>booms</strong> que solo resisten tensión normal, mientras que el revestimiento solo resiste cortante. Si el revestimiento también trabaja a flexión, su
+contribución se reparte entre los booms adyacentes. Para un panel de anchura $b$ y espesor $t_D$ entre los booms 1 y 2:</p>
+$$B_1 = \frac{t_Db}{6}\left(2 + \frac{\sigma_2}{\sigma_1}\right).$$
+<p>Así se modela el ejemplo de la viga cajón con cuatro largueros de las diapositivas, con el revestimiento «inefectivo en flexión», donde se usan solo las áreas de las alas.
+Con booms, las integrales de sección se convierten en sumas: $I_{xx} = \sum B_iy_i^2$ e $\int t\,y\,ds \to \sum B_iy_i$ en el flujo de cortante.</p>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>Enuncia las hipótesis de pared delgada y explica qué términos se desprecian y por qué.</li>
+    <li>Deduce la inercia de una pared inclinada y la de un círculo de pared delgada.</li>
+    <li>¿Cómo calcularías el centroide y la inercia de un fuselaje circular con un suelo? Por paredes, con Steiner y la longitud de la cuerda.</li>
+    <li>¿Dónde está la tensión máxima en la Z y por qué no en las puntas?</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Bending – idealizations» (pared inclinada, sección curva, sección en Z).</p>

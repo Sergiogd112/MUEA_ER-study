@@ -1,0 +1,68 @@
+<!--meta
+title: Trabajos · guía de métodos
+nav: 10
+short: Trabajos (métodos)
+-->
+<p class="kicker">Trabajos</p>
+<h1>Guía de métodos para los tres trabajos</h1>
+<p class="lede">Qué se pide y cómo plantearlo, con los temas que usa cada uno. <strong>No hay resultados aquí</strong>: las soluciones solo
+se publicarán cuando haya pasado la fecha de entrega. En el oral te preguntarán el porqué de cada decisión, así que mira también las preguntas de la
+categoría «Trabajos» del <a href="quiz.html">banco</a>.</p>
+
+<div class="box key">
+  <span class="box-title">Formato común (plan de trabajo)</span>
+  <ul>
+    <li>Código propio (MATLAB recomendado) siguiendo las guías ALG_2DBAR / ALG_1DBEAM y las plantillas de Atenea.</li>
+    <li>Informe: nombres del grupo (máximo 2), resumen sintético de los pasos, respuesta a <em>todas</em> las preguntas y conclusiones.</li>
+    <li>Un ZIP con el informe y todos los ficheros <code>.m</code>; solo entrega un miembro.</li>
+    <li>Fechas: A1 26 nov, A2 17 dic, A3 8 ene (o todo junto hasta el 15 ene). El oral de cada trabajo es el 20 ene.</li>
+  </ul>
+</div>
+
+<h2>Trabajo 1 · Barras 2D: mecanismo flexible</h2>
+<p>Celosía plana de dos materiales con un muelle entre dos nodos, un nodo fijo y desplazamientos verticales impuestos en otros dos. Después, un cambio uniforme de temperatura.
+<strong>Temas: <a href="t02-barras-1d.html">2</a>, <a href="t03-celosias-2d-3d.html">3</a>, <a href="t04-tension-inicial.html">4</a>, <a href="t05-pandeo.html">5</a>.</strong></p>
+<ol>
+  <li>Completa las funciones de la plantilla: <code>connectDOFs</code> ($\mathbf T_d$), <code>computeKelBar</code>, <code>assemblyKG</code>, <code>computeF</code>, <code>applyCond</code>, <code>solveSys</code> y <code>computeStrainStressBar</code>.</li>
+  <li>Lee la conectividad de la figura con cuidado y dibuja tu propia numeración de barras para el informe.</li>
+  <li>El muelle es un elemento barra cuya rigidez axial $EA/L$ vale $k$.</li>
+  <li>Desplazamientos impuestos: van en $\mathbf u_R$ con su signo, y $\mathbf K_{LR}\mathbf u_R$ actúa como carga.</li>
+  <li>Temperatura: $\sigma_0 = -E\alpha\Delta T$ y fuerzas nodales equivalentes. No olvides sumar $\sigma_0$ a la tensión.</li>
+  <li>Sin desplazamientos impuestos: elimina los 3 modos rígidos con un apoyo isostático y justifica la elección.</li>
+  <li>Pandeo: $\sigma_{cr} = \pi^2EI/(L^2A)$ en cada barra comprimida.</li>
+  <li>Antes de escribir, pregúntate qué te dicen el <strong>equilibrio de momentos</strong> y el <strong>grado de hiperestatismo</strong>. Un buen informe explica los resultados además de listarlos.</li>
+</ol>
+
+<h2>Trabajo 2 · Barras 3D: ala delta</h2>
+<p>Estructura espacial de tubos y cables que desciende a velocidad constante. Cargas: masa suspendida, peso propio de las barras, sustentación y resistencia repartidas,
+y la fuerza del piloto que evita el giro. Después, una ráfaga.
+<strong>Temas: <a href="t03-celosias-2d-3d.html">3</a> (3D, fuerzas de volumen e inercia), <a href="t05-pandeo.html">5</a>.</strong></p>
+<ol>
+  <li>Generaliza las funciones a 3D: $\mathbf K^e$ de 6×6 con los cosenos directores.</li>
+  <li>Peso propio: $\rho gAl/2$ en cada nodo de cada barra (tubo: $A = \frac\pi4(D^2-d^2)$, $I = \frac{\pi}{64}(D^4-d^4)$; varilla maciza: $A=\frac\pi4D^2$).</li>
+  <li><strong>Equilibrio global primero</strong>: con la estructura como sólido rígido, plantea $\sum F = 0$ y $\sum M = 0$ para obtener $L$, $D$ y $T$ (vuelo a velocidad constante).</li>
+  <li>Las cargas quedan autoequilibradas, así que basta con prescribir 6 grados de libertad que eliminen los modos rígidos. Las reacciones deben salir (casi) nulas: es la comprobación.</li>
+  <li>Ráfaga: las cargas aerodinámicas crecen un 15 %. El momento extra lo compensa el piloto con $T'$ y la fuerza neta en $x$ y $z$ produce una aceleración. Aplica d'Alembert: fuerzas de inercia $-m\,\mathbf a$ repartidas según la masa de cada nodo.</li>
+  <li>Los cables (varillas finas) solo deberían trabajar a tracción. Si alguno sale comprimido, coméntalo.</li>
+  <li>La plantilla menciona la función <code>plotBarStress3D</code>; si no la tienes, adapta <code>plotBarStressDef</code> a 3D (<code>plot3</code>/<code>patch</code> con <code>z</code>).</li>
+</ol>
+
+<h2>Trabajo 3 · Vigas 1D: fuselaje posterior</h2>
+<p>Fuselaje trasero modelado como voladizo con masa repartida variable, sustentación del fuselaje, APU en la punta y carga de cola, más una sección circular de pared delgada con suelo.
+<strong>Temas: <a href="t06-vigas-fem.html">6</a>, <a href="t07-flexion.html">7</a>, <a href="t08-idealizacion.html">8</a>, <a href="t09-cortante.html">9</a>.</strong></p>
+<ol>
+  <li>A) Propiedades de la sección: centroide e inercia de un círculo de pared delgada más una cuerda (el suelo). La longitud de la cuerda sale de la intersección con el círculo. Usa Steiner.</li>
+  <li>B) Carga de cola: $M_z(0) = 0$ es una ecuación de momentos en el empotramiento con todas las cargas: integrales de $\lambda(x)g$ y $q(x)$ por su brazo, más las cargas puntuales.</li>
+  <li>C) Elementos viga: carga por elemento con su valor medio $\bar q^e$ (fuerzas consistentes), cargas puntuales en el nodo de la punta y postproceso con la guía ALG_1DBEAM.</li>
+  <li>D) Convergencia: error relativo de la flecha en la punta frente a una malla muy fina, en escala logarítmica. Comenta la pendiente.</li>
+  <li>E) Sección crítica: combina $\sigma$ de flexión y $\tau$ del flujo de cortante. La sección con suelo es <strong>cerrada y de dos células</strong>: piensa cómo repartir el cortante y cómo afecta a $\tau$. Aplica von Mises punto a punto.</li>
+</ol>
+
+<div class="box oral">
+  <span class="box-title">Para el oral de cada trabajo</span>
+  <ul>
+    <li>Sabe abrir tu código y señalar dónde se ensambla, dónde entran las condiciones de contorno y dónde se calcula la tensión.</li>
+    <li>Ten preparadas dos o tres comprobaciones independientes: equilibrio global, un caso analítico sencillo, una malla más fina.</li>
+    <li>Prepara una frase que explique cada resultado «sorprendente».</li>
+  </ul>
+</div>

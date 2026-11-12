@@ -1,0 +1,93 @@
+<!--meta
+title: Tema 9 · Cortante en secciones abiertas y cerradas
+nav: 9
+short: 9 · Cortante
+topic: t09
+-->
+<p class="kicker">Tema 9</p>
+<h1>Cortante en vigas de pared delgada: secciones abiertas y cerradas</h1>
+<p class="lede">El cortante no se reparte uniformemente: fluye por las paredes como un caudal. El <strong>flujo de cortante</strong> $q = \tau t$
+se obtiene del equilibrio longitudinal de un elemento de pared. En una sección cerrada hace falta además una ecuación de momentos.</p>
+
+<div class="video-slot" data-video="t09"></div>
+
+<h2>1. Hipótesis</h2>
+<ol>
+  <li>Pared delgada, sección uniforme a lo largo de la viga (el espesor puede variar con $s$).</li>
+  <li>Efectos de restricción axial despreciables. Las tensiones normales a la superficie de la pared son nulas.</li>
+  <li>Las tensiones tangenciales son constantes a través del espesor: se trabaja con $q(s) = \tau(s)\,t(s)$.</li>
+</ol>
+<p>La coordenada $s$ recorre la línea media desde un origen conveniente.</p>
+
+<h2>2. Equilibrio de un elemento de pared</h2>
+<p>En dirección $z$, para un elemento $\delta s\times\delta z$ (sin cargas de volumen):</p>
+$$\frac{\partial q}{\partial s} + t\,\frac{\partial\sigma_z}{\partial z} = 0 .$$
+<p>Con la fórmula de flexión del tema 7 y $S_y = \dfrac{\partial M_x}{\partial z}$, $S_x = -\dfrac{\partial M_y}{\partial z}$ (convenio del curso):</p>
+$$\frac{\partial\sigma_z}{\partial z} = \frac{S_xI_{xx}-S_yI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\,x + \frac{S_yI_{yy}-S_xI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\,y .$$
+
+<h2>3. Secciones abiertas</h2>
+<p>Integrando desde un borde libre (donde $q=0$):</p>
+$$\boxed{\ q(s) = -\frac{S_xI_{xx}-S_yI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\int_0^s t\,x\,ds - \frac{S_yI_{yy}-S_xI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\int_0^s t\,y\,ds\ }$$
+<p>Si $x$ o $y$ es eje de simetría ($I_{xy}=0$):</p>
+$$q(s) = -\frac{S_x}{I_{yy}}\int_0^s t\,x\,ds - \frac{S_y}{I_{xx}}\int_0^s t\,y\,ds .$$
+<p>Las integrales son los <strong>momentos estáticos</strong> de la parte de sección recorrida. Por eso $q$ es lineal en las paredes paralelas al eje neutro y parabólica en las perpendiculares,
+y es máximo donde se cruza el eje neutro. Un $q$ negativo significa que fluye en sentido contrario a $s$.</p>
+<p>Esta fórmula supone que la carga pasa por el <strong>centro de cortante</strong>: así la sección no gira. Si no pasa, al cortante se le suma un torsor.</p>
+
+<h2>4. Centro de cortante</h2>
+<p>Es el punto de la sección por el que deben pasar las cargas cortantes para que no haya torsión. Se halla igualando el momento de la resultante con el momento de los flujos
+respecto a un punto conveniente (donde se cortan muchas paredes, para que sus flujos no den momento):</p>
+$$S_y\,\xi_S = \oint r_\perp(s)\,q(s)\,ds .$$
+<ul>
+  <li>Si la sección tiene un eje de simetría, el centro de cortante está sobre él.</li>
+  <li>En secciones en ángulo o en cruz, donde todas las paredes se cortan en un punto, el centro de cortante es ese punto.</li>
+  <li>En el canal (U) de espesor uniforme, alma $h$ y alas $b$, queda fuera de la sección, a $\xi_S = \dfrac{3b^2}{h+6b}$ del alma, en el lado contrario a las alas.</li>
+</ul>
+
+<div class="widget" data-widget="shear">
+  <p class="widget-title">Flujo de cortante y centro de cortante</p>
+  <p class="widget-sub">Sección abierta (U, Z, ángulo, sombrero) o cerrada (cajón, tubo) bajo un cortante vertical $S_y$. El diagrama dibuja $q(s)$ perpendicular a la pared y la cruz marca el centro de cortante calculado.</p>
+</div>
+
+<h2>5. Secciones cerradas</h2>
+<p>En una sección cerrada no hay borde libre, así que el valor de $q$ en el origen es una incógnita $q_{s,0}$. Se «corta» la sección en $s=0$,
+se calcula el flujo abierto y se añade una constante:</p>
+$$q(s) = q_{\text{open}}(s) + q_{s,0}.$$
+<p>$q_{s,0}$ sale del equilibrio de momentos respecto a un punto $A$: el momento de la carga aplicada iguala al de los flujos. Como $\oint \mathbf r\times\mathbf t\,ds = 2A_{in}\,\mathbf e_3$,
+con $A_{in}$ el área encerrada por la línea media,</p>
+$$2A_{in}\,q_{s,0}\,\mathbf e_3 = \mathbf r_A\times\mathbf S - \oint\mathbf r(s)\times\mathbf q_{\text{open}}(s)\,ds .$$
+<p>Si $A$ está sobre la línea de acción de $\mathbf S$, el primer término desaparece. Si la sección es simétrica y la carga actúa en el plano de simetría, se puede elegir el origen sobre ese eje,
+donde $q=0$, y entonces $q_{s,0}=0$.</p>
+<div class="box key">
+  <span class="box-title">Tubo circular de pared delgada</span>
+  <p>Con $S_y$ por el centro y $I_{xx} = \pi r^3t$: $q(\theta) = \dfrac{S_y}{\pi r}\cos\theta$ (con $\theta$ medido desde el eje neutro), así que
+  $\tau_{\max} = \dfrac{S_y}{\pi rt} = \dfrac{2S_y}{A}$ en el eje neutro: el doble del cortante medio.</p>
+</div>
+
+<h2>6. Combinación con flexión: punto crítico</h2>
+<p>En cada punto de la pared hay a la vez $\sigma_z$ (flexión, máxima lejos del eje neutro) y $\tau$ (cortante, máxima cerca del eje neutro). El criterio de von Mises para
+este estado plano es</p>
+$$\sigma_{VM} = \sqrt{\sigma_z^2 + 3\tau^2}.$$
+<p>Hay que recorrer la sección más solicitada (y, si hace falta, varias secciones) buscando el máximo. Este es el procedimiento del apartado E del trabajo 3.</p>
+
+<div class="card">
+<p><strong>Ejercicio.</strong> Canal de espesor $t$ uniforme, alma $h = 200$ mm y alas $b = 100$ mm, con $S_y = 10$ kN. Halla el flujo en la unión ala-alma, el máximo y el centro de cortante.</p>
+<details class="sol"><summary>Solución</summary>
+<p>$I_{xx} = \dfrac{th^3}{12} + 2bt\left(\dfrac h2\right)^2 = \dfrac{th^2(h+6b)}{12}$. En el ala, desde la punta: $|q| = \dfrac{S_y}{I_{xx}}\,t\,\dfrac h2\,s$.
+En la unión ($s=b$): $|q_1| = \dfrac{S_y\,t\,hb/2}{I_{xx}} = \dfrac{6S_yb}{h(h+6b)} = 37{,}5$ N/mm.</p>
+<p>En el alma la parábola alcanza su máximo en el eje neutro: $|q_{\max}| = \dfrac{S_yt}{I_{xx}}\left(\dfrac{hb}{2} + \dfrac{h^2}{8}\right) = 56{,}25$ N/mm.</p>
+<p>Centro de cortante: tomando momentos respecto al punto medio del alma, solo las alas dan momento, $2\cdot\tfrac12 q_1 b\cdot\tfrac h2$, de donde
+$\xi_S = \dfrac{q_1bh}{2S_y} = \dfrac{3b^2}{h+6b} = 37{,}5$ mm desde el alma, hacia fuera. Compruébalo en el widget. Los resultados no dependen de $t$, porque $t$ se cancela.</p>
+</details>
+</div>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>Deduce $\partial q/\partial s = -t\,\partial\sigma_z/\partial z$ y de ahí la fórmula de $q(s)$.</li>
+    <li>¿Por qué $q=0$ en un borde libre? ¿Qué cambia en una sección cerrada y cómo se calcula $q_{s,0}$?</li>
+    <li>Define el centro de cortante y explica dónde está en un canal y por qué.</li>
+    <li>¿Dónde es máxima la tensión de cortante en un tubo y por qué no coincide con el máximo de $\sigma_z$? ¿Cómo combinas ambas?</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Shear of open and closed thin-walled beams» (ejemplos de flujo en sección abierta, centro de cortante y sección cerrada).</p>

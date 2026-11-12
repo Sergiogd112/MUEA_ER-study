@@ -1,0 +1,82 @@
+<!--meta
+title: Tema 7 · Flexión simétrica y asimétrica
+nav: 7
+short: 7 · Flexión
+topic: t07
+-->
+<p class="kicker">Tema 7</p>
+<h1>Flexión de vigas: simétrica y asimétrica</h1>
+<p class="lede">Las estructuras aeronáuticas (ala, fuselaje, cola) son vigas de pared delgada que trabajan a flexión, cortante, torsión y axil.
+Este tema da la tensión normal producida por los momentos flectores en cualquier sección, sea simétrica o no.</p>
+
+<div class="video-slot" data-video="t07"></div>
+
+<h2>1. Contexto: estructuras semimonocasco</h2>
+<p>Las cargas aerodinámicas actúan en el centro de presiones y, junto al peso, producen en cada sección <strong>axil, cortantes $S_x, S_y$,
+flectores $M_x, M_y$ y torsor $T$</strong>. Frente a las estructuras de celosía (tubos soldados) y las monocasco puras (solo revestimiento), casi todos los aviones
+son <strong>semimonocasco</strong>: revestimiento con larguerillos, cuadernas y costillas. Los larguerillos y los largueros llevan la tensión de flexión y el revestimiento lleva el cortante.</p>
+
+<h2>2. Flexión pura simétrica (Euler-Bernoulli)</h2>
+<p>Hipótesis: la sección plana sigue plana y perpendicular al eje deformado, los desplazamientos son pequeños y el material es elástico lineal.
+Las fibras de la <strong>superficie neutra</strong> no cambian de longitud. Con curvatura $\kappa = 1/\rho \approx w''$:</p>
+$$\varepsilon_z = \frac{y}{\rho},\qquad \sigma_z = E\frac{y}{\rho},\qquad M_x = \int_A\sigma_z\,y\,dA = \frac{E I_{xx}}{\rho}\ \Rightarrow\ \boxed{\sigma_z = \frac{M_x\,y}{I_{xx}}}$$
+<p>El axil nulo, $\int\sigma\,dA = 0$, obliga a que el eje neutro pase por el <strong>centroide</strong>. Ejemplo de la importancia de la orientación: un rectángulo $b\times h$
+con $h = 3{,}5\,b$ es $3{,}5^2 \approx 12$ veces más rígido de canto ($bh^3/12$) que de plano ($hb^3/12$).</p>
+
+<h2>3. Flexión asimétrica</h2>
+<p>Si la sección no tiene un eje de simetría alineado con el momento ($I_{xy}\neq0$), un momento $M_x$ produce también curvatura en el otro plano. Con ejes $x, y$
+<strong>centroidales</strong> y momentos como vectores según la regla de la mano derecha ($z$ a lo largo de la viga), el convenio del curso es</p>
+$$\boxed{\ \sigma_z = -\left(\frac{M_yI_{xx}+M_xI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\right)x + \left(\frac{M_xI_{yy}+M_yI_{xy}}{I_{xx}I_{yy}-I_{xy}^2}\right)y\ }$$
+<p>con $I_{xx}=\int y^2dA$, $I_{yy}=\int x^2dA$, $I_{xy}=\int xy\,dA$. Si $I_{xy}=0$ se reduce a $\sigma_z = \dfrac{M_xy}{I_{xx}} - \dfrac{M_yx}{I_{yy}}$.
+El signo menos aparece porque un $M_y$ positivo comprime las fibras con $x>0$.</p>
+<div class="box warn">
+  <span class="box-title">Ojo con los convenios</span>
+  <p>El libro de Megson define $M_y$ con otro signo y su fórmula tiene los signos cambiados. Usa siempre el convenio del curso y compruébalo con un caso simétrico sencillo.</p>
+</div>
+<h3>Eje neutro</h3>
+<p>Es el lugar de $\sigma_z=0$: una recta por el centroide con</p>
+$$\frac{y_{NA}}{x_{NA}} = \frac{M_yI_{xx}+I_{xy}M_x}{M_xI_{yy}+I_{xy}M_y}.$$
+<p>En general <strong>no</strong> es perpendicular al plano del momento. La tensión máxima está en el punto más alejado del eje neutro, no del eje $x$.</p>
+<h3>Ejes principales</h3>
+<p>Girando los ejes un ángulo $\alpha$ con $\tan2\alpha = -\dfrac{2I_{xy}}{I_{xx}-I_{yy}}$ se anula el producto de inercia, y en esos ejes vale la fórmula simétrica en cada dirección. Los momentos principales son</p>
+$$I_{1,2} = \frac{I_{xx}+I_{yy}}{2}\pm\sqrt{\left(\frac{I_{xx}-I_{yy}}{2}\right)^2+I_{xy}^2}.$$
+
+<h3>Procedimiento</h3>
+<ol>
+  <li>Centroide: $\bar x = \sum A_i x_i/\sum A_i$, $\bar y = \sum A_iy_i/\sum A_i$.</li>
+  <li>Inercias respecto al centroide (Steiner): $I_{xx}=\sum(I_{xx,i}+A_i\bar y_i^2)$, ídem $I_{yy}$, e $I_{xy}=\sum(I_{xy,i}+A_i\bar x_i\bar y_i)$.</li>
+  <li>Momentos en la sección ($M_x$, $M_y$) a partir de las cargas.</li>
+  <li>$\sigma_z$ en cada punto con la fórmula general; eje neutro; punto crítico.</li>
+</ol>
+
+<div class="widget" data-widget="section">
+  <p class="widget-title">Sección de pared delgada a flexión</p>
+  <p class="widget-sub">Elige la forma, sus dimensiones y los momentos. Se dibujan el centroide, los ejes principales, el eje neutro y $\sigma_z$ a lo largo de la línea media (rojo tracción, azul compresión).</p>
+</div>
+
+<div class="card">
+<p><strong>Ejemplo (sección en Z).</strong> Alma vertical $h=200$ mm, alas $b=100$ mm (superior hacia $+x$, inferior hacia $-x$) y espesor $t=8$ mm,
+con aproximación de pared delgada. Actúa $M_x = 10$ kN·m. Halla las tensiones máximas.</p>
+<details class="sol"><summary>Solución</summary>
+<p>Por antisimetría, el centroide está en el centro del alma. Despreciando términos en $t^3$:</p>
+$$I_{xx} = \frac{th^3}{12} + 2bt\left(\frac h2\right)^2 = 21{,}33\times10^6,\quad I_{yy} = \frac{2tb^3}{3} = 5{,}33\times10^6,\quad I_{xy} = \frac{htb^2}{2} = 8{,}00\times10^6\ \text{mm}^4.$$
+<p>Con $M_y=0$: $\sigma_z = \dfrac{M_x}{I_{xx}I_{yy}-I_{xy}^2}\left(-I_{xy}\,x + I_{yy}\,y\right) = -1{,}607\,x + 1{,}071\,y$ (MPa, mm).</p>
+<p>Unión alma-ala superior $(0, 100)$: $\sigma = +107{,}1$ MPa. Punta del ala superior $(100,100)$: $-53{,}6$ MPa. Por antisimetría, abajo los signos se invierten.
+El eje neutro es $y = 1{,}5\,x$ (56,3° respecto a $x$). La fórmula simétrica habría dado $M_xy/I_{xx} = 46{,}9$ MPa: <strong>menos de la mitad</strong> de la tensión real.</p>
+</details>
+</div>
+
+<h2>4. Cargas transversales: relación con el cortante</h2>
+<p>Con cargas transversales, $M$ varía a lo largo de la viga y aparece el cortante: $\dfrac{dS}{dz} = -q$, $\dfrac{dM}{dz} = -S$ (convenio del curso).
+La variación de $\sigma_z$ a lo largo del eje es la que origina el <a href="t09-cortante.html">flujo de cortante</a> del tema 9.</p>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>¿Por qué el eje neutro pasa por el centroide? Porque en flexión pura el axil es nulo.</li>
+    <li>¿Qué indica $I_{xy}\neq0$ y cuándo es nulo? Es nulo si $x$ o $y$ es eje de simetría.</li>
+    <li>¿Por qué el eje neutro no es perpendicular al plano de carga en flexión asimétrica, y cómo encuentras el punto crítico?</li>
+    <li>Escribe la fórmula general y deduce el caso simétrico.</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Bending, shear and torsion of thin-walled beams» (flexión simétrica y asimétrica, ejemplo de la viga cajón de cuatro largueros).</p>

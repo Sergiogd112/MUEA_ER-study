@@ -1,0 +1,78 @@
+<!--meta
+title: Tema 1 · Introducción e idealización estructural
+nav: 1
+short: 1 · Introducción
+topic: t01
+-->
+<p class="kicker">Tema 1</p>
+<h1>Introducción e idealización estructural</h1>
+<p class="lede">Antes de calcular nada hay que decidir <em>qué modelo</em> representa cada pieza del avión. Este tema fija el
+problema estructural y el vocabulario que usarás en todo el curso.</p>
+
+<div class="video-slot" data-video="t01"></div>
+
+<h2>1. Cargas sobre la estructura</h2>
+<p>El avión está cargado por fuerzas de superficie y de volumen:</p>
+<ul>
+  <li><strong>Peso</strong> de todos los componentes (y de la carga de pago), distribuido según la masa.</li>
+  <li><strong>Sustentación</strong> $L$ y <strong>resistencia</strong> $D$: resultantes de la presión y la fricción del aire.</li>
+  <li><strong>Empuje</strong> $T$ del motor.</li>
+  <li>Cargas de <strong>maniobra y ráfaga</strong> (factor de carga $n = L/W \neq 1$), <strong>presurización</strong> de cabina y <strong>aterrizaje</strong>.</li>
+</ul>
+<p>En vuelo rectilíneo uniforme las fuerzas están en equilibrio: $L = W$ y $T = D$ (con ejes de vuelo). Si no lo están,
+aparece una aceleración de sólido rígido y la estructura soporta además <strong>fuerzas de inercia</strong> $-m\,\mathbf a$
+(principio de d'Alembert). El trabajo 2 (ala delta con ráfaga) usa justo esta idea.</p>
+
+<h2>2. Componentes y su modelo</h2>
+<div class="tablewrap">
+<table class="data">
+  <thead><tr><th>Componente</th><th>Modelo</th><th>Esfuerzos que resiste</th></tr></thead>
+  <tbody>
+    <tr><td>Cables, tirantes, tubos articulados</td><td><strong>Barra</strong></td><td>Solo axil $N$ (tracción o compresión)</td></tr>
+    <tr><td>Largueros (spars), larguerillos (stringers), largueros de fuselaje</td><td><strong>Viga</strong></td><td>Axil, cortante, flexión (y torsión)</td></tr>
+    <tr><td>Costillas (ribs), cuadernas (formers), flaps, puntera</td><td><strong>Placa</strong></td><td>Cargas en su plano y flexión de placa</td></tr>
+    <tr><td>Revestimiento, estabilizadores</td><td><strong>Lámina (shell)</strong></td><td>Membrana + flexión; en pared delgada, flujo de cortante</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Las estructuras reales son <strong>semimonocasco</strong>: un revestimiento delgado rigidizado por larguerillos y cuadernas.
+El revestimiento trabaja sobre todo a cortante y los larguerillos absorben la tensión normal de flexión. Esta es la base de la
+<a href="t08-idealizacion.html">idealización en largueros</a> del tema 8.</p>
+
+<h2>3. El problema estructural</h2>
+<p>Dadas las cargas exteriores, se buscan los <strong>esfuerzos internos</strong>, su distribución y los desplazamientos. Hay que cumplir a la vez:</p>
+<ol>
+  <li><strong>Equilibrio</strong> (leyes de Newton), en cada nodo y en cada elemento.</li>
+  <li><strong>Ecuación constitutiva</strong>: ley de Hooke $\sigma = E\varepsilon$ en material homogéneo, o la ley del laminado en un composite.</li>
+  <li><strong>Compatibilidad</strong> y <strong>condiciones de contorno</strong>: desplazamientos impuestos y apoyos.</li>
+</ol>
+<p>Las hipótesis comunes a todo el curso son <strong>pequeñas deformaciones y pequeños desplazamientos</strong> (el equilibrio
+se plantea en la geometría inicial) y <strong>material elástico lineal</strong>. Con ellas, la relación fuerza-desplazamiento es lineal:</p>
+$$\mathbf K\,\mathbf u = \mathbf F^{\text{ext}} + \mathbf R .$$
+
+<h2>4. Métodos de solución</h2>
+<ul>
+  <li><strong>Analíticos</strong>: equilibrio, métodos de compatibilidad para hiperestáticos, ecuación de la elástica. Útiles para validar.</li>
+  <li><strong>Numéricos</strong>: método de los elementos finitos (MEF/FEM). Se divide la estructura en elementos, se calcula la rigidez de cada uno,
+  se ensambla y se resuelve. Es lo que programarás en los tres trabajos.</li>
+</ul>
+<div class="box key">
+  <span class="box-title">El esquema general del MEF (se repite en todos los temas)</span>
+  <ol>
+    <li>Geometría y cargas: nodos, elementos, tablas de conectividad $\mathbf T_n$, $\mathbf T_d$.</li>
+    <li>Matrices de rigidez elementales $\mathbf K^e$ (y vectores de fuerza elementales).</li>
+    <li>Ensamblaje: $\mathbf K = \sum_e \mathbf K^e$ (cada término a su grado de libertad global).</li>
+    <li>Condiciones de contorno, partición y solución: desplazamientos libres y reacciones.</li>
+    <li>Postproceso: deformaciones, tensiones y comprobación de pandeo.</li>
+  </ol>
+</div>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>Justifica por qué un elemento se modela como barra: es esbelto y sus uniones son articuladas, así que no transmite momentos y solo trabaja a axil.</li>
+    <li>Distingue equilibrio, compatibilidad y ley constitutiva, y di dónde aparece cada uno en tu código.</li>
+    <li>Explica qué supone «pequeños desplazamientos»: el equilibrio se escribe en la geometría sin deformar. Por eso los dibujos de la deformada van <em>amplificados</em>.</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Introduction» (Aerospace Structures) del curso.</p>

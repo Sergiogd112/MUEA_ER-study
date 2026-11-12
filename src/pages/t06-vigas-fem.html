@@ -1,0 +1,79 @@
+<!--meta
+title: Tema 6 · Elemento viga 1D y 2D
+nav: 6
+short: 6 · Elemento viga
+topic: t06
+-->
+<p class="kicker">Tema 6</p>
+<h1>Elemento viga (Euler-Bernoulli) 1D y 2D</h1>
+<p class="lede">La viga añade el giro como grado de libertad y resiste cortante y flexión. Con funciones cúbicas de Hermite,
+cuatro grados de libertad por elemento bastan para reproducir la elástica exacta de una viga con cargas puntuales.</p>
+
+<div class="video-slot" data-video="t06"></div>
+
+<h2>1. Ecuaciones de la viga</h2>
+<p>Convenio del curso: eje $x$ a lo largo de la viga, flecha $w$ (o $u_y$) positiva hacia arriba, carga $q$ positiva hacia arriba.</p>
+$$M = EI\frac{d^2w}{dx^2},\qquad \frac{dM}{dx} = -S,\qquad \frac{dS}{dx} = -q\quad\Longrightarrow\quad \frac{d^2}{dx^2}\!\left(EI\frac{d^2w}{dx^2}\right) = q .$$
+<p>Condiciones de contorno típicas: flecha y giro impuestos ($w=\bar w$, $w' = \bar\theta$) en un empotramiento, y cortante y momento ($S=\bar P$, $M=\bar M$) en un extremo libre.</p>
+
+<h2>2. Matriz de rigidez del elemento</h2>
+<p>Grados de libertad por nodo: flecha $u_y$ y giro $\theta_z$. Elemento de longitud $l^e$ e inercia $I_z$:</p>
+$$\mathbf K^e = \frac{E I_z}{(l^e)^3}\begin{bmatrix}
+12 & 6l & -12 & 6l\\ 6l & 4l^2 & -6l & 2l^2\\ -12 & -6l & 12 & -6l\\ 6l & 2l^2 & -6l & 4l^2\end{bmatrix},\qquad \mathbf u^e = [u_{y1},\theta_1,u_{y2},\theta_2]^T .$$
+<p>Cada columna es el vector de fuerzas y momentos nodales que produce un desplazamiento unitario en ese grado de libertad con los demás bloqueados.
+Por eso las columnas 1 y 3 suman cero en fuerzas: equilibrio vertical.</p>
+
+<h2>3. Cargas distribuidas: fuerzas nodales equivalentes</h2>
+<p>Una carga repartida no se puede poner en los nodos «a ojo»: se sustituye por fuerzas y momentos nodales <em>consistentes</em>, con el mismo trabajo virtual.
+Para una carga uniforme $\bar q^e$ en el elemento (guía ALG_1DBEAM):</p>
+$$\mathbf F^e = \frac{\bar q^e l^e}{2}\begin{bmatrix}1\\ l^e/6\\ 1\\ -l^e/6\end{bmatrix} = \begin{bmatrix}\bar q l/2\\ \bar q l^2/12\\ \bar q l/2\\ -\bar q l^2/12\end{bmatrix}.$$
+<p>Si la carga varía (como la sustentación $q_0\cos(\pi x/2L_1)$ o la masa decreciente del trabajo 3), se usa el valor medio $\bar q^e$ en cada elemento.
+Al refinar la malla el error de esa aproximación desaparece. Las cargas puntuales (APU, cola) se colocan en un nodo.</p>
+
+<h2>4. Postproceso: esfuerzos y elástica</h2>
+<ol>
+  <li>Fuerzas internas en los nodos del elemento: $\hat{\mathbf F}^e_{int} = \mathbf K^e\mathbf u^e$. Es lo que hace la guía. Si el elemento lleva carga repartida, restar sus fuerzas equivalentes, $\mathbf K^e\mathbf u^e-\mathbf F^e$, da los esfuerzos exactos en los nodos; sin restarlas, la diferencia desaparece al refinar.</li>
+  <li>Cortante y momento con el convenio de la guía: $F_y(e,1) = -\hat F^e_{int,1}$, $F_y(e,2) = \hat F^e_{int,3}$, $M_z(e,1) = -\hat F^e_{int,2}$, $M_z(e,2) = \hat F^e_{int,4}$.</li>
+  <li>Flecha dentro del elemento: el polinomio cúbico $u_y(x') = a x'^3 + b x'^2 + c x' + d$, con</li>
+</ol>
+$$\begin{bmatrix}a\\b\\c\\d\end{bmatrix} = \frac{1}{l^3}\begin{bmatrix}2 & l & -2 & l\\ -3l & -2l^2 & 3l & -l^2\\ 0 & l^3 & 0 & 0\\ l^3 & 0 & 0 & 0\end{bmatrix}\mathbf u^e,\qquad
+\theta_z(x') = 3ax'^2 + 2bx' + c .$$
+<div class="box key">
+  <span class="box-title">Qué es exacto y qué no</span>
+  <ul>
+    <li>Con <strong>cargas puntuales</strong> en los nodos la cúbica es la solución exacta de la elástica: un elemento por tramo basta.</li>
+    <li>Con <strong>carga distribuida</strong> y fuerzas consistentes, los desplazamientos y giros <em>nodales</em> son exactos en 1D si $\bar q$ se integra exactamente. Entre nodos la cúbica no reproduce la cuártica exacta.</li>
+    <li>El cortante que sale de $\mathbf K^e\mathbf u^e$ es constante por elemento y el momento, lineal: los diagramas en escalera convergen al refinar.</li>
+  </ul>
+</div>
+
+<div class="widget" data-widget="beam">
+  <p class="widget-title">Convergencia de la viga en voladizo</p>
+  <p class="widget-sub">Voladizo con carga uniforme y carga en la punta. Cambia el número de elementos y compara con la solución exacta. En la gráfica de error (escala log-log) se ve el orden de convergencia, como se pide en el apartado D del trabajo 3.</p>
+</div>
+
+<h2>5. Elemento de pórtico 2D (axil + flexión)</h2>
+<p>Superponiendo el elemento barra (axil) y el de viga (flexión), cada nodo tiene $u_x', u_y', \theta_z$ y $\mathbf K'^e$ es de 6×6.
+Como el giro $\theta_z$ no cambia al rotar en el plano, la matriz de rotación es</p>
+$$\mathbf R^e = \begin{bmatrix}\mathbf r&\mathbf 0\\ \mathbf 0&\mathbf r\end{bmatrix},\qquad \mathbf r = \begin{bmatrix}c&s&0\\-s&c&0\\0&0&1\end{bmatrix},\qquad \mathbf K^e = \mathbf R^{eT}\mathbf K'^e\mathbf R^e .$$
+
+<div class="card">
+<p><strong>Ejercicio.</strong> Voladizo de longitud $L$ con carga $P$ hacia arriba en la punta, modelado con <em>un</em> elemento. Halla la flecha y el giro de la punta y el momento en el empotramiento.</p>
+<details class="sol"><summary>Solución</summary>
+<p>Con $u_1=\theta_1=0$ queda el sistema 2×2</p>
+$$\frac{EI}{L^3}\begin{bmatrix}12&-6L\\-6L&4L^2\end{bmatrix}\begin{bmatrix}u_2\\ \theta_2\end{bmatrix} = \begin{bmatrix}P\\0\end{bmatrix}\ \Rightarrow\ u_2 = \frac{PL^3}{3EI},\ \ \theta_2 = \frac{PL^2}{2EI}.$$
+<p>Fila 2 de $\mathbf K^e\mathbf u^e$: $\hat F_{int,2} = \frac{EI}{L^3}(-6L u_2 + 2L^2\theta_2) = -PL$, de donde $M_z(0) = PL$. Coincide con la solución exacta:
+un solo elemento es exacto para cargas puntuales.</p>
+</details>
+</div>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>¿Por qué cúbicas? Porque se necesitan 4 coeficientes para imponer 4 condiciones nodales ($u$ y $\theta$ en cada nodo), y porque la elástica sin carga es cúbica.</li>
+    <li>¿Qué son las fuerzas nodales equivalentes y por qué aparece un momento $\pm ql^2/12$?</li>
+    <li>¿Por qué los diagramas de cortante y momento salen «en escalera» y cómo mejoran al refinar?</li>
+    <li>¿Cómo se estudia la convergencia y qué solución se toma como «exacta» si no hay solución analítica? Una malla muy fina.</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Beam element 1D and 2D» y guía ALG_1DBEAM.</p>

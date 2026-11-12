@@ -1,0 +1,70 @@
+<!--meta
+title: Tema 4 · Tensión inicial y efectos térmicos
+nav: 4
+short: 4 · Tensión térmica
+topic: t04
+-->
+<p class="kicker">Tema 4</p>
+<h1>Deformación inicial, tensión inicial y efectos térmicos</h1>
+<p class="lede">Un cambio de temperatura no es una fuerza: es una deformación que la barra «quiere» tener. Que aparezcan tensiones
+depende de si la estructura le deja tenerla.</p>
+
+<div class="video-slot" data-video="t04"></div>
+
+<h2>1. Deformación y tensión inicial</h2>
+<p>Una barra que se calienta $\Delta T$ y está libre se alarga $\varepsilon_0 = \alpha\Delta T$ sin tensión. La tensión depende solo de la parte
+<em>mecánica</em> de la deformación:</p>
+$$\sigma = E\,(\varepsilon-\varepsilon_0) = E\varepsilon + \sigma_0,\qquad \sigma_0 = -E\,\varepsilon_0 = -E\alpha\Delta T .$$
+<p>$\sigma_0$ es la <strong>tensión inicial</strong>: la tensión que tendría la barra si sus extremos estuvieran bloqueados ($\varepsilon = 0$). Al calentar
+($\Delta T>0$) es de compresión.</p>
+
+<h2>2. Fuerzas nodales equivalentes</h2>
+<p>El axil de la barra pasa a ser $p^e = k^e(u_2^e-u_1^e) + A^e\sigma_0^e$, y las fuerzas que la barra ejerce sobre sus nodos son</p>
+$$\begin{bmatrix}F_1^e\\F_2^e\end{bmatrix} = \mathbf K^e\begin{bmatrix}u_1^e\\u_2^e\end{bmatrix} + A^e\sigma_0^e\begin{bmatrix}-1\\1\end{bmatrix}.$$
+<p>Al ensamblar, $\mathbf F^{\text{int}} = \mathbf K\mathbf u + \mathbf F_0^{\text{int}}$, y el equilibrio $\mathbf F^{\text{int}} = \mathbf F^{\text{ext}} + \mathbf R$ queda</p>
+$$\boxed{\ \mathbf K\mathbf u = \mathbf F^{\text{ext}} - \mathbf F_0^{\text{int}} + \mathbf R\ }$$
+<p>El término térmico se pasa al lado de las cargas. En 2D y 3D se rota igual que la rigidez (ALG_2DBAR, sección 3.1):</p>
+$$\mathbf f^e = -\mathbf R^{eT}\,\sigma_0^eA^e\begin{bmatrix}-1\\0\\1\\0\end{bmatrix} = \sigma_0^eA^e\begin{bmatrix}c\\s\\-c\\-s\end{bmatrix}.$$
+<p>Con $\sigma_0<0$ (calentamiento) estas fuerzas <em>separan</em> los nodos, como haría la barra al dilatarse. Tras resolver, la tensión de cada barra es
+$\sigma^e = \sigma_0^e + E^e\varepsilon^e$. No olvides sumar $\sigma_0$: es el error más frecuente.</p>
+
+<div class="widget" data-widget="thermal">
+  <p class="widget-title">Barra entre dos paredes y barra compuesta</p>
+  <p class="widget-sub">Compara una barra libre (dilata sin tensión), una empotrada en ambos extremos ($\sigma=-E\alpha\Delta T$) y dos barras de materiales distintos en serie entre paredes.</p>
+</div>
+
+<h2>3. ¿Cuándo hay tensiones térmicas?</h2>
+<div class="box key">
+  <span class="box-title">Regla</span>
+  <p>Una deformación inicial produce tensiones solo si el campo de <strong>dilatación libre es incompatible</strong> con los apoyos o con
+  la propia estructura.</p>
+  <ul>
+    <li><strong>Estructura isostática</strong> ($h=0$): cualquier $\varepsilon_0$ se acomoda sin tensiones; solo cambian los desplazamientos.</li>
+    <li><strong>Estructura hiperestática</strong> con un único material y $\Delta T$ uniforme, apoyada solo en un punto (o con apoyos compatibles con la homotecia): se dilata como una homotecia, sin tensiones.</li>
+    <li>Dos materiales con distinto $\alpha$ unidos de forma redundante, o apoyos que impiden la dilatación: aparecen tensiones.</li>
+  </ul>
+</div>
+<p>Para comprobarlo en el código, calcula la dilatación libre. Si con $\Delta T$ uniforme y apoyos isostáticos las reacciones son nulas pero
+todas las tensiones salen distintas de cero, hay un error de signo en $\mathbf f^e$ o falta sumar $\sigma_0$.</p>
+
+<div class="card">
+<p><strong>Ejercicio (barra compuesta entre paredes).</strong> Dos barras en serie, de longitudes $l_1,l_2$, con $E_1A_1$, $E_2A_2$ y coeficientes $\alpha_1,\alpha_2$,
+están entre dos paredes rígidas. Se calientan $\Delta T$. Halla el axil.</p>
+<details class="sol"><summary>Solución</summary>
+<p>Compatibilidad: el alargamiento total es nulo, $\Delta l_1 + \Delta l_2 = 0$, con $\Delta l_i = \dfrac{N l_i}{E_iA_i} + \alpha_i\Delta T\,l_i$ y el mismo $N$ en las dos barras (equilibrio):</p>
+$$N\left(\frac{l_1}{E_1A_1}+\frac{l_2}{E_2A_2}\right) = -\Delta T\,(\alpha_1l_1+\alpha_2l_2)\ \Rightarrow\ N = -\frac{\Delta T(\alpha_1l_1+\alpha_2l_2)}{\frac{l_1}{E_1A_1}+\frac{l_2}{E_2A_2}}.$$
+<p>Con una sola barra: $N = -EA\alpha\Delta T$, es decir, $\sigma = \sigma_0$. Por elementos finitos: el nodo intermedio es el único libre y
+$(k_1+k_2)u_2 = -(F_{0,2})$ con $F_{0,2} = A_1\sigma_{0,1} - A_2\sigma_{0,2}$, lo que lleva al mismo resultado. Pruébalo en el widget.</p>
+</details>
+</div>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>¿Por qué $\sigma_0 = -E\alpha\Delta T$ y no $+$? Porque es la tensión con la barra bloqueada, y al calentarse la barra queda comprimida.</li>
+    <li>¿Cómo entra la temperatura en el sistema? Como fuerzas nodales equivalentes que se pasan al lado de las cargas, y después hay que sumar $\sigma_0$ en el postproceso.</li>
+    <li>¿Por qué una estructura isostática no tiene tensiones térmicas? Porque los axiles se determinan solo por equilibrio, y sin cargas el equilibrio da $N=0$.</li>
+    <li>¿Por qué al quitar los desplazamientos impuestos hay que eliminar los modos rígidos? Porque, si no, $\mathbf K_{LL}$ es singular.</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Initial stress and strain» y guía ALG_2DBAR, secciones 3.1 y 5.</p>

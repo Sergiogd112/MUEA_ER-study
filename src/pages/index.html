@@ -1,0 +1,70 @@
+<!--meta
+title: Inicio
+nav: 0
+short: Inicio
+description: Teoría, widgets interactivos y banco de preguntas tipo oral para 220375 Elements Resistents en l'Aeronàutica.
+-->
+<p class="kicker">220375 · MUEA · ESEIAAT-UPC</p>
+<h1>Elements Resistents en l'Aeronàutica</h1>
+<p class="lede">Estudio interactivo del cálculo de estructuras aeronáuticas con <strong>elementos finitos de barra y viga</strong>,
+flexión de vigas de pared delgada y <strong>flujo de cortante</strong> en secciones abiertas y cerradas. Pensado para preparar
+los tres trabajos y la <strong>evaluación oral</strong> final.</p>
+
+<div class="box key">
+  <span class="box-title">Cómo se evalúa (plan de trabajo de la asignatura)</span>
+  <ul>
+    <li>Tres trabajos con código propio (MATLAB recomendado) e informe: resumen de los pasos, respuesta a todas las preguntas y conclusiones. Grupos de 2 como máximo.</li>
+    <li>Entregas: 26 nov, 17 dic y 8 ene, o todo junto como muy tarde el 15 ene.</li>
+    <li><strong>Evaluación oral de cada trabajo</strong> el miércoles 20 de enero de 2027 (a partir de las 10 h aprox., con reserva de hora).</li>
+  </ul>
+  <p>En el oral te pedirán que expliques <em>tu</em> código y <em>tus</em> resultados. Por eso el banco de preguntas insiste en el
+  porqué de cada paso: ensamblaje, condiciones de contorno, deformación inicial, pandeo, convergencia, cortante.</p>
+</div>
+
+<h2>Temas</h2>
+<div class="tiles">
+  <a class="tile" href="t01-introduccion.html" data-topic="t01"><span class="n">Tema 1</span><span class="t">Introducción e idealización</span><span class="d">Cargas, componentes y modelos: barra, viga, placa, lámina.</span><div class="prog"><span></span></div></a>
+  <a class="tile" href="t02-barras-1d.html" data-topic="t02"><span class="n">Tema 2</span><span class="t">Barras 1D</span><span class="d">Rigidez, ensamblaje, partición y reacciones.</span><div class="prog"><span></span></div></a>
+  <a class="tile" href="t03-celosias-2d-3d.html" data-topic="t03"><span class="n">Tema 3</span><span class="t">Celosías 2D y 3D</span><span class="d">Matriz de rotación, modos de sólido rígido, isostatismo.</span><div class="prog"><span></span></div></a>
+  <a class="tile" href="t04-tension-inicial.html" data-topic="t04"><span class="n">Tema 4</span><span class="t">Tensión inicial y térmica</span><span class="d">ε₀ = αΔT, fuerzas nodales equivalentes.</span><div class="prog"><span></span></div></a>
+  <a class="tile" href="t05-pandeo.html" data-topic="t05"><span class="n">Tema 5</span><span class="t">Pandeo de Euler</span><span class="d">Carga crítica, longitud efectiva, esbeltez.</span><div class="prog"><span></span></div></a>
+  <a class="tile" href="t06-vigas-fem.html" data-topic="t06"><span class="n">Tema 6</span><span class="t">Elemento viga 1D/2D</span><span class="d">Hermite, cargas distribuidas, convergencia.</span><div class="prog"><span></span></div></a>
+  <a class="tile" href="t07-flexion.html" data-topic="t07"><span class="n">Tema 7</span><span class="t">Flexión (no) simétrica</span><span class="d">Euler-Bernoulli, I<sub>xy</sub>, eje neutro.</span><div class="prog"><span></span></div></a>
+  <a class="tile" href="t08-idealizacion.html" data-topic="t08"><span class="n">Tema 8</span><span class="t">Idealización en largueros</span><span class="d">Booms y revestimiento, áreas equivalentes.</span><div class="prog"><span></span></div></a>
+  <a class="tile" href="t09-cortante.html" data-topic="t09"><span class="n">Tema 9</span><span class="t">Cortante en pared delgada</span><span class="d">Flujo q(s), centro de cortante, secciones cerradas.</span><div class="prog"><span></span></div></a>
+</div>
+
+<h2>Preparar el oral</h2>
+<div class="tiles">
+  <a class="tile" href="quiz.html"><span class="n">Banco de preguntas</span><span class="t">Practicar por tema</span><span class="d">Conceptos, «explica/deriva» con respuesta modelo y cálculos con corrección inmediata.</span></a>
+  <a class="tile" href="quiz.html#mock"><span class="n">Simulacro</span><span class="t">Oral aleatorio</span><span class="d">Preguntas al azar por tema con cronómetro y autoevaluación.</span></a>
+  <a class="tile" href="trabajos.html"><span class="n">Trabajos</span><span class="t">Guía de métodos</span><span class="d">Qué se pide en cada trabajo y cómo atacarlo (sin soluciones antes de la fecha de entrega).</span></a>
+</div>
+<p>El progreso de cada tema (barra verde) se guarda solo en este navegador (<code>localStorage</code>).</p>
+
+<h2>Mapa de la asignatura</h2>
+<figure>
+<svg viewBox="0 0 760 250" role="img" aria-label="Mapa: del modelo de barras al de vigas y a las secciones de pared delgada">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="svg-accent"/></marker></defs>
+  <g font-size="14">
+    <rect x="10" y="20" width="200" height="60" rx="10" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="110" y="46" text-anchor="middle" class="svg-ink" font-weight="600">Barras (axil)</text>
+    <text x="110" y="66" text-anchor="middle" class="svg-ink2">T2 · T3 · T4 · T5 → A1, A2</text>
+    <rect x="280" y="20" width="200" height="60" rx="10" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="380" y="46" text-anchor="middle" class="svg-ink" font-weight="600">Vigas (flexión)</text>
+    <text x="380" y="66" text-anchor="middle" class="svg-ink2">T6 · T7 → A3</text>
+    <rect x="550" y="20" width="200" height="60" rx="10" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <text x="650" y="46" text-anchor="middle" class="svg-ink" font-weight="600">Pared delgada</text>
+    <text x="650" y="66" text-anchor="middle" class="svg-ink2">T8 · T9 → A3 (apartado E)</text>
+    <path d="M210 50 H275" stroke="var(--accent)" stroke-width="2" marker-end="url(#ar)"/>
+    <path d="M480 50 H545" stroke="var(--accent)" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="110" y="120" text-anchor="middle" class="svg-ink2">K u = F + R</text>
+    <text x="380" y="120" text-anchor="middle" class="svg-ink2">EI w'''' = q</text>
+    <text x="650" y="120" text-anchor="middle" class="svg-ink2">σ(M), q(S)</text>
+    <rect x="145" y="160" width="470" height="62" rx="10" fill="var(--surface2)" stroke="var(--line)"/>
+    <text x="380" y="186" text-anchor="middle" class="svg-ink" font-weight="600">Siempre el mismo esquema</text>
+    <text x="380" y="207" text-anchor="middle" class="svg-ink2">geometría → rigidez elemental → ensamblaje → condiciones → solución → tensiones</text>
+  </g>
+</svg>
+<figcaption>Los tres bloques de la asignatura y los trabajos que los usan.</figcaption>
+</figure>

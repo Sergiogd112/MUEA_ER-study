@@ -1,0 +1,79 @@
+<!--meta
+title: Tema 2 · Elemento barra 1D
+nav: 2
+short: 2 · Barras 1D
+topic: t02
+-->
+<p class="kicker">Tema 2</p>
+<h1>Elemento barra 1D: rigidez, ensamblaje y solución</h1>
+<p class="lede">El caso más simple contiene ya todo el método: rigidez elemental, numeración local y global, ensamblaje,
+partición del sistema y cálculo de reacciones.</p>
+
+<div class="video-slot" data-video="t02"></div>
+
+<h2>1. Comportamiento de un elemento</h2>
+<p>Barra $e$ de área $A^e$, módulo $E^e$, nodos $1$ y $2$ en $x_1^e < x_2^e$, longitud $l^e = x_2^e - x_1^e$.
+Con desplazamientos nodales $u_1^e, u_2^e$ el desplazamiento es lineal en $x$, así que la deformación es constante:</p>
+$$u^e(x) = u_1^e + \frac{u_2^e-u_1^e}{l^e}(x-x_1^e), \qquad \varepsilon^e = \frac{\partial u}{\partial x} = \frac{u_2^e-u_1^e}{l^e}.$$
+<p>Hooke y la definición de axil dan</p>
+$$\sigma^e = E^e\varepsilon^e, \qquad p^e = A^e\sigma^e = \frac{A^eE^e}{l^e}\,(u_2^e-u_1^e) = k^e\,(u_2^e-u_1^e).$$
+<p>El equilibrio del elemento ($F_1^e + p^e = 0$, $-p^e + F_2^e = 0$) da la relación fuerza-desplazamiento elemental:</p>
+$$\begin{bmatrix}F_1^e\\ F_2^e\end{bmatrix} = \underbrace{k^e\begin{bmatrix}1&-1\\-1&1\end{bmatrix}}_{\mathbf K^e}\begin{bmatrix}u_1^e\\ u_2^e\end{bmatrix},\qquad k^e=\frac{A^eE^e}{l^e}.$$
+<div class="box key">
+  <span class="box-title">Propiedades de $\mathbf K^e$ (y de $\mathbf K$)</span>
+  <ul>
+    <li><strong>Simétrica</strong>: viene de la ley de Hooke lineal y la teoría de pequeñas deformaciones (reciprocidad de Maxwell-Betti).</li>
+    <li><strong>Semidefinida positiva</strong> y <strong>singular</strong>: un desplazamiento de sólido rígido $u_1=u_2$ no produce fuerzas. Las filas suman cero.</li>
+    <li>La singularidad de $\mathbf K$ global solo desaparece al imponer condiciones de contorno suficientes.</li>
+  </ul>
+</div>
+
+<h2>2. Ensamblaje</h2>
+<p>Cada nodo tiene dos numeraciones: <strong>local</strong> (1, 2 dentro del elemento) y <strong>global</strong> (en la estructura).
+La compatibilidad dice que los extremos que comparten un nodo global tienen el mismo desplazamiento. El equilibrio de cada nodo dice
+que la suma de las fuerzas que los elementos ejercen sobre él es la fuerza exterior más la reacción. El resultado es</p>
+$$\mathbf K = \sum_{e=1}^{n_{el}} \tilde{\mathbf K}^e,\qquad \mathbf K\,\mathbf u = \mathbf F^{\text{ext}} + \mathbf R,$$
+<p>donde $\tilde{\mathbf K}^e$ es $\mathbf K^e$ «expandida» con ceros al tamaño global. En código no se expande: se usa la
+tabla de grados de libertad $\mathbf T_d$ y se suma <code>KG(Td(e,i),Td(e,j)) += Kel(i,j,e)</code>.</p>
+
+<h2>3. Partición y solución</h2>
+<p>Se separan los grados de libertad <strong>libres</strong> ($L$, desplazamiento desconocido, fuerza conocida) y los <strong>prescritos</strong>
+($R$, desplazamiento conocido, reacción desconocida):</p>
+$$\begin{bmatrix}\mathbf K_{RR}&\mathbf K_{RL}\\ \mathbf K_{LR}&\mathbf K_{LL}\end{bmatrix}\begin{bmatrix}\mathbf u_R\\ \mathbf u_L\end{bmatrix}=\begin{bmatrix}\mathbf F^{\text{ext}}_R\\ \mathbf F^{\text{ext}}_L\end{bmatrix}+\begin{bmatrix}\mathbf R_R\\ \mathbf 0\end{bmatrix}$$
+$$\mathbf u_L = \mathbf K_{LL}^{-1}\left(\mathbf F^{\text{ext}}_L-\mathbf K_{LR}\mathbf u_R\right),\qquad
+\mathbf R_R = \mathbf K_{RR}\mathbf u_R + \mathbf K_{RL}\mathbf u_L - \mathbf F^{\text{ext}}_R .$$
+<p>Primero se resuelve la segunda fila (solo incógnitas $\mathbf u_L$), y después la primera da las reacciones. Si $\mathbf u_R \neq 0$
+(desplazamiento impuesto, como $\delta$ en el trabajo 1), el término $\mathbf K_{LR}\mathbf u_R$ actúa como una carga.</p>
+<p>Por último, en cada elemento: $\varepsilon^e = (u_2^e-u_1^e)/l^e$, $\sigma^e = E^e\varepsilon^e$ y $N^e = A^e\sigma^e$.</p>
+
+<div class="widget" data-widget="chain">
+  <p class="widget-title">Laboratorio: cadena de barras en serie</p>
+  <p class="widget-sub">Elige rigideces y cargas. La matriz global se colorea por elemento para que veas el ensamblaje: los términos que se suman en la diagonal salen de dos elementos.</p>
+</div>
+
+<h2>4. Ejemplo resuelto</h2>
+<div class="card">
+<p><strong>Enunciado.</strong> Dos barras en serie: la barra 1 (nodos 1–2) tiene $k^{(1)} = 2k$ y la barra 2 (nodos 2–3) tiene $k^{(2)} = k$. El nodo 1 está empotrado,
+el nodo 3 tiene un desplazamiento impuesto $u_3 = \Delta$ y en el nodo 2 actúa una fuerza $f_2$. Halla $u_2$, las reacciones y los axiles.</p>
+<details class="sol"><summary>Solución</summary>
+<p>Ensamblando:</p>
+$$\mathbf K = k\begin{bmatrix}2&-2&0\\-2&3&-1\\0&-1&1\end{bmatrix}.$$
+<p>El único grado de libertad libre es $u_2$ ($L = \{2\}$, $R=\{1,3\}$):</p>
+$$3k\,u_2 = f_2 - (-2k\cdot 0 - k\Delta)\ \Rightarrow\ u_2 = \frac{f_2 + k\Delta}{3k}.$$
+<p>Reacciones: $R_1 = -2k\,u_2 = -\tfrac{2}{3}(f_2+k\Delta)$ y $R_3 = -k\,u_2 + k\Delta = \tfrac{2k\Delta - f_2}{3}$.
+Comprobación: $R_1 + R_3 + f_2 = 0$ ✓.</p>
+<p>Axiles: $N^{(1)} = 2k(u_2-0) = \tfrac{2}{3}(f_2+k\Delta)$ y $N^{(2)} = k(\Delta-u_2) = \tfrac{2k\Delta-f_2}{3}$.</p>
+<p>Con $f_2 = 0$ el desplazamiento impuesto se reparte como en un divisor: $u_2 = \Delta/3$, porque la barra más blanda (2) se lleva $2\Delta/3$ del alargamiento total.</p>
+</details>
+</div>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>¿Por qué $\mathbf K$ es singular antes de imponer apoyos? Porque admite un movimiento de sólido rígido sin fuerzas: $\mathbf K\,[1\ 1\ \dots\ 1]^T = \mathbf 0$.</li>
+    <li>¿Qué significa físicamente $K_{ij}$? Es la fuerza en el grado de libertad $i$ cuando $u_j = 1$ y los demás son cero.</li>
+    <li>¿Por qué se resuelve primero la fila libre? Porque es la única con todas las incógnitas en un lado. Las reacciones salen después, por sustitución.</li>
+    <li>¿Cómo compruebas el resultado? Con el equilibrio global ($\sum R + \sum F^{\text{ext}} = 0$) y con casos simples conocidos.</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Truss structures» (barra 1D) y guía ALG_2DBAR, sección 4.</p>

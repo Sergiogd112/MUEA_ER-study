@@ -1,0 +1,96 @@
+<!--meta
+title: Tema 3 · Celosías 2D y 3D
+nav: 3
+short: 3 · Celosías 2D/3D
+topic: t03
+-->
+<p class="kicker">Tema 3</p>
+<h1>Celosías 2D y 3D: rotación, ensamblaje y modos de sólido rígido</h1>
+<p class="lede">Una barra inclinada sigue trabajando solo a axil en su eje local. La matriz de rotación lleva esa rigidez a ejes
+globales. Este tema añade además la gestión de los modos de sólido rígido y de las fuerzas de volumen e inercia.</p>
+
+<div class="video-slot" data-video="t03"></div>
+
+<h2>1. Ejes locales y matriz de rotación (2D)</h2>
+<p>Para la barra $e$ con nodos $1\to 2$: $l^e=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$, $c^e = (x_2-x_1)/l^e$, $s^e=(y_2-y_1)/l^e$.
+El eje local $x'$ va del nodo 1 al 2. Los desplazamientos locales se obtienen de los globales con</p>
+$$\mathbf u'^e = \mathbf R^e\mathbf u^e,\qquad
+\mathbf R^e=\begin{bmatrix} c&s&0&0\\ -s&c&0&0\\ 0&0&c&s\\ 0&0&-s&c\end{bmatrix},\qquad (\mathbf R^e)^{-1}=(\mathbf R^e)^T.$$
+<p>En ejes locales solo la dirección axial tiene rigidez: $\mathbf K'^e = \frac{EA}{l}$ en las posiciones $(1,1),(1,3),(3,1),(3,3)$ con signos $+,-,-,+$
+y ceros en las filas transversales. Como $\mathbf F^e=\mathbf R^{eT}\mathbf F'^e$ (las fuerzas también rotan),</p>
+$$\mathbf K^e = \mathbf R^{eT}\mathbf K'^e\mathbf R^e = \frac{E^eA^e}{l^e}\begin{bmatrix}
+c^2&cs&-c^2&-cs\\ cs&s^2&-cs&-s^2\\ -c^2&-cs&c^2&cs\\ -cs&-s^2&cs&s^2\end{bmatrix}.$$
+<p>La misma matriz se deduce de la <strong>invariancia del trabajo interno</strong>: $\delta\mathbf u'^T\mathbf F' = \delta\mathbf u^T\mathbf F$ para cualquier desplazamiento virtual.</p>
+
+<div class="widget" data-widget="rotation">
+  <p class="widget-title">Barra girada: de ejes locales a globales</p>
+  <p class="widget-sub">Cambia el ángulo y observa $c$, $s$ y la matriz $\mathbf K^e/(EA/l)$. A 0° solo trabaja la dirección $x$; a 90°, solo la $y$.</p>
+</div>
+
+<h2>2. Caso 3D</h2>
+<p>Con el vector unitario $\mathbf n = (\mathbf x_2-\mathbf x_1)/l = (c_x, c_y, c_z)$ (cosenos directores), la matriz de 6×6 es</p>
+$$\mathbf K^e = \frac{EA}{l}\begin{bmatrix}\mathbf n\mathbf n^T&-\mathbf n\mathbf n^T\\ -\mathbf n\mathbf n^T&\mathbf n\mathbf n^T\end{bmatrix},$$
+<p>que contiene el caso 2D como caso particular. La deformación se calcula proyectando el desplazamiento relativo sobre el eje:</p>
+$$\varepsilon^e = \frac{1}{l^e}\,\mathbf n^e\cdot(\mathbf u_2^e-\mathbf u_1^e) = \frac{1}{l^e}[-1\ \ 0\ \ 1\ \ 0]\,\mathbf R^e\mathbf u^e\ \ \text{(2D)},\qquad \sigma^e = E^e\varepsilon^e.$$
+<p>Signo: $\sigma>0$ es tracción. Un desplazamiento perpendicular a la barra no cambia su longitud en primer orden (pequeños desplazamientos).</p>
+
+<h2>3. Singularidad y modos de sólido rígido</h2>
+<p>$\mathbf K$ es semidefinida positiva: $\mathbf d^T\mathbf K\mathbf d \ge 0$, y vale cero para los <strong>modos de sólido rígido</strong>
+$\mathbf d_{RBM}$, que no deforman ninguna barra. Hay 1 en 1D, 3 en 2D (dos traslaciones y un giro) y 6 en 3D (tres traslaciones y tres giros).</p>
+<ul>
+  <li><strong>M1. Eliminación de modos</strong>: se prescriben tantos desplazamientos como modos haya, elegidos de forma que impidan
+  <em>todos</em> los movimientos rígidos. Por ejemplo, en 2D: un nodo con $u_x=u_y=0$ y otro nodo con el desplazamiento que impide el giro.
+  Distintas elecciones isostáticas dan las <strong>mismas tensiones</strong> y desplazamientos que difieren en un movimiento rígido.</li>
+  <li><strong>M2. Inversa generalizada espectral</strong>: si $\mathbf F$ está autoequilibrada (sin componente en los modos rígidos),
+  $\mathbf u = \sum_{\lambda_i\neq0}\frac{\mathbf x_i\mathbf x_i^T}{\lambda_i}\mathbf F$ da la solución sin modos rígidos.</li>
+</ul>
+<div class="box warn">
+  <span class="box-title">Cuidado</span>
+  <p>Tres apoyos en 2D no bastan si están mal colocados. Por ejemplo, tres apoyos en $x$ dejan libre la traslación en $y$, y dos apoyos en $y$ sobre la misma vertical
+  dejan libre un giro. Si el código avisa de que $\mathbf K_{LL}$ es singular (<code>rcond</code> ≈ 0), queda un modo rígido o un <strong>mecanismo</strong> interno.</p>
+</div>
+
+<h2>4. Isostática o hiperestática</h2>
+<p>Para una celosía plana con $b$ barras, $r$ grados de libertad prescritos y $n$ nodos:</p>
+$$h = b + r - 2n\qquad(\text{3D: } h = b + r - 3n).$$
+<ul>
+  <li>$h<0$: mecanismo, porque sobran grados de libertad y $\mathbf K_{LL}$ es singular.</li>
+  <li>$h=0$ y sin mecanismos: <strong>isostática</strong>. Las fuerzas salen solo del equilibrio y una deformación inicial (térmica) <em>no</em> genera tensiones.</li>
+  <li>$h>0$: <strong>hiperestática</strong> de grado $h$. Las fuerzas dependen de las rigideces, y los desplazamientos impuestos o los cambios de temperatura sí generan tensiones.</li>
+</ul>
+<p>La regla es necesaria pero no suficiente: una celosía con $h\ge0$ puede tener una parte con barras de sobra y otra que sea un mecanismo. La prueba definitiva es el rango de $\mathbf K_{LL}$.</p>
+
+<div class="widget" data-widget="truss">
+  <p class="widget-title">Laboratorio de celosías 2D</p>
+  <p class="widget-sub">Elige un modelo, mueve la carga y la temperatura y cambia los apoyos. Las barras se colorean por tensión
+  (rojo tracción, azul compresión, gris descargada). Las marcadas con ⚠ superan su tensión crítica de Euler.</p>
+</div>
+
+<h2>5. Fuerzas de volumen y de inercia</h2>
+<p>El peso propio de una barra ($\rho g A l$) se reparte como fuerzas nodales equivalentes. Con interpolación lineal, la mitad va a cada nodo:</p>
+$$\mathbf F_g^e = -\frac{\rho^e g A^e l^e}{2}\begin{bmatrix}1\\1\end{bmatrix}\ \text{(en la dirección de la gravedad)} .$$
+<p>Si la estructura acelera como sólido rígido con $\mathbf a$, se trata como un problema <strong>cuasiestático</strong>: se añade la fuerza de
+inercia de d'Alembert $-\rho A l\,\mathbf a/2$ en cada nodo. Las cargas exteriores, el peso y la inercia quedan entonces autoequilibradas. Con
+un apoyo isostático solo para eliminar modos rígidos, las <strong>reacciones salen nulas</strong>, y eso sirve para comprobar el modelo
+(por ejemplo, un cohete con empuje y peso propio, o el ala delta del trabajo 2).</p>
+
+<div class="card">
+<p><strong>Ejercicio.</strong> Una celosía triangular con nodos $1(0,0)$, $2(L,0)$, $3(L/2,h)$ tiene las tres barras iguales ($EA$).
+El nodo 1 está articulado y el nodo 2 es un apoyo deslizante en $y$. En el nodo 3 actúa una carga vertical $-P$. Calcula los axiles.</p>
+<details class="sol"><summary>Solución</summary>
+<p>Es isostática ($h = 3 + 3 - 6 = 0$), así que basta el equilibrio. Las reacciones verticales son $P/2$ en 1 y en 2. Nudo 3, por simetría,
+con barras 1–3 y 2–3 de inclinación $\tan\theta = 2h/L$: $2N\sin\theta = -P$, de donde $N_{13}=N_{23} = -\dfrac{P}{2\sin\theta}$ (compresión). Nudo 1 en $x$:
+$N_{12} + N_{13}\cos\theta = 0$, así que $N_{12} = \dfrac{P}{2\tan\theta} = \dfrac{PL}{4h}$ (tracción). Reprodúcelo en el laboratorio con el modelo «Triángulo».</p>
+</details>
+</div>
+
+<div class="box oral">
+  <span class="box-title">Para el oral</span>
+  <ul>
+    <li>Deduce $\mathbf K^e=\mathbf R^T\mathbf K'\mathbf R$ y explica por qué $\mathbf R^{-1}=\mathbf R^T$: es una rotación, una matriz ortogonal.</li>
+    <li>¿Cuántos y qué grados de libertad prescribes en una estructura libre en 2D o en 3D? 3 o 6, elegidos para impedir todo movimiento rígido sin añadir reacciones superfluas.</li>
+    <li>¿Por qué las reacciones salen nulas cuando las cargas están autoequilibradas y los apoyos solo eliminan modos rígidos?</li>
+    <li>¿Cómo cuentas el grado de hiperestatismo y qué consecuencias tiene para los efectos térmicos?</li>
+  </ul>
+</div>
+<p class="svg-muted" style="font-size:13px">Referencia: diapositivas «Bar element 2D and 3D» (apéndices sobre invariancia del trabajo, singularidad de K y fuerzas de volumen e inercia) y guía ALG_2DBAR.</p>
