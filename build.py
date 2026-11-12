@@ -44,7 +44,8 @@ def video_html(m):
     vtt = mp4.with_suffix(".vtt")
     track = f'<track kind="subtitles" srclang="es" label="Español" src="assets/video/{vid}.vtt" default>' if vtt.exists() else ""
     mb = mp4.stat().st_size / 1e6
-    return (f'<div class="video-card"><video controls preload="metadata" playsinline src="assets/video/{vid}.mp4">{track}</video>'
+    poster = f' poster="assets/video/{vid}.jpg"' if mp4.with_suffix(".jpg").exists() else ""
+    return (f'<div class="video-card"><video controls preload="metadata" playsinline{poster} src="assets/video/{vid}.mp4">{track}</video>'
             f'<p class="meta">Vídeo del tema (narración en español, subtítulos incluidos, {mb:.0f} MB).</p></div>')
 
 

@@ -1,0 +1,243 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:03.109
+En las estructuras
+aeronáuticas el espesor es
+
+2
+00:00:03.149 --> 00:00:06.105
+mucho menor que las
+dimensiones de la sección.
+
+3
+00:00:06.155 --> 00:00:09.252
+Eso permite trabajar con la
+línea media y despreciar
+
+4
+00:00:09.292 --> 00:00:12.960
+términos, y simplifica mucho
+el cálculo de propiedades.
+
+5
+00:00:14.610 --> 00:00:16.075
+Cuatro hipótesis.
+
+6
+00:00:16.125 --> 00:00:19.888
+El espesor es pequeño frente a
+las dimensiones de la sección.
+
+7
+00:00:19.938 --> 00:00:24.618
+Las tensiones son constantes a través
+del espesor, salvo en torsión.
+
+8
+00:00:24.668 --> 00:00:28.877
+Al calcular propiedades se desprecian
+los términos en t al cuadrado y t al
+
+9
+00:00:28.917 --> 00:00:33.796
+cubo; por ejemplo, la inercia propia de
+una pared respecto a su eje longitudinal.
+
+10
+00:00:33.846 --> 00:00:36.738
+Y la sección se representa
+por su línea media, con el
+
+11
+00:00:36.778 --> 00:00:40.558
+elemento de área igual al espesor
+por el elemento de longitud.
+
+12
+00:00:42.208 --> 00:00:46.053
+Para una pared recta de longitud a,
+inclinada theta, integramos a lo
+
+13
+00:00:46.093 --> 00:00:51.242
+largo de la pared: I x x es t a al cubo
+entre doce por el seno al cuadrado.
+
+14
+00:00:51.292 --> 00:00:54.533
+Del mismo modo salen I y y
+con el coseno al cuadrado
+
+15
+00:00:54.573 --> 00:00:58.329
+y el producto de inercia con
+el seno del ángulo doble.
+
+16
+00:00:58.379 --> 00:01:01.585
+Para un tubo de radio medio
+r, la integral del seno al
+
+17
+00:01:01.625 --> 00:01:05.904
+cuadrado en toda la vuelta da pi,
+y la inercia es pi r al cubo t.
+
+18
+00:01:05.954 --> 00:01:10.426
+Y un semicírculo tiene su centroide
+a dos r entre pi del centro.
+
+19
+00:01:10.476 --> 00:01:13.387
+Abajo ves el error de la
+aproximación del tubo: menos
+
+20
+00:01:13.427 --> 00:01:17.676
+del uno por ciento mientras
+t entre r sea menor que 0.2.
+
+21
+00:01:19.326 --> 00:01:21.823
+Una sección compuesta,
+como un fuselaje con
+
+22
+00:01:21.863 --> 00:01:24.749
+suelo o un cajón, se
+calcula pared a pared.
+
+23
+00:01:24.799 --> 00:01:29.050
+Primero, las propiedades de cada
+pared respecto a sus propios ejes.
+
+24
+00:01:29.100 --> 00:01:32.898
+Después se llevan todas a un
+sistema común con Steiner.
+
+25
+00:01:32.948 --> 00:01:36.932
+Se calcula el centroide con la
+media ponderada por las áreas.
+
+26
+00:01:36.982 --> 00:01:38.994
+Y se traslada la inercia al centroide
+
+27
+00:01:39.034 --> 00:01:42.267
+restando el área total por
+la distancia al cuadrado.
+
+28
+00:01:42.317 --> 00:01:46.299
+Si una pared corta a otra, como un
+suelo que corta un círculo, hay que
+
+29
+00:01:46.339 --> 00:01:50.654
+calcular primero los puntos de
+intersección para conocer su longitud.
+
+30
+00:01:52.304 --> 00:01:56.114
+El ejemplo del curso es la Z
+con alas de la mitad del canto.
+
+31
+00:01:56.164 --> 00:01:58.999
+Despreciando los términos
+pequeños, las inercias
+
+32
+00:01:59.039 --> 00:02:02.923
+son t h al cubo partido por
+tres, por doce y por ocho.
+
+33
+00:02:02.973 --> 00:02:10.347
+La tensión queda el momento partido por t
+h al cubo, por 6.86 y menos 10.3 equis.
+
+34
+00:02:10.397 --> 00:02:14.404
+El eje neutro es la recta
+y igual a 1.5 equis.
+
+35
+00:02:14.454 --> 00:02:19.059
+Y la tensión máxima, 3.43
+veces el momento partido por t
+
+36
+00:02:19.099 --> 00:02:23.082
+h al cuadrado, está en las
+uniones del alma con las alas.
+
+37
+00:02:24.732 --> 00:02:29.308
+Como complemento, la idealización en
+booms de las secciones semimonocasco.
+
+38
+00:02:29.358 --> 00:02:32.480
+Se concentra en puntos el
+área que resiste la tensión
+
+39
+00:02:32.520 --> 00:02:36.151
+normal: los larguerillos y
+una parte del revestimiento.
+
+40
+00:02:36.201 --> 00:02:41.103
+Los booms solo llevan tensión normal
+y el revestimiento solo cortante.
+
+41
+00:02:41.153 --> 00:02:43.733
+La parte de un panel que
+se asigna a cada boom
+
+42
+00:02:43.773 --> 00:02:46.971
+depende del cociente de
+tensiones en sus extremos.
+
+43
+00:02:47.021 --> 00:02:51.132
+Y las integrales de la sección se
+convierten en sumas sobre los booms.
+
+44
+00:02:52.782 --> 00:02:54.549
+Las preguntas típicas.
+
+45
+00:02:54.599 --> 00:02:58.502
+Las hipótesis de pared delgada
+y qué términos se desprecian.
+
+46
+00:02:58.552 --> 00:03:02.663
+La deducción de la inercia de una
+pared inclinada y de un tubo.
+
+47
+00:03:02.713 --> 00:03:05.427
+Cómo calcularías un fuselaje
+circular con suelo:
+
+48
+00:03:05.467 --> 00:03:08.973
+pared a pared, con la longitud
+de la cuerda y Steiner.
+
+49
+00:03:09.023 --> 00:03:13.947
+Y dónde está la tensión máxima en la Z
+del ejemplo, y por qué no en las puntas.

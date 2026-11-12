@@ -1,0 +1,312 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:05.606
+El cortante no se reparte uniformemente:
+fluye por las paredes como un caudal.
+
+2
+00:00:05.656 --> 00:00:08.851
+Veremos el flujo de cortante
+en secciones abiertas y
+
+3
+00:00:08.891 --> 00:00:12.459
+cerradas, el centro de cortante
+y cómo combinar cortante y
+
+4
+00:00:12.499 --> 00:00:16.768
+flexión con von Mises, que es el
+apartado E del tercer trabajo.
+
+5
+00:00:18.418 --> 00:00:22.691
+El equilibrio longitudinal de un elemento
+de pared relaciona la variación del flujo
+
+6
+00:00:22.731 --> 00:00:27.394
+a lo largo de la pared con la variación de
+la tensión normal a lo largo de la viga.
+
+7
+00:00:27.444 --> 00:00:31.415
+Derivando la fórmula de flexión y
+usando que los cortantes son las
+
+8
+00:00:31.455 --> 00:00:36.606
+derivadas de los momentos, obtenemos esa
+variación en función de los cortantes.
+
+9
+00:00:36.656 --> 00:00:40.871
+Integrando desde un borde libre, donde
+el flujo es cero, sale la fórmula
+
+10
+00:00:40.911 --> 00:00:45.516
+del flujo en una sección abierta; las
+integrales son momentos estáticos.
+
+11
+00:00:45.566 --> 00:00:48.993
+Con un eje de simetría se
+simplifica a dos términos.
+
+12
+00:00:49.043 --> 00:00:53.230
+Ojo con el convenio: aquí el momento
+es un vector, y respecto a la viga
+
+13
+00:00:53.270 --> 00:00:57.787
+del tema seis el momento cambia de
+signo pero el cortante es el mismo.
+
+14
+00:00:59.437 --> 00:01:02.096
+Un canal de alma doscientos
+milímetros, alas
+
+15
+00:01:02.136 --> 00:01:05.429
+de cien y cortante vertical
+de diez kiloniútons.
+
+16
+00:01:05.479 --> 00:01:08.463
+En las alas el flujo crece
+linealmente desde la punta
+
+17
+00:01:08.503 --> 00:01:13.701
+libre hasta 37.5 niútons por
+milímetro en la unión con el alma.
+
+18
+00:01:13.751 --> 00:01:16.277
+En el alma es una
+parábola, con el máximo de
+
+19
+00:01:16.317 --> 00:01:21.508
+56.24 niútons por milímetro
+donde cruza el eje neutro.
+
+20
+00:01:21.558 --> 00:01:25.651
+El centro de cortante es el punto por
+el que debe pasar la carga para que la
+
+21
+00:01:25.691 --> 00:01:30.500
+sección no gire; se obtiene igualando el
+momento de la carga con el de los flujos.
+
+22
+00:01:30.550 --> 00:01:34.053
+Para el canal sale tres b al
+cuadrado entre h más seis b,
+
+23
+00:01:34.093 --> 00:01:38.887
+37.5 milímetros por detrás del
+alma, fuera de la sección.
+
+24
+00:01:40.537 --> 00:01:42.489
+Algunas reglas rápidas.
+
+25
+00:01:42.539 --> 00:01:47.417
+Si la sección tiene un eje de simetría,
+el centro de cortante está sobre él.
+
+26
+00:01:47.467 --> 00:01:50.811
+En secciones en ángulo, en T
+o en cruz, donde todas las
+
+27
+00:01:50.851 --> 00:01:55.190
+paredes se cortan en un punto, el
+centro de cortante es ese punto.
+
+28
+00:01:55.240 --> 00:01:58.980
+En un canal queda fuera de
+la sección, detrás del alma.
+
+29
+00:01:59.030 --> 00:02:02.451
+Y si la carga no pasa por el
+centro de cortante, se descompone
+
+30
+00:02:02.491 --> 00:02:06.357
+en un cortante por el centro de
+cortante más un momento torsor.
+
+31
+00:02:08.007 --> 00:02:11.052
+En una sección cerrada no
+hay borde libre, así que
+
+32
+00:02:11.092 --> 00:02:14.650
+el flujo en el origen es
+una incógnita, q s cero.
+
+33
+00:02:14.700 --> 00:02:17.454
+Se corta la sección, se
+calcula el flujo como
+
+34
+00:02:17.494 --> 00:02:20.576
+si fuera abierta y se
+le suma una constante.
+
+35
+00:02:20.626 --> 00:02:24.807
+Esa constante sale del equilibrio de
+momentos, usando que la integral de r
+
+36
+00:02:24.847 --> 00:02:29.254
+vectorial tangente a lo largo del
+contorno es dos veces el área encerrada.
+
+37
+00:02:29.304 --> 00:02:33.671
+Si la sección es simétrica y la carga
+actúa en el plano de simetría, el flujo
+
+38
+00:02:33.711 --> 00:02:38.524
+es nulo donde las paredes cortan el eje,
+y cortando allí la constante es cero.
+
+39
+00:02:40.174 --> 00:02:43.183
+Con varias células hay
+una incógnita por célula.
+
+40
+00:02:43.233 --> 00:02:45.845
+Las ecuaciones son el
+equilibrio de momentos y la
+
+41
+00:02:45.885 --> 00:02:50.131
+compatibilidad: todas las células
+giran lo mismo por unidad de longitud.
+
+42
+00:02:50.181 --> 00:02:53.730
+El giro de cada célula es la
+integral del flujo entre el espesor,
+
+43
+00:02:53.770 --> 00:02:57.430
+dividida por dos veces su área y
+por el módulo de cortadura; en una
+
+44
+00:02:57.470 --> 00:03:01.630
+pared compartida el flujo es la
+diferencia de los de las dos células.
+
+45
+00:03:01.680 --> 00:03:04.995
+Un caso útil es el tubo de
+pared delgada: el flujo varía
+
+46
+00:03:05.035 --> 00:03:08.471
+con el coseno y la tensión
+máxima, en el eje neutro, es el
+
+47
+00:03:08.511 --> 00:03:11.886
+doble del cortante medio; para
+un tubo de cien milímetros
+
+48
+00:03:11.926 --> 00:03:17.309
+de radio, dos de espesor y veinte
+kiloniútons, 31.8 megapascales.
+
+49
+00:03:18.959 --> 00:03:23.490
+En un estado plano de tensión normal y
+cortante, el criterio de von Mises da
+
+50
+00:03:23.530 --> 00:03:28.632
+una tensión equivalente: la raíz de sigma
+al cuadrado más tres tau al cuadrado.
+
+51
+00:03:28.682 --> 00:03:31.934
+Hay que recorrer la sección
+más solicitada punto a punto,
+
+52
+00:03:31.974 --> 00:03:35.847
+porque los máximos de cada tensión
+están en sitios distintos.
+
+53
+00:03:35.897 --> 00:03:38.039
+Y conviene revisar varias secciones
+
+54
+00:03:38.079 --> 00:03:41.982
+candidatas: la de momento
+máximo y la de cortante máximo.
+
+55
+00:03:42.032 --> 00:03:45.728
+Por ejemplo, con 120
+megapascales de tensión normal y
+
+56
+00:03:45.768 --> 00:03:51.159
+40 de cortante, la equivalente
+es 138.6 megapascales.
+
+57
+00:03:52.809 --> 00:03:55.203
+Las preguntas típicas de cortante.
+
+58
+00:03:55.253 --> 00:03:59.852
+Deducir la ecuación del flujo a partir
+del equilibrio de un elemento de pared.
+
+59
+00:03:59.902 --> 00:04:01.788
+Por qué el flujo es cero en un borde
+
+60
+00:04:01.828 --> 00:04:04.478
+libre, y qué cambia en
+una sección cerrada.
+
+61
+00:04:04.528 --> 00:04:08.117
+Definir el centro de cortante
+y situarlo en un canal.
+
+62
+00:04:08.167 --> 00:04:10.801
+Y explicar cómo combinas
+flexión y cortante
+
+63
+00:04:10.841 --> 00:04:14.113
+para encontrar el punto
+crítico de una sección.
