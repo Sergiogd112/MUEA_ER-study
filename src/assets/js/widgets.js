@@ -32,6 +32,12 @@
     if (rest || svg) { if (svg) { const t = document.createElementNS(NS, 'tspan'); t.setAttribute('dy', '-0.3em'); t.textContent = rest || '\u200b'; e.appendChild(t); } else e.appendChild(document.createTextNode(rest)); }
   }
   const s = (tag, attrs, parent, text) => h('svg:' + tag, attrs, parent, text);
+  // a over b with opacity t (hex colours; falls back to a)
+  const mixHex = (a, b, t) => {
+    const p = h => /^#[0-9a-f]{6}$/i.test(h) ? [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)) : null, A = p(a), B = p(b);
+    if (!A || !B) return a;
+    return '#' + A.map((v, i) => Math.round(t * v + (1 - t) * B[i]).toString(16).padStart(2, '0')).join('');
+  };
   const fmt = (v, d = 2) => {
     if (!isFinite(v)) return '∞';
     if (Math.abs(v) < 1e-12) v = 0;   // round-off (e.g. a resultant that should vanish) prints as 0
@@ -165,7 +171,7 @@
         html += `</tr>`;
       }
       html += '</table></div>';
-      html += `<p>Grados de libertad prescritos: ${R.map(r => 'u' + (r + 1)).join(', ')} = 0. Desplazamientos (en kN/k): ${u.map((v, i) => `u<sub>${i + 1}</sub> = <span class="num">${fmt(v, 3)}</span>`).join(', ')}.<br>
+      html += `<p>Grados de libertad prescritos: ${R.map(r => `u<sub>${r + 1}</sub>`).join(', ')} = 0. Desplazamientos (en kN/k): ${u.map((v, i) => `u<sub>${i + 1}</sub> = <span class="num">${fmt(v, 3)}</span>`).join(', ')}.<br>
       Reacciones: ${R.map((r, a) => `R<sub>${r + 1}</sub> = <span class="num">${fmt(reac[a], 2)}</span> kN`).join(', ')}. Equilibrio: ΣR + F = <span class="num">${fmt(reac.reduce((a, b) => a + b, 0) + st.F, 6)}</span>.</p>`;
       out.innerHTML = html; wmath(out);
     }
@@ -555,8 +561,9 @@
       const cx = (Math.max(...xs) + Math.min(...xs)) / 2, cy = (Math.max(...ys) + Math.min(...ys)) / 2;
       plot.innerHTML = ''; const W = narrow(root) ? 400 : 640, H = 400; const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, class: 'wplot' }, plot);
       const sc = (H - 30) / span, X = x => W / 2 + (x - cx) * sc, Y = y => H / 2 - (y - cy) * sc, qs = span * 0.18 / qmax;
+      const walls = [];
       segs.forEach((sg, k) => { const pts = samples.filter(o => o.seg === k); const L = Math.hypot(sg.q[0] - sg.p[0], sg.q[1] - sg.p[1]);
-        const nx = -(sg.q[1] - sg.p[1]) / L, ny = (sg.q[0] - sg.p[0]) / L;
+        const nx = -(sg.q[1] - sg.p[1]) / L, ny = (sg.q[0] - sg.p[0]) / L; walls.push({ sg, pts, nx, ny });
         // split the wall where q changes sign, so each part gets the colour of its own sense
         const runs = []; let cur = [pts[0]];
         for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i];
@@ -565,7 +572,17 @@
         runs.push(cur);
         runs.forEach(rn => { const pos = rn.reduce((a, o) => a + o.q, 0) >= 0;
           const poly = rn.map(o => [X(o.x + nx * o.q * qs), Y(o.y + ny * o.q * qs)]), base = rn.slice().reverse().map(o => [X(o.x), Y(o.y)]);
-          s('path', { d: path(poly.concat(base)) + ' Z', fill: pos ? c.ten : c.comp, 'fill-opacity': 0.22, stroke: pos ? c.ten : c.comp, 'stroke-width': 1.4 }, svg); }); });
+          const tint = mixHex(pos ? c.ten : c.comp, c.surface, 0.22);   // opaque pre-blended tint + same-colour hairline: no seams between wall pieces
+          s('path', { d: path(poly.concat(base)) + ' Z', fill: tint, stroke: tint, 'stroke-width': 0.8, 'stroke-linejoin': 'round' }, svg);
+          s('path', { d: path(poly), fill: 'none', stroke: pos ? c.ten : c.comp, 'stroke-width': 1.4 }, svg); }); });   // outline only along the q curve (no radial edges)
+      // joints of consecutive walls (closed chains and polygonal tubes): fill the wedge between the two offset diagrams
+      walls.forEach((w, k) => { const v = walls[(k + 1) % walls.length]; if (!v || v === w) return;
+        const A = w.pts[w.pts.length - 1], B = v.pts[0]; if (!A || !B || Math.hypot(A.x - B.x, A.y - B.y) > 1e-6 || Math.abs(A.q) < 1e-12) return;
+        if (w.nx * v.nx + w.ny * v.ny < Math.cos(Math.PI / 6)) return;   // only gentle bends (polygonal tube); sharp corners keep their own diagrams
+        const tint = mixHex(A.q >= 0 ? c.ten : c.comp, c.surface, 0.22), col = A.q >= 0 ? c.ten : c.comp;
+        const a1 = [X(A.x + w.nx * A.q * qs), Y(A.y + w.ny * A.q * qs)], b1 = [X(B.x + v.nx * B.q * qs), Y(B.y + v.ny * B.q * qs)];
+        s('path', { d: `M${X(A.x)} ${Y(A.y)} L${a1[0]} ${a1[1]} L${b1[0]} ${b1[1]} Z`, fill: tint, stroke: tint, 'stroke-width': 0.8, 'stroke-linejoin': 'round' }, svg);
+        s('path', { d: `M${a1[0]} ${a1[1]} L${b1[0]} ${b1[1]}`, fill: 'none', stroke: col, 'stroke-width': 1.4 }, svg); });
       drawSection(svg, segs, X, Y, c);
       s('circle', { cx: X(sp.xc), cy: Y(sp.yc), r: 4.5, fill: c.ink }, svg); s('text', { x: X(sp.xc) + 7, y: Y(sp.yc) - 7, 'font-size': 12, fill: c.ink }, svg, 'C');
       const sx = xS !== null ? xS : sp.xc;

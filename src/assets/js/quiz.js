@@ -21,6 +21,12 @@
     return /^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/.test(t) ? parseFloat(t) : NaN;   // whole string must be a number
   }
 
+  // "4.330" may mean 4330 (Spanish thousands separator): the check also tries that reading
+  function parseThousands(str) {
+    const t = String(str).trim().replace(/\s/g, '').replace('−', '-');
+    return /^[-+]?\d{1,3}(\.\d{3})+(,\d+)?$/.test(t) ? parseFloat(t.replace(/\./g, '').replace(',', '.')) : NaN;
+  }
+
   function statusChip(id) {
     const p = ERA.progress()[id]; if (p === undefined) return '<span class="qstatus">sin hacer</span>';
     return `<span class="qstatus s${p}">${statusLabel[p]}</span>`;
@@ -52,10 +58,12 @@
     } else if (q.type === 'num') {
       const inp = div.querySelector('input'), fb = div.querySelector('.fb');
       const check = () => {
-        const v = parseNum(inp.value); if (!isFinite(v)) { fb.className = 'qfeedback'; fb.textContent = 'Escribe un número (coma o punto decimal).'; return; }
-        const err = Math.abs(v - q.ans) / Math.max(Math.abs(q.ans), 1e-12), ok = err <= q.tol, close = !ok && err <= 5 * q.tol;
+        let v = parseNum(inp.value); if (!isFinite(v)) v = parseThousands(inp.value);   // e.g. "41.667,5"
+        if (!isFinite(v)) { fb.className = 'qfeedback'; fb.textContent = 'Escribe un número (coma o punto decimal).'; return; }
+        const relErr = x => Math.abs(x - q.ans) / Math.max(Math.abs(q.ans), 1e-12), vt = parseThousands(inp.value);
+        const err = isFinite(vt) ? Math.min(relErr(v), relErr(vt)) : relErr(v), ok = err <= q.tol, close = !ok && err <= 5 * q.tol;
         fb.className = 'qfeedback ' + (ok ? 'ok' : 'bad');
-        const ansStr = Math.abs(q.ans) >= 1e-3 && Math.abs(q.ans) < 1e6 ? q.ans.toPrecision(4) : q.ans.toExponential(3);
+        const a = Math.abs(q.ans), ansStr = (a >= 1e-3 && a < 1e6 ? q.ans.toFixed(Math.max(0, 3 - Math.floor(Math.log10(a)))) : q.ans.toExponential(3)).replace('-', '−');   // 4 significant digits, never JS exponent notation in range
         fb.innerHTML = `<strong>${ok ? 'Correcto' : close ? 'Casi (revisa redondeos o unidades)' : 'Incorrecto'}</strong>: valor de referencia ${ansStr.replace('.', ',')} ${esc(q.unit || '')} (tolerancia ±${Math.round(q.tol * 100)} %).<br>${esc(q.sol)}`;
         ERA.renderMath(fb); setStatus(ok ? 2 : close ? 1 : 0);
       };

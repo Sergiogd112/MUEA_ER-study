@@ -72,7 +72,7 @@
       if (d.dataset.fit) { render(src); delete d.dataset.fit; }
       if (fits()) return;
       const parts = splitTop(src);
-      if (parts.length > 1) { render('\\begin{gathered}' + parts.join('\\\\') + '\\end{gathered}'); d.dataset.fit = '1'; }
+      if (parts.length > 1) { render('\\begin{gathered}' + parts.join('\\\\[0.4em]') + '\\end{gathered}'); d.dataset.fit = '1'; }
       for (let k = 0, f = 1; k < 4 && !fits() && f > 0.72; k++) { f = Math.max(0.72, f * d.clientWidth / d.scrollWidth * 0.98); d.style.fontSize = f + 'em'; }
     });
   };
