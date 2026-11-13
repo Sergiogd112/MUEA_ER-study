@@ -8,6 +8,7 @@ Numeric answers are computed with the formulas below, never typed.
 Topics: t01..t09 theory; A1, A2, A3 assignment-method questions (no graded results before the deadlines).
 """
 import json
+import re
 import math
 import sys
 
@@ -299,6 +300,12 @@ explain("t09", "Define el centro de cortante y explica cómo lo calculas.",
         "<p>Es el punto por el que debe pasar la carga cortante para que la sección no gire (sin torsión). Se calcula $q(s)$ con la carga supuesta en el centro de cortante y se igualan momentos: "
         "$S_y\\,\\xi_S = \\oint r_\\perp q\\,ds$ respecto a un punto conveniente (donde se cortan paredes). Está sobre los ejes de simetría y en el cruce de las paredes de L y T. En un canal queda fuera, detrás del alma.</p>",
         ["sin torsión", "momentos de q = momento de S", "punto conveniente", "simetrías y casos típicos"])
+explain("t09", "En una sección ramificada (por ejemplo una T, o el suelo que se une al revestimiento), ¿cómo se calcula el flujo de cortante en la unión de varias paredes?",
+        "<p>Por equilibrio longitudinal de un pequeño elemento del nudo, <strong>el flujo que entra es igual a la suma de los que salen</strong> (como la corriente en un nudo de un circuito). "
+        "Se integra cada rama desde un punto donde $q$ es conocido (borde libre, o un punto del eje de simetría con carga simétrica) hasta el nudo, y la rama siguiente arranca con la suma de lo que llega. "
+        "En una T con $S_y$: cada media ala llega al nudo con $q_1 = -\\frac{S_y}{I_{xx}}t_f\\frac b2 y_f$, el alma arranca con $2q_1$ y en su extremo libre $q$ vuelve a 0, "
+        "porque el momento estático de toda la sección respecto al eje neutro es nulo: es la comprobación.</p>",
+        ["Σ q entra = Σ q sale", "integrar cada rama desde q conocido", "la rama siguiente arranca con la suma", "comprobación: q = 0 en el último borde libre"])
 explain("t09", "¿Cómo combinas flexión y cortante para localizar el punto crítico de una sección? ¿Qué criterio usas?",
         "<p>En cada punto de la pared hay $\\sigma_z$ (flexión, máxima lejos del eje neutro) y $\\tau = q/t$ (cortante, máxima cerca del eje neutro). Con von Mises, "
         "$\\sigma_{VM} = \\sqrt{\\sigma^2+3\\tau^2}$, se recorre la sección (y las secciones candidatas: la de momento máximo y la de cortante máximo) buscando el máximo. Hay que tener en cuenta que en una sección "
@@ -383,9 +390,29 @@ explain("A3", "Trabajo 3: la sección tiene un suelo que corta el círculo. ¿Qu
         ["dos células", "compatibilidad con 1/(2A_i G)", "simetría: q = 0 en el eje", "mitades como secciones abiertas"])
 
 
+MATH = re.compile(r"\$\$.+?\$\$|\$.+?\$", re.S)
+
+
+def es_dec(text):
+    """Decimal points between digits -> Spanish decimal comma ({,} inside maths, so KaTeX does not space it)."""
+    out, last = [], 0
+    for m in MATH.finditer(text):
+        out.append(re.sub(r"(?<=\d)\.(?=\d)", ",", text[last:m.start()]))
+        out.append(re.sub(r"(?<=\d)\.(?=\d)", "{,}", m.group(0)))
+        last = m.end()
+    out.append(re.sub(r"(?<=\d)\.(?=\d)", ",", text[last:]))
+    return "".join(out)
+
+
 def main(out):
     for i, q in enumerate(Q):
         q["id"] = f"{q['topic']}-{i:03d}"
+        for k in ("q", "ex", "sol", "model"):
+            if k in q:
+                q[k] = es_dec(q[k])
+        for k in ("opts", "keys"):
+            if k in q:
+                q[k] = [es_dec(o) for o in q[k]]
     topics = {"t01": "1 · Introducción", "t02": "2 · Barras 1D", "t03": "3 · Celosías 2D/3D", "t04": "4 · Tensión térmica",
               "t05": "5 · Pandeo", "t06": "6 · Elemento viga", "t07": "7 · Flexión", "t08": "8 · Pared delgada", "t09": "9 · Cortante",
               "A1": "Trabajo 1 (métodos)", "A2": "Trabajo 2 (métodos)", "A3": "Trabajo 3 (métodos)"}

@@ -1,243 +1,243 @@
 WEBVTT
 
 1
-00:00:00.600 --> 00:00:03.075
+00:00:00.600 --> 00:00:03.178
 En las estructuras
 aeronáuticas el espesor es
 
 2
-00:00:03.115 --> 00:00:06.035
+00:00:03.218 --> 00:00:06.244
 mucho menor que las
 dimensiones de la sección.
 
 3
-00:00:06.085 --> 00:00:09.160
+00:00:06.294 --> 00:00:09.318
 Eso permite trabajar con la
 línea media y despreciar
 
 4
-00:00:09.200 --> 00:00:12.844
+00:00:09.358 --> 00:00:12.948
 términos, y simplifica mucho
 el cálculo de propiedades.
 
 5
-00:00:14.494 --> 00:00:15.993
+00:00:14.598 --> 00:00:16.237
 Cuatro hipótesis.
 
 6
-00:00:16.043 --> 00:00:19.830
+00:00:16.287 --> 00:00:20.016
 El espesor es pequeño frente a
 las dimensiones de la sección.
 
 7
-00:00:19.880 --> 00:00:24.560
+00:00:20.066 --> 00:00:24.595
 Las tensiones son constantes a través
 del espesor, salvo en torsión.
 
 8
-00:00:24.610 --> 00:00:28.769
+00:00:24.645 --> 00:00:28.809
 Al calcular propiedades se desprecian
 los términos en t al cuadrado y t al
 
 9
-00:00:28.809 --> 00:00:33.633
+00:00:28.849 --> 00:00:33.679
 cubo; por ejemplo, la inercia propia de
 una pared respecto a su eje longitudinal.
 
 10
-00:00:33.683 --> 00:00:36.629
+00:00:33.729 --> 00:00:36.702
 Y la sección se representa
 por su línea media, con el
 
 11
-00:00:36.669 --> 00:00:40.511
+00:00:36.742 --> 00:00:40.616
 elemento de área igual al espesor
 por el elemento de longitud.
 
 12
-00:00:42.161 --> 00:00:46.126
+00:00:42.266 --> 00:00:46.204
 Para una pared recta de longitud a,
 inclinada theta, integramos a lo
 
 13
-00:00:46.166 --> 00:00:51.463
+00:00:46.244 --> 00:00:51.509
 largo de la pared: I x x es t a al cubo
 entre doce por el seno al cuadrado.
 
 14
-00:00:51.513 --> 00:00:54.691
+00:00:51.559 --> 00:00:54.788
 Del mismo modo salen I y y
 con el coseno al cuadrado
 
 15
-00:00:54.731 --> 00:00:58.422
+00:00:54.828 --> 00:00:58.573
 y el producto de inercia con
 el seno del ángulo doble.
 
 16
-00:00:58.472 --> 00:01:01.731
+00:00:58.623 --> 00:01:01.850
 Para un tubo de radio medio
 r, la integral del seno al
 
 17
-00:01:01.771 --> 00:01:06.113
+00:01:01.890 --> 00:01:06.195
 cuadrado en toda la vuelta da pi,
 y la inercia es pi r al cubo t.
 
 18
-00:01:06.163 --> 00:01:10.519
+00:01:06.245 --> 00:01:10.623
 Y un semicírculo tiene su centroide
 a dos r entre pi del centro.
 
 19
-00:01:10.569 --> 00:01:13.530
+00:01:10.673 --> 00:01:13.545
 Abajo ves el error de la
 aproximación del tubo: menos
 
 20
-00:01:13.570 --> 00:01:17.885
+00:01:13.585 --> 00:01:17.780
 del uno por ciento mientras
 t entre r sea menor que 0,2.
 
 21
-00:01:19.535 --> 00:01:22.026
+00:01:19.430 --> 00:01:21.956
 Una sección compuesta,
 como un fuselaje con
 
 22
-00:01:22.066 --> 00:01:24.947
+00:01:21.996 --> 00:01:24.912
 suelo o un cajón, se
 calcula pared a pared.
 
 23
-00:01:24.997 --> 00:01:29.271
+00:01:24.962 --> 00:01:29.248
 Primero, las propiedades de cada
 pared respecto a sus propios ejes.
 
 24
-00:01:29.321 --> 00:01:33.433
+00:01:29.298 --> 00:01:33.154
 Después se llevan todas a un
 sistema común con Steiner.
 
 25
-00:01:33.483 --> 00:01:37.362
+00:01:33.204 --> 00:01:37.130
 Se calcula el centroide con la
 media ponderada por las áreas.
 
 26
-00:01:37.412 --> 00:01:39.452
+00:01:37.180 --> 00:01:39.177
 Y se traslada la inercia al centroide
 
 27
-00:01:39.492 --> 00:01:42.766
+00:01:39.217 --> 00:01:42.429
 restando el área total por
 la distancia al cuadrado.
 
 28
-00:01:42.816 --> 00:01:46.781
+00:01:42.479 --> 00:01:46.479
 Si una pared corta a otra, como un
 suelo que corta un círculo, hay que
 
 29
-00:01:46.821 --> 00:01:51.119
+00:01:46.519 --> 00:01:50.852
 calcular primero los puntos de
 intersección para conocer su longitud.
 
 30
-00:01:52.769 --> 00:01:56.590
+00:01:52.502 --> 00:01:56.219
 El ejemplo del curso es la Z
 con alas de la mitad del canto.
 
 31
-00:01:56.640 --> 00:01:59.491
+00:01:56.269 --> 00:01:59.062
 Despreciando los términos
 pequeños, las inercias
 
 32
-00:01:59.531 --> 00:02:03.434
+00:01:59.102 --> 00:02:02.934
 son t h al cubo partido por
 tres, por doce y por ocho.
 
 33
-00:02:03.484 --> 00:02:11.067
+00:02:02.984 --> 00:02:10.567
 La tensión queda el momento partido por t
 h al cubo, por 6,86 y menos 10,3 equis.
 
 34
-00:02:11.117 --> 00:02:15.251
+00:02:10.617 --> 00:02:14.613
 El eje neutro es la recta
 y igual a 1,5 equis.
 
 35
-00:02:15.301 --> 00:02:19.855
+00:02:14.663 --> 00:02:19.275
 Y la tensión máxima, 3,43
 veces el momento partido por t
 
 36
-00:02:19.895 --> 00:02:23.837
+00:02:19.315 --> 00:02:23.302
 h al cuadrado, está en las
 uniones del alma con las alas.
 
 37
-00:02:25.487 --> 00:02:30.132
+00:02:24.952 --> 00:02:29.587
 Como complemento, la idealización en
 booms de las secciones semimonocasco.
 
 38
-00:02:30.182 --> 00:02:33.207
+00:02:29.637 --> 00:02:32.673
 Se concentra en puntos el
 área que resiste la tensión
 
 39
-00:02:33.247 --> 00:02:36.778
+00:02:32.713 --> 00:02:36.256
 normal: los larguerillos y
 una parte del revestimiento.
 
 40
-00:02:36.828 --> 00:02:41.648
+00:02:36.306 --> 00:02:41.230
 Los booms solo llevan tensión normal
 y el revestimiento solo cortante.
 
 41
-00:02:41.698 --> 00:02:44.301
+00:02:41.280 --> 00:02:43.877
 La parte de un panel que
 se asigna a cada boom
 
 42
-00:02:44.341 --> 00:02:47.563
+00:02:43.917 --> 00:02:47.133
 depende del cociente de
 tensiones en sus extremos.
 
 43
-00:02:47.613 --> 00:02:51.771
+00:02:47.183 --> 00:02:51.341
 Y las integrales de la sección se
 convierten en sumas sobre los booms.
 
 44
-00:02:53.421 --> 00:02:55.199
+00:02:52.991 --> 00:02:54.746
 Las preguntas típicas.
 
 45
-00:02:55.249 --> 00:02:59.070
+00:02:54.796 --> 00:02:58.618
 Las hipótesis de pared delgada
 y qué términos se desprecian.
 
 46
-00:02:59.120 --> 00:03:03.279
+00:02:58.668 --> 00:03:02.814
 La deducción de la inercia de una
 pared inclinada y de un tubo.
 
 47
-00:03:03.329 --> 00:03:06.053
+00:03:02.864 --> 00:03:05.551
 Cómo calcularías un fuselaje
 circular con suelo:
 
 48
-00:03:06.093 --> 00:03:09.611
+00:03:05.591 --> 00:03:09.066
 pared a pared, con la longitud
 de la cuerda y Steiner.
 
 49
-00:03:09.661 --> 00:03:14.586
+00:03:09.116 --> 00:03:13.970
 Y dónde está la tensión máxima en la Z
 del ejemplo, y por qué no en las puntas.

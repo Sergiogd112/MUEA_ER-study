@@ -9,9 +9,27 @@
   function h(tag, attrs, parent, text) {
     const e = tag.startsWith('svg:') ? document.createElementNS(NS, tag.slice(4)) : document.createElement(tag);
     for (const k in (attrs || {})) e.setAttribute(k, attrs[k]);
-    if (text !== undefined) e.textContent = text;
+    if (text !== undefined) setText(e, String(text), tag.startsWith('svg:'));
     if (parent) parent.appendChild(e);
     return e;
+  }
+  // "M_y", "l_e", "K_LL", "u_{12}" in plain text -> real subscripts (HTML <sub>, SVG <tspan dy>)
+  const SUB = /([A-Za-zσλθτμ])_(\{[^}]*\}|[A-Za-z0-9]+)/g;
+  function setText(e, text, svg) {
+    if (e.tagName === 'OPTION') { e.textContent = text.replace(/_e\b/g, 'ₑ').replace(/_/g, ''); return; }   // <option> cannot hold <sub>
+    SUB.lastIndex = 0;
+    if (!SUB.test(text)) { e.textContent = text; return; }
+    SUB.lastIndex = 0; let last = 0, m;
+    while ((m = SUB.exec(text))) {
+      const pre = text.slice(last, m.index + 1), sub = m[2].replace(/[{}]/g, '');
+      if (svg) {
+        if (pre) { const t0 = document.createElementNS(NS, 'tspan'); if (last) t0.setAttribute('dy', '-0.3em'); t0.textContent = pre; e.appendChild(t0); }
+        const t = document.createElementNS(NS, 'tspan'); t.setAttribute('dy', '0.3em'); t.setAttribute('font-size', '75%'); t.textContent = sub; e.appendChild(t);
+      } else { e.appendChild(document.createTextNode(pre)); const t = document.createElement('sub'); t.textContent = sub; e.appendChild(t); }
+      last = m.index + m[0].length;
+    }
+    const rest = text.slice(last);
+    if (rest || svg) { if (svg) { const t = document.createElementNS(NS, 'tspan'); t.setAttribute('dy', '-0.3em'); t.textContent = rest || '\u200b'; e.appendChild(t); } else e.appendChild(document.createTextNode(rest)); }
   }
   const s = (tag, attrs, parent, text) => h('svg:' + tag, attrs, parent, text);
   const fmt = (v, d = 2) => {
@@ -19,9 +37,10 @@
     if (Math.abs(v) < 1e-12) v = 0;   // round-off (e.g. a resultant that should vanish) prints as 0
     const a = Math.abs(v);
     let str = (a !== 0 && (a < 1e-3 || a >= 1e6)) ? v.toExponential(d) : v.toFixed(d);
-    return str.replace(/-/g, '−');
+    return str.replace(/-/g, '−').replace('.', ',');   // Spanish decimal comma
   };
-  const fmtEs = (v, d = 2) => fmt(v, d).replace('.', ',');
+  // render widget maths: a decimal comma inside $...$ needs {,} (otherwise KaTeX spaces it as punctuation)
+  const wmath = el => { el.innerHTML = el.innerHTML.replace(/\$\$[^$]+\$\$|\$[^$]+\$/g, m => m.replace(/(\d),(\d)/g, '$1{,}$2')); ERA.renderMath(el); };
 
   /* controls: sliders and selects bound to a state object */
   function controls(parent, defs, state, onchange) {
@@ -40,7 +59,7 @@
       } else {
         const v = h('span', { class: 'v' }, top);
         const inp = h('input', { type: 'range', min: d.min, max: d.max, step: d.step, value: state[d.key], 'aria-label': d.label }, lab);
-        const upd = () => { v.textContent = (d.fmt ? d.fmt(state[d.key]) : state[d.key]) + (d.unit ? ' ' + d.unit : ''); };
+        const upd = () => { v.textContent = String(d.fmt ? d.fmt(state[d.key]) : state[d.key]).replace('.', ',') + (d.unit ? ' ' + d.unit : ''); };
         upd();
         inp.addEventListener('input', () => { state[d.key] = +inp.value; upd(); onchange(d.key); });
       }
@@ -148,7 +167,7 @@
       html += '</table></div>';
       html += `<p>Grados de libertad prescritos: ${R.map(r => 'u' + (r + 1)).join(', ')} = 0. Desplazamientos (en kN/k): ${u.map((v, i) => `u<sub>${i + 1}</sub> = <span class="num">${fmt(v, 3)}</span>`).join(', ')}.<br>
       Reacciones: ${R.map((r, a) => `R<sub>${r + 1}</sub> = <span class="num">${fmt(reac[a], 2)}</span> kN`).join(', ')}. Equilibrio: ΣR + F = <span class="num">${fmt(reac.reduce((a, b) => a + b, 0) + st.F, 6)}</span>.</p>`;
-      out.innerHTML = html; ERA.renderMath(out);
+      out.innerHTML = html; wmath(out);
     }
     root._rerender = render;
     render();
@@ -178,7 +197,7 @@
       right.innerHTML = `<p>$c = \\cos\\theta = ${fmt(cs, 3)}$, $s = \\sin\\theta = ${fmt(sn, 3)}$</p>
         <p>$\\dfrac{\\mathbf K^e}{EA/l} = \\begin{bmatrix}${M.map(r => r.map(x => fmt(x, 3)).join('&')).join('\\\\')}\\end{bmatrix}$</p>
         <p>Filas 1-2: fuerzas en el nodo 1; filas 3-4: en el nodo 2. Cada bloque 2×2 es $\\pm\\mathbf n\\mathbf n^T$ con $\\mathbf n = (c, s)$.</p>`;
-      ERA.renderMath(right);
+      wmath(right);
     }
     root._rerender = render;
     render();
@@ -254,7 +273,7 @@
         $h = b + r - 2n = ${nb} + ${nr} - ${2 * nn} = ${hdeg}$ → <strong>${hdeg === 0 ? 'isostática' : hdeg > 0 ? 'hiperestática de grado ' + hdeg : 'mecanismo'}</strong>.
         Reacciones (kN): ${reacs}. $|\\sigma|_{\\max}$ = <span class="num">${fmt(smax / 1e6, 1)}</span> MPa. Barras que pandean: <strong>${nbuck}</strong>.</p>
         <p class="svg-muted">Prueba: pon $P = 0$ y $\\Delta T \\neq 0$. Isostática → todas las barras grises, también con el acero (una estructura isostática acomoda cualquier dilatación). Activa el apoyo redundante → aparecen tensiones térmicas, y con el acero cambia su reparto.</p>`;
-      ERA.renderMath(out);
+      wmath(out);
     }
     root._rerender = render;
     render();
@@ -303,7 +322,7 @@
         <p>Compuesta: $N = -\\dfrac{\\Delta T(\\alpha_1l_1+\\alpha_2l_2)}{l_1/E_1A_1 + l_2/E_2A_2} = ${fmt(N / 1e3, 2)}$ kN (con $A_1 = 1$ cm²).
         La unión se desplaza $\\Delta l_1 = \\frac{Nl_1}{E_1A_1}+\\alpha_1\\Delta T\\,l_1 = ${fmt(dl1 * 1e3, 3)}$ mm: su signo depende de las longitudes,
         de las rigideces axiales y de las dilataciones libres a la vez (compatibilidad y equilibrio), no solo de qué material dilata más.</p>`;
-      ERA.renderMath(out);
+      wmath(out);
     }
     root._rerender = render;
     render();
@@ -340,7 +359,7 @@
       out.innerHTML = `<p>$A = ${fmt(A * 1e6, 1)}$ mm², $I = ${fmt(I * 1e12, 0)}$ mm⁴, $r = ${fmt(r * 1e3, 2)}$ mm, $l_e = ${fmt(le, 2)}$ m, $\\lambda = ${fmt(lam, 0)}$.<br>
         $P_{cr} = \\pi^2EI/l_e^2 = ${fmt(Pcr / 1e3, 2)}$ kN, $\\sigma_{cr} = ${fmt(scr / 1e6, 1)}$ MPa. Esbeltez de transición $\\lambda_t = \\pi\\sqrt{E/\\sigma_y} = ${fmt(lamT, 0)}$:
         ${lam > lamT ? 'la barra es <strong>esbelta</strong>, manda el pandeo de Euler.' : 'la barra es <strong>corta</strong>: plastifica antes de pandear y Euler sobrestima la carga.'}</p>`;
-      ERA.renderMath(out);
+      wmath(out);
     }
     root._rerender = render;
     render();
@@ -361,7 +380,7 @@
       const c = C(), fe = solve(st.ne), ref = solve(512);
       const wref = curve(ref, 1), wfe = curve(fe, 16);
       const all = wref.concat(wfe).map(p => p[1] * 1e3); const ymin = Math.min(0, ...all), ymax = Math.max(0, ...all), pad = (ymax - ymin) * 0.1 || 1;
-      a.innerHTML = ''; const f = frame(a, { w: 320, h: 250, xr: [0, L], yr: [ymin - pad, ymax + pad], xlabel: 'x (m)', ylabel: 'u_y (mm)', xd: 0, m: { l: 52 } });
+      a.innerHTML = ''; const f = frame(a, { w: 320, h: 250, xr: [0, L], yr: [ymin - pad, ymax + pad], xlabel: 'x (m)', ylabel: 'u_y (mm)', xd: 0, m: { l: 58 } });
       s('path', { d: path(wref.map(p => [f.X(p[0]), f.Y(p[1] * 1e3)])), stroke: c.ink2, 'stroke-width': 1.5, fill: 'none', 'stroke-dasharray': '5 4' }, f.svg);
       s('path', { d: path(wfe.map(p => [f.X(p[0]), f.Y(p[1] * 1e3)])), stroke: c.accent, 'stroke-width': 2.5, fill: 'none' }, f.svg);
       for (let i = 0; i <= st.ne; i++) s('circle', { cx: f.X(i * fe.l), cy: f.Y(fe.u[2 * i] * 1e3), r: 3.5, fill: c.accent }, f.svg);
@@ -369,7 +388,7 @@
       const Mref = []; ref.els.forEach(e => Mref.push([e.x0, e.Mz[0]], [e.x0 + e.l, e.Mz[1]]));
       const Mfe = []; fe.els.forEach(e => Mfe.push([e.x0, e.Mz[0]], [e.x0 + e.l, e.Mz[1]]));
       const mv = Mref.concat(Mfe).map(p => p[1] / 1e3), m0 = Math.min(0, ...mv), m1 = Math.max(0, ...mv), mp = (m1 - m0) * 0.1 || 1;
-      b.innerHTML = ''; const g = frame(b, { w: 320, h: 250, xr: [0, L], yr: [m0 - mp, m1 + mp], xlabel: 'x (m)', ylabel: 'M_z (kN·m)', xd: 0, m: { l: 52 } });
+      b.innerHTML = ''; const g = frame(b, { w: 320, h: 250, xr: [0, L], yr: [m0 - mp, m1 + mp], xlabel: 'x (m)', ylabel: 'M_z (kN·m)', xd: 0, yd: 0, m: { l: 58 } });
       s('path', { d: path(Mref.map(p => [g.X(p[0]), g.Y(p[1] / 1e3)])), stroke: c.ink2, 'stroke-width': 1.5, fill: 'none', 'stroke-dasharray': '5 4' }, g.svg);
       fe.els.forEach(e => s('line', { x1: g.X(e.x0), x2: g.X(e.x0 + e.l), y1: g.Y(e.Mz[0] / 1e3), y2: g.Y(e.Mz[1] / 1e3), stroke: c.accent, 'stroke-width': 2.5 }, g.svg));
       // convergence
@@ -392,7 +411,7 @@
         Flecha en la punta: MEF $${fmt(fe.u[2 * st.ne] * 1e3, 4)}$ mm, exacta $${fmt(tipRef * 1e3, 4)}$ mm.
         ${roundoff ? 'Con carga uniforme y cargas puntuales las fuerzas consistentes son exactas, y los valores nodales también, con cualquier malla: el error es de redondeo y no hay pendiente que medir.' :
         `Pendiente de convergencia (de h=${fmt(L / 16, 3)} a ${fmt(L / 32, 3)} m) ≈ ${fmt(sl, 2)}: el error viene de sustituir $q(x)$ por su media en cada elemento en lugar de integrar $\\int \\mathbf N^Tq\\,dx$.`}</p>`;
-      ERA.renderMath(out);
+      wmath(out);
     }
     root._rerender = render;
     render();
@@ -451,12 +470,12 @@
       if (at) s('text', { x: X(at[0]) + 6, y: Y(at[1]) - 6, 'font-size': 12, fill: c.ten }, svg, 'σmáx');
       if (atm) s('text', { x: X(atm[0]) + 6, y: Y(atm[1]) + 14, 'font-size': 12, fill: c.comp }, svg, 'σmín');
       const naDeg = (Mx || My) ? Math.atan2(-ax, ay) * 180 / Math.PI : NaN;
-      out.innerHTML = `<p>Centroide $(\\bar x,\\bar y) = (${fmt(sp.xc, 1)}, ${fmt(sp.yc, 1)})$ mm. $I_{xx} = ${fmt(sp.Ixx / 1e6, 3)}$, $I_{yy} = ${fmt(sp.Iyy / 1e6, 3)}$, $I_{xy} = ${fmt(sp.Ixy / 1e6, 3)}\\times10^6$ mm⁴.
+      out.innerHTML = `<p>Centroide $(\\bar x;\\ \\bar y) = (${fmt(sp.xc, 1)};\\ ${fmt(sp.yc, 1)})$ mm. $I_{xx} = ${fmt(sp.Ixx / 1e6, 3)}$, $I_{yy} = ${fmt(sp.Iyy / 1e6, 3)}$, $I_{xy} = ${fmt(sp.Ixy / 1e6, 3)}\\times10^6$ mm⁴.
         Ejes principales a $\\alpha = ${fmt(alpha * 180 / Math.PI, 1)}°$ (punteado gris).<br>
         $\\sigma_z = ${fmt(ax, 4)}\\,x ${ay >= 0 ? '+' : ''}${fmt(ay, 4)}\\,y$ (MPa, mm desde el centroide). ${isFinite(naDeg) ? `Eje neutro a ${fmt(naDeg, 1)}° de $x$.` : ''}
         Máx. tracción $${fmt(smax, 1)}$ MPa; máx. compresión $${fmt(smin, 1)}$ MPa.
         ${Math.abs(sp.Ixy) > 1e-6 * sp.Ixx && Mx ? `Fórmula simétrica (incorrecta aquí): $M_xy_{\\max}/I_{xx} = ${fmt(Mx * (Math.max(...ys) - sp.yc) / sp.Ixx, 1)}$ MPa.` : ''}</p>`;
-      ERA.renderMath(out);
+      wmath(out);
     }
     root._rerender = render;
     render();
@@ -481,7 +500,7 @@
       const th = st.th * Math.PI / 180;
       out.innerHTML = `<p>Tubo: la aproximación $\\pi r^3t$ (con $r$ medio) frente al anillo exacto $\\tfrac{\\pi}{4}(r_o^4-r_i^4)$ tiene un error de <span class="num">${fmt(100 * err(st.tr), 2)} %</span>
         (exactamente $-\\tfrac{(t/r)^2}{4+(t/r)^2}$: casi nulo para $t/r<0{,}1$).<br>Pared inclinada a ${st.th}°: $I_{xx} = ${fmt(Math.sin(th) ** 2 / 12, 4)}\\,ta^3$ (azul), $I_{yy} = ${fmt(Math.cos(th) ** 2 / 12, 4)}\\,ta^3$ (rojo), $I_{xy} = ${fmt(Math.sin(2 * th) / 24, 4)}\\,ta^3$ (verde).</p>`;
-      ERA.renderMath(out);
+      wmath(out);
     }
     root._rerender = render;
     render();
@@ -509,7 +528,7 @@
         // bottom flanges: flow from the web junction outwards splits in two
         run(segs[3], qw / 2, 3); run(segs[4], qw / 2, 4);
       } else {
-        const r = FEM.shearOpen(segs, 0, Sy, closed ? 6 : 40); samples = r.samples; sp = r.sp;
+        const r = FEM.shearOpen(segs, 0, Sy, closed ? 6 : 160); samples = r.samples; sp = r.sp;
       }
       // resultant check and closed-section correction
       const res2 = (() => { let fx = 0, fy = 0; segs.forEach((sg, k) => { const pts = samples.filter(o => o.seg === k), L = Math.hypot(sg.q[0] - sg.p[0], sg.q[1] - sg.p[1]), tx = (sg.q[0] - sg.p[0]) / L, ty = (sg.q[1] - sg.p[1]) / L;
@@ -525,7 +544,7 @@
       } else {
         const Mq = FEM.shearMoment(segs, samples, [sp.xc, sp.yc]); xS = sp.xc + Mq / Fy;
         const okR = Math.abs(Math.abs(Fy) - Sy) < 2e-3 * Sy && Math.abs(Fx) < 2e-3 * Sy;
-        note = `Resultante de $q$: vertical ${fmt(Math.abs(Fy) / 1e3, 3)} kN, horizontal ${fmt(Fx / 1e3, 3)} kN ${okR ? '(= $S_y$ ✓)' : '(<strong>no coincide con $S_y$</strong>: revisa la discretización)'}. Línea de acción de $S_y$ que no produce torsión: $x_S = ${fmt(xS, 2)}$ mm (el centroide está en $\\bar x = ${fmt(sp.xc, 2)}$ mm).`;
+        note = `Resultante de $q$: vertical ${fmt(Math.abs(Fy) / 1e3, 3)} kN, horizontal ${fmt(Math.abs(Fx) < 1e-4 * Sy ? 0 : Fx / 1e3, 3)} kN ${okR ? '(= $S_y$ ✓)' : '(<strong>no coincide con $S_y$</strong>: revisa la discretización)'}. Línea de acción de $S_y$ que no produce torsión: $x_S = ${fmt(Math.abs(xS) < 0.005 ? 0 : xS, 2)}$ mm (el centroide está en $\\bar x = ${fmt(sp.xc, 2)}$ mm).`;
         if (st.kind === 'U') note += ` Fórmula del canal: $3b^2/(h+6b) = ${fmt(3 * st.b ** 2 / (st.h + 6 * st.b), 2)}$ mm desde el alma.`;
         if (!['U', 'Z', 'I'].includes(st.kind)) note += ` Un cortante vertical solo fija la recta vertical $x = x_S$; la altura $y_S$ del centro de cortante requiere un segundo caso con $S_x$${st.kind === 'L' ? ' (en el ángulo, el centro de cortante es la esquina, donde se cortan las dos alas)' : ''}.`;
       }
@@ -538,10 +557,15 @@
       const sc = (H - 30) / span, X = x => W / 2 + (x - cx) * sc, Y = y => H / 2 - (y - cy) * sc, qs = span * 0.18 / qmax;
       segs.forEach((sg, k) => { const pts = samples.filter(o => o.seg === k); const L = Math.hypot(sg.q[0] - sg.p[0], sg.q[1] - sg.p[1]);
         const nx = -(sg.q[1] - sg.p[1]) / L, ny = (sg.q[0] - sg.p[0]) / L;
-        const poly = pts.map(o => [X(o.x + nx * o.q * qs), Y(o.y + ny * o.q * qs)]);
-        const base = pts.slice().reverse().map(o => [X(o.x), Y(o.y)]);
-        const mean = pts.reduce((a, o) => a + o.q, 0) / pts.length;
-        s('path', { d: path(poly.concat(base)) + ' Z', fill: mean >= 0 ? c.ten : c.comp, 'fill-opacity': 0.22, stroke: mean >= 0 ? c.ten : c.comp, 'stroke-width': 1.4 }, svg); });
+        // split the wall where q changes sign, so each part gets the colour of its own sense
+        const runs = []; let cur = [pts[0]];
+        for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i];
+          if (a.q * b.q < 0) { const f = a.q / (a.q - b.q), z = { x: a.x + f * (b.x - a.x), y: a.y + f * (b.y - a.y), q: 0 }; cur.push(z); runs.push(cur); cur = [z]; }
+          cur.push(b); }
+        runs.push(cur);
+        runs.forEach(rn => { const pos = rn.reduce((a, o) => a + o.q, 0) >= 0;
+          const poly = rn.map(o => [X(o.x + nx * o.q * qs), Y(o.y + ny * o.q * qs)]), base = rn.slice().reverse().map(o => [X(o.x), Y(o.y)]);
+          s('path', { d: path(poly.concat(base)) + ' Z', fill: pos ? c.ten : c.comp, 'fill-opacity': 0.22, stroke: pos ? c.ten : c.comp, 'stroke-width': 1.4 }, svg); }); });
       drawSection(svg, segs, X, Y, c);
       s('circle', { cx: X(sp.xc), cy: Y(sp.yc), r: 4.5, fill: c.ink }, svg); s('text', { x: X(sp.xc) + 7, y: Y(sp.yc) - 7, 'font-size': 12, fill: c.ink }, svg, 'C');
       const sx = xS !== null ? xS : sp.xc;
@@ -549,11 +573,12 @@
       s('path', { d: `M${X(sx)} ${Y(cy + span * 0.42)} l-6 10 h12 z`, fill: c.bad }, svg);   // S_y > 0 upwards: head at the top
       s('text', { x: X(sx) + 8, y: Y(cy + span * 0.36), 'font-size': 13, fill: c.bad }, svg, 'S_y');
       const ySknown = ['U', 'Z', 'I'].includes(st.kind);   // y_S known by symmetry: U (x axis), Z (point symmetry), I (double)
-      if (xS !== null && ySknown) { s('path', { d: `M${X(xS) - 7} ${Y(sp.yc)} h14 M${X(xS)} ${Y(sp.yc) - 7} v14`, stroke: c.bad, 'stroke-width': 2.5 }, svg);
-        s('text', { x: X(xS) - 10, y: Y(sp.yc) + 4, 'font-size': 12, fill: c.bad, 'text-anchor': 'end' }, svg, 'C.C.'); }
+      if ((xS !== null && ySknown) || closed) { const xc = closed ? sp.xc : xS;   // closed box and tube: doubly symmetric, so the shear centre is the centroid
+        s('path', { d: `M${X(xc) - 7} ${Y(sp.yc)} h14 M${X(xc)} ${Y(sp.yc) - 7} v14`, stroke: c.bad, 'stroke-width': 2.5 }, svg);
+        s('text', { x: X(xc) - 10, y: Y(sp.yc) + 4, 'font-size': 12, fill: c.bad, 'text-anchor': 'end' }, svg, 'C.C.'); }
       out.innerHTML = `<p>$I_{xx} = ${fmt(sp.Ixx / 1e6, 3)}\\times10^6$ mm⁴, $|q|_{\\max} = ${fmt(qmax, 2)}$ N/mm, $\\tau_{\\max} = |q|_{\\max}/t = ${fmt(qmax / st.t, 1)}$ MPa. ${note}</p>
         <p class="svg-muted">El diagrama se dibuja perpendicular a cada pared; rojo y azul indican el sentido respecto al recorrido de $s$.</p>`;
-      ERA.renderMath(out);
+      wmath(out);
     }
     root._rerender = render;
     render();

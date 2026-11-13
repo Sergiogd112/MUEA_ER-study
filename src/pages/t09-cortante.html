@@ -39,7 +39,16 @@ $$\boxed{\begin{aligned} q(s) = &-\frac{S_xI_{xx}-S_yI_{xy}}{I_{xx}I_{yy}-I_{xy}
 <p>Si $x$ o $y$ es eje de simetría ($I_{xy}=0$):</p>
 $$q(s) = -\frac{S_x}{I_{yy}}\int_0^s t\,x\,ds - \frac{S_y}{I_{xx}}\int_0^s t\,y\,ds .$$
 <p>Las integrales son los <strong>momentos estáticos</strong> de la parte de sección recorrida. Por eso $q$ es lineal en las paredes paralelas al eje neutro y parabólica en las perpendiculares,
-y en una pared $dq/ds$ es proporcional a $t\,y$: si no se le unen otras ramas, $|q|$ tiene un extremo local donde la pared cruza el eje neutro ($y=0$). Un $q$ negativo significa que fluye en sentido contrario a $s$.</p>
+y en una pared $dq/ds$ es proporcional a $t\,\partial\sigma_z/\partial z$ (con solo $S_y$ e $I_{xy}=0$, a $t\,y$): si no se le unen otras ramas, $|q|$ tiene un extremo local donde la pared cruza el eje neutro. Un $q$ negativo significa que fluye en sentido contrario a $s$.</p>
+<div class="box key">
+  <span class="box-title">Uniones de paredes (secciones ramificadas)</span>
+  <p>En un nudo donde se juntan varias paredes, el equilibrio longitudinal de un pequeño elemento del nudo da la misma regla que la corriente en un nudo de un circuito:
+  <strong>el flujo que entra es igual a la suma de los que salen</strong>, $\sum q_{\text{entra}} = \sum q_{\text{sale}}$. Cada rama se integra desde un punto donde $q$ es conocido
+  (un borde libre, o un punto del eje de simetría con carga simétrica) hasta el nudo, y la rama que sigue <em>arranca</em> con la suma de lo que llega.</p>
+  <p><strong>Ejemplo: sección en T</strong> con $S_y$ (ala de anchura $b$ y espesor $t_f$ a una distancia $y_f$ por encima del eje neutro, alma de espesor $t_w$ hacia abajo).
+  Cada media ala, integrada desde su extremo libre, llega al nudo con $q_1 = -\dfrac{S_y}{I_{xx}}\,t_f\,\dfrac b2\,y_f$. El alma arranca con $q = 2q_1$ y sigue
+  $q_w(s) = 2q_1 - \dfrac{S_y}{I_{xx}}\int_0^s t_w\,y\,ds$. Comprobación: en el extremo libre del alma $q_w$ vuelve a 0, porque el momento estático de toda la sección respecto al eje neutro es nulo.</p>
+</div>
 <p>Esta fórmula supone que la carga pasa por el <strong>centro de cortante</strong>: así la sección no gira. Si no pasa, al cortante se le suma un torsor.</p>
 
 <h2>4. Centro de cortante</h2>
@@ -54,7 +63,7 @@ $$S_y\,\xi_S = \oint r_\perp(s)\,q(s)\,ds .$$
 
 <div class="widget" data-widget="shear">
   <p class="widget-title">Flujo de cortante y centro de cortante</p>
-  <p class="widget-sub">Sección abierta (U, Z, ángulo, sombrero) o cerrada (cajón, tubo) bajo un cortante vertical $S_y$. El diagrama dibuja $q(s)$ perpendicular a la pared. En las secciones con simetría suficiente (U, Z, I) la cruz marca el centro de cortante; en las demás, un cortante vertical solo determina la recta vertical por la que pasa.</p>
+  <p class="widget-sub">Sección abierta (U, Z, ángulo, sombrero) o cerrada (cajón, tubo) bajo un cortante vertical $S_y$. El diagrama dibuja $q(s)$ perpendicular a la pared. En las secciones con simetría suficiente (U, Z, I, cajón y tubo) la cruz marca el centro de cortante; en las demás, un cortante vertical solo determina la recta vertical por la que pasa.</p>
 </div>
 
 <h2>5. Secciones cerradas</h2>

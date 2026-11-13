@@ -1,260 +1,260 @@
 WEBVTT
 
 1
-00:00:00.600 --> 00:00:04.491
+00:00:00.600 --> 00:00:04.596
 En este vídeo construimos el
 elemento barra en una dimensión.
 
 2
-00:00:04.541 --> 00:00:08.578
+00:00:04.646 --> 00:00:08.721
 Es el caso más sencillo, pero ya
 contiene todo el método: la rigidez
 
 3
-00:00:08.618 --> 00:00:13.645
+00:00:08.761 --> 00:00:13.831
 elemental, el ensamblaje, la partición
 del sistema y el cálculo de reacciones.
 
 4
-00:00:15.295 --> 00:00:19.730
+00:00:15.481 --> 00:00:20.027
 Con dos nodos, el desplazamiento es
 lineal a lo largo de la barra, así que la
 
 5
-00:00:19.770 --> 00:00:25.003
+00:00:20.067 --> 00:00:25.421
 deformación es constante: la diferencia de
 desplazamientos dividida por la longitud.
 
 6
-00:00:25.053 --> 00:00:29.205
+00:00:25.471 --> 00:00:29.563
 La ley de Hooke da la tensión, y el
 axil es el área por la tensión, es
 
 7
-00:00:29.245 --> 00:00:34.342
+00:00:29.603 --> 00:00:34.633
 decir, la rigidez axial E A partido por
 l multiplicada por el alargamiento.
 
 8
-00:00:34.392 --> 00:00:37.319
+00:00:34.683 --> 00:00:37.748
 El equilibrio de cada extremo
 dice que la fuerza en el
 
 9
-00:00:37.359 --> 00:00:40.675
+00:00:37.788 --> 00:00:41.244
 nodo uno es menos el axil y
 en el nodo dos es el axil.
 
 10
-00:00:40.725 --> 00:00:43.388
+00:00:41.294 --> 00:00:43.902
 Juntando todo obtenemos
 la matriz de rigidez
 
 11
-00:00:43.428 --> 00:00:47.402
+00:00:43.942 --> 00:00:47.844
 elemental: k por la matriz uno,
 menos uno, menos uno, uno.
 
 12
-00:00:49.052 --> 00:00:52.758
+00:00:49.494 --> 00:00:53.257
 La matriz tiene propiedades
 que conviene saber justificar.
 
 13
-00:00:52.808 --> 00:00:56.091
+00:00:53.307 --> 00:00:56.596
 Es simétrica, por la linealidad
 del material y las pequeñas
 
 14
-00:00:56.131 --> 00:00:59.973
+00:00:56.636 --> 00:01:00.484
 deformaciones; es el teorema de
 reciprocidad de Maxwell y Betti.
 
 15
-00:01:00.023 --> 00:01:02.312
+00:01:00.534 --> 00:01:02.927
 Es singular: sus filas suman cero.
 
 16
-00:01:02.362 --> 00:01:05.405
+00:01:02.977 --> 00:01:06.026
 Físicamente, si los dos
 nodos se mueven lo mismo,
 
 17
-00:01:05.445 --> 00:01:09.004
+00:01:06.066 --> 00:01:09.631
 la barra no se deforma y
 no aparece ninguna fuerza.
 
 18
-00:01:09.054 --> 00:01:13.468
+00:01:09.681 --> 00:01:14.130
 Esa singularidad solo desaparece
 cuando se imponen apoyos suficientes.
 
 19
-00:01:13.518 --> 00:01:17.556
+00:01:14.180 --> 00:01:18.229
 Y cada término tiene un significado:
 es la fuerza en el grado de libertad i
 
 20
-00:01:17.596 --> 00:01:22.297
+00:01:18.269 --> 00:01:22.982
 cuando se impone un desplazamiento unidad
 en el j y todos los demás son cero.
 
 21
-00:01:23.947 --> 00:01:28.418
+00:01:24.632 --> 00:01:28.964
 Veamos el ensamblaje con dos barras
 en serie de rigideces dos k y k.
 
 22
-00:01:28.468 --> 00:01:30.924
+00:01:29.014 --> 00:01:31.573
 Cada nodo tiene una
 numeración local dentro
 
 23
-00:01:30.964 --> 00:01:33.868
+00:01:31.613 --> 00:01:34.623
 del elemento y otra
 global en la estructura.
 
 24
-00:01:33.918 --> 00:01:36.400
+00:01:34.673 --> 00:01:37.129
 La compatibilidad dice
 que los extremos que
 
 25
-00:01:36.440 --> 00:01:40.073
+00:01:37.169 --> 00:01:40.770
 comparten un nodo global tienen
 el mismo desplazamiento.
 
 26
-00:01:40.123 --> 00:01:42.858
+00:01:40.820 --> 00:01:43.539
 El equilibrio de cada nodo
 dice que la suma de las
 
 27
-00:01:42.898 --> 00:01:46.743
+00:01:43.579 --> 00:01:47.405
 fuerzas de los elementos es la
 fuerza exterior más la reacción.
 
 28
-00:01:46.793 --> 00:01:50.251
+00:01:47.455 --> 00:01:50.885
 El resultado es que la matriz
 global es la suma de las matrices
 
 29
-00:01:50.291 --> 00:01:54.306
+00:01:50.925 --> 00:01:54.910
 elementales, cada término colocado
 en su grado de libertad global.
 
 30
-00:01:54.356 --> 00:01:57.259
+00:01:54.960 --> 00:01:57.848
 Fíjate en el término
 central, tres k: el nodo dos
 
 31
-00:01:57.299 --> 00:02:01.417
+00:01:57.888 --> 00:02:01.986
 pertenece a los dos elementos y
 recibe la contribución de ambos.
 
 32
-00:02:03.067 --> 00:02:06.139
+00:02:03.636 --> 00:02:06.725
 La fila de los grados de
 libertad libres solo contiene
 
 33
-00:02:06.179 --> 00:02:09.988
+00:02:06.765 --> 00:02:10.592
 incógnitas de desplazamiento,
 porque allí no hay reacciones.
 
 34
-00:02:10.038 --> 00:02:14.377
+00:02:10.642 --> 00:02:15.030
 Por eso se resuelve primero: los
 desplazamientos libres son la inversa de K
 
 35
-00:02:14.417 --> 00:02:19.606
+00:02:15.070 --> 00:02:20.315
 L L por las fuerzas libres menos K L
 R por los desplazamientos prescritos.
 
 36
-00:02:19.656 --> 00:02:23.930
+00:02:20.365 --> 00:02:24.615
 Después, la fila de los prescritos
 da directamente las reacciones.
 
 37
-00:02:23.980 --> 00:02:27.825
+00:02:24.665 --> 00:02:28.426
 Si un desplazamiento prescrito no
 es cero, como el delta del primer
 
 38
-00:02:27.865 --> 00:02:33.491
+00:02:28.466 --> 00:02:33.978
 trabajo, el término K L R por u R se pasa
 a la derecha y actúa como una carga más.
 
 39
-00:02:35.141 --> 00:02:39.206
+00:02:35.628 --> 00:02:39.694
 Ensamblamos las dos barras y
 obtenemos la matriz que ya conocemos.
 
 40
-00:02:39.256 --> 00:02:42.037
+00:02:39.744 --> 00:02:42.519
 El único grado de libertad
 libre es u dos, y su
 
 41
-00:02:42.077 --> 00:02:45.608
+00:02:42.559 --> 00:02:46.084
 fila da tres k u dos menos
 k delta igual a f dos.
 
 42
-00:02:45.658 --> 00:02:49.677
+00:02:46.134 --> 00:02:50.211
 Las filas prescritas dan las
 reacciones en los nodos uno y tres.
 
 43
-00:02:49.727 --> 00:02:53.601
+00:02:50.261 --> 00:02:54.139
 Sin fuerza en el nodo dos, el
 desplazamiento impuesto se reparte
 
 44
-00:02:53.641 --> 00:02:57.515
+00:02:54.179 --> 00:02:58.057
 como en un divisor: la barra más
 blanda se lleva dos tercios del
 
 45
-00:02:57.555 --> 00:03:02.186
+00:02:58.097 --> 00:03:02.732
 alargamiento, y la suma de reacciones
 y cargas es cero, como debe ser.
 
 46
-00:03:03.836 --> 00:03:06.648
+00:03:04.382 --> 00:03:07.158
 Repasemos las preguntas
 que te pueden hacer.
 
 47
-00:03:06.698 --> 00:03:10.972
+00:03:07.208 --> 00:03:11.634
 K es singular porque admite movimientos
 de sólido rígido sin fuerzas.
 
 48
-00:03:11.022 --> 00:03:14.832
+00:03:11.684 --> 00:03:15.470
 Cada término es una fuerza producida
 por un desplazamiento unidad.
 
 49
-00:03:14.882 --> 00:03:18.109
+00:03:15.520 --> 00:03:18.864
 La fila libre es la única
 con todas las incógnitas del
 
 50
-00:03:18.149 --> 00:03:22.070
+00:03:18.904 --> 00:03:22.952
 mismo tipo, y las reacciones
 salen después por sustitución.
 
 51
-00:03:22.120 --> 00:03:25.416
+00:03:23.002 --> 00:03:26.330
 Y el ensamblaje en código es un
 doble bucle que suma la matriz
 
 52
-00:03:25.456 --> 00:03:29.842
+00:03:26.370 --> 00:03:30.794
 elemental en las posiciones globales
 que da la tabla de grados de libertad.

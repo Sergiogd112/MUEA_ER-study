@@ -1,222 +1,222 @@
 WEBVTT
 
 1
-00:00:00.600 --> 00:00:05.339
+00:00:00.600 --> 00:00:05.304
 Ala, fuselaje y cola son vigas de
 pared delgada que trabajan a flexión.
 
 2
-00:00:05.389 --> 00:00:08.578
+00:00:05.354 --> 00:00:08.572
 Este vídeo da la tensión
 normal en cualquier sección,
 
 3
-00:00:08.618 --> 00:00:12.136
+00:00:08.612 --> 00:00:12.159
 simétrica o no, con el
 convenio de signos del curso.
 
 4
-00:00:13.786 --> 00:00:16.502
+00:00:13.809 --> 00:00:16.509
 Hipótesis de Euler-Bernoulli:
 las secciones planas
 
 5
-00:00:16.542 --> 00:00:19.315
+00:00:16.549 --> 00:00:19.307
 siguen planas y perpendiculares
 al eje deformado,
 
 6
-00:00:19.355 --> 00:00:22.518
+00:00:19.347 --> 00:00:22.495
 con pequeños desplazamientos
 y material elástico.
 
 7
-00:00:22.568 --> 00:00:26.365
+00:00:22.545 --> 00:00:26.371
 La deformación crece linealmente
 con la distancia a la superficie
 
 8
-00:00:26.405 --> 00:00:30.592
+00:00:26.411 --> 00:00:30.627
 neutra, dividida por el radio de
 curvatura, y la tensión también.
 
 9
-00:00:30.642 --> 00:00:35.271
+00:00:30.677 --> 00:00:35.288
 Integrando el momento de las tensiones
 sale que el momento es E I partido por
 
 10
-00:00:35.311 --> 00:00:40.269
+00:00:35.328 --> 00:00:40.269
 el radio, y de ahí la fórmula clásica:
 momento por y partido por la inercia.
 
 11
-00:00:40.319 --> 00:00:45.069
+00:00:40.319 --> 00:00:45.150
 Como en flexión pura el axil es nulo,
 el eje neutro pasa por el centroide.
 
 12
-00:00:46.719 --> 00:00:50.045
+00:00:46.800 --> 00:00:50.080
 Si la sección no tiene un eje
 de simetría alineado con el
 
 13
-00:00:50.085 --> 00:00:53.352
+00:00:50.120 --> 00:00:53.342
 momento, el producto de inercia
 no es cero, y la tensión
 
 14
-00:00:53.392 --> 00:00:57.344
+00:00:53.382 --> 00:00:57.286
 es una función lineal de equis
 y de y con estos coeficientes.
 
 15
-00:00:57.394 --> 00:01:01.415
+00:00:57.336 --> 00:01:01.260
 Con producto de inercia nulo se reduce
 a momento en equis por y entre I
 
 16
-00:01:01.455 --> 00:01:05.877
+00:01:01.300 --> 00:01:05.615
 x x, menos momento en y por equis
 entre I y y; ese signo menos aparece
 
 17
-00:01:05.917 --> 00:01:10.329
+00:01:05.655 --> 00:01:09.969
 porque un momento en y positivo
 comprime las fibras con equis positiva.
 
 18
-00:01:10.379 --> 00:01:13.225
+00:01:10.019 --> 00:01:12.958
 Ojo: el libro de Megson usa otro convenio.
 
 19
-00:01:13.275 --> 00:01:15.855
+00:01:13.008 --> 00:01:15.691
 El eje neutro es la recta
 de tensión nula, y en
 
 20
-00:01:15.895 --> 00:01:18.977
+00:01:15.731 --> 00:01:18.919
 general no es perpendicular
 al plano del momento.
 
 21
-00:01:19.027 --> 00:01:21.769
+00:01:18.969 --> 00:01:21.638
 Girando los ejes un
 ángulo alfa se anula el
 
 22
-00:01:21.809 --> 00:01:25.136
+00:01:21.678 --> 00:01:24.927
 producto de inercia: son
 los ejes principales.
 
 23
-00:01:26.786 --> 00:01:31.002
+00:01:26.577 --> 00:01:30.823
 La sección en Z del curso: alma
 de doscientos milímetros, alas de
 
 24
-00:01:31.042 --> 00:01:35.460
+00:01:30.863 --> 00:01:35.309
 cien y espesor de ocho, con un
 momento de diez kilonewtons metro.
 
 25
-00:01:35.510 --> 00:01:42.208
+00:01:35.359 --> 00:01:42.031
 Con pared delgada, I x x
 vale 21,33, I y y 5,33 y el
 
 26
-00:01:42.248 --> 00:01:47.667
+00:01:42.071 --> 00:01:47.470
 producto de inercia 8,00, en
 millones de milímetros a la cuarta.
 
 27
-00:01:47.717 --> 00:01:51.930
+00:01:47.520 --> 00:01:51.653
 Solo con momento en equis,
 la tensión es menos 1,607
 
 28
-00:01:51.970 --> 00:01:56.752
+00:01:51.693 --> 00:01:56.392
 por equis más 1,071 por y, en
 megapascales y milímetros.
 
 29
-00:01:56.802 --> 00:02:01.645
+00:01:56.442 --> 00:02:01.146
 El eje neutro forma 56,3
 grados con el eje equis.
 
 30
-00:02:01.695 --> 00:02:06.181
+00:02:01.196 --> 00:02:05.591
 La tensión máxima, 107,1
 megapascales, está en las uniones
 
 31
-00:02:06.221 --> 00:02:11.832
+00:02:05.631 --> 00:02:11.135
 del alma con las alas, no en las
 puntas, que solo llegan a 53,6.
 
 32
-00:02:11.882 --> 00:02:14.753
+00:02:11.185 --> 00:02:14.001
 Si hubiéramos usado la
 fórmula simétrica habríamos
 
 33
-00:02:14.793 --> 00:02:20.208
+00:02:14.041 --> 00:02:19.361
 obtenido 46,9 megapascales: menos
 de la mitad de la tensión real.
 
 34
-00:02:21.858 --> 00:02:24.925
+00:02:21.011 --> 00:02:24.112
 El procedimiento completo
 tiene cinco pasos.
 
 35
-00:02:24.975 --> 00:02:26.927
+00:02:24.162 --> 00:02:26.126
 El centroide de la sección.
 
 36
-00:02:26.977 --> 00:02:32.110
+00:02:26.176 --> 00:02:31.298
 Las inercias respecto al centroide, con
 el teorema de Steiner para cada parte.
 
 37
-00:02:32.160 --> 00:02:36.202
+00:02:31.348 --> 00:02:35.459
 Los momentos que actúan en la
 sección, a partir de las cargas.
 
 38
-00:02:36.252 --> 00:02:40.503
+00:02:35.509 --> 00:02:39.725
 La tensión en cada punto con la
 fórmula general, y el eje neutro.
 
 39
-00:02:40.553 --> 00:02:45.060
+00:02:39.775 --> 00:02:44.235
 Y el punto crítico, que es el más alejado
 del eje neutro, no del eje equis.
 
 40
-00:02:46.710 --> 00:02:49.126
+00:02:45.885 --> 00:02:48.279
 Las preguntas típicas de flexión.
 
 41
-00:02:49.176 --> 00:02:52.696
+00:02:48.329 --> 00:02:51.871
 Por qué el eje neutro pasa
 por el centroide: axil nulo.
 
 42
-00:02:52.746 --> 00:02:57.426
+00:02:51.921 --> 00:02:56.579
 Cuándo es nulo el producto de inercia:
 cuando equis o y es eje de simetría.
 
 43
-00:02:57.476 --> 00:02:59.471
+00:02:56.629 --> 00:02:58.579
 Por qué en flexión asimétrica el eje
 
 44
-00:02:59.511 --> 00:03:02.575
+00:02:58.619 --> 00:03:01.623
 neutro no es perpendicular
 al plano del momento.
 
 45
-00:03:02.625 --> 00:03:06.957
+00:03:01.673 --> 00:03:05.970
 Y escribir la fórmula general y
 deducir de ella el caso simétrico.

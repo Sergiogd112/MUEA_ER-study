@@ -1,249 +1,249 @@
 WEBVTT
 
 1
-00:00:00.600 --> 00:00:05.083
+00:00:00.600 --> 00:00:05.060
 Bienvenido a la serie de vídeos de
 Elementos Resistentes en la Aeronáutica.
 
 2
-00:00:05.133 --> 00:00:09.225
+00:00:05.110 --> 00:00:09.213
 En este primer vídeo fijamos el problema:
 qué cargas actúan sobre un avión,
 
 3
-00:00:09.265 --> 00:00:13.912
+00:00:09.253 --> 00:00:13.912
 qué modelo usamos para cada pieza y qué
 esquema seguiremos en todos los temas.
 
 4
-00:00:13.962 --> 00:00:17.626
+00:00:13.962 --> 00:00:17.578
 La asignatura se evalúa con tres
 trabajos de código propio y una
 
 5
-00:00:17.666 --> 00:00:22.242
+00:00:17.618 --> 00:00:22.137
 defensa oral de cada uno, así que
 insistiremos en el porqué de cada paso.
 
 6
-00:00:23.892 --> 00:00:28.688
+00:00:23.787 --> 00:00:28.642
 La estructura soporta el peso de todos
 sus componentes y de la carga de pago.
 
 7
-00:00:28.738 --> 00:00:33.605
+00:00:28.692 --> 00:00:33.674
 El aire aporta la sustentación y la
 resistencia, y el motor el empuje.
 
 8
-00:00:33.655 --> 00:00:37.184
+00:00:33.724 --> 00:00:37.084
 En maniobras y ráfagas la
 sustentación deja de igualar
 
 9
-00:00:37.224 --> 00:00:41.342
+00:00:37.124 --> 00:00:41.063
 al peso, y el cociente entre
 ambos es el factor de carga.
 
 10
-00:00:41.392 --> 00:00:45.341
+00:00:41.113 --> 00:00:45.144
 Hay además cargas de presurización,
 de aterrizaje y térmicas.
 
 11
-00:00:45.391 --> 00:00:48.965
+00:00:45.194 --> 00:00:48.788
 Cuando las fuerzas no están en
 equilibrio el avión acelera, y la
 
 12
-00:00:49.005 --> 00:00:52.465
+00:00:48.828 --> 00:00:52.308
 estructura se calcula como un
 problema casi estático añadiendo
 
 13
-00:00:52.505 --> 00:00:55.966
+00:00:52.348 --> 00:00:55.828
 fuerzas de inercia, menos la masa
 por la aceleración, según el
 
 14
-00:00:56.006 --> 00:01:00.196
+00:00:55.868 --> 00:01:00.079
 principio de d'Alembert; el segundo
 trabajo usa exactamente esta idea.
 
 15
-00:01:01.846 --> 00:01:05.226
+00:01:01.729 --> 00:01:05.121
 El primer paso es decidir el
 modelo de cada componente.
 
 16
-00:01:05.276 --> 00:01:08.985
+00:01:05.171 --> 00:01:08.891
 Un cable o un tubo con uniones
 articuladas es una barra: es
 
 17
-00:01:09.025 --> 00:01:13.822
+00:01:08.931 --> 00:01:13.741
 esbelto y no transmite momentos, así
 que solo trabaja a esfuerzo axil.
 
 18
-00:01:13.872 --> 00:01:16.444
+00:01:13.791 --> 00:01:16.391
 Los largueros y larguerillos son vigas:
 
 19
-00:01:16.484 --> 00:01:19.714
+00:01:16.431 --> 00:01:19.691
 resisten axil, cortante,
 flexión y torsión.
 
 20
-00:01:19.764 --> 00:01:22.013
+00:01:19.741 --> 00:01:22.012
 Las costillas y las cuadernas se modelan
 
 21
-00:01:22.053 --> 00:01:24.920
+00:01:22.052 --> 00:01:24.944
 como placas, y el
 revestimiento como lámina.
 
 22
-00:01:24.970 --> 00:01:29.593
+00:01:24.994 --> 00:01:29.587
 Casi todos los aviones son semimonocasco:
 un revestimiento delgado rigidizado, en
 
 23
-00:01:29.633 --> 00:01:34.817
+00:01:29.627 --> 00:01:34.783
 el que los larguerillos llevan la tensión
 de flexión y el revestimiento el cortante.
 
 24
-00:01:36.467 --> 00:01:39.666
+00:01:36.433 --> 00:01:39.518
 Dadas las cargas, buscamos
 los esfuerzos internos y los
 
 25
-00:01:39.706 --> 00:01:44.120
+00:01:39.558 --> 00:01:43.830
 desplazamientos, y la solución tiene
 que cumplir tres cosas a la vez.
 
 26
-00:01:44.170 --> 00:01:47.330
+00:01:43.880 --> 00:01:47.097
 El equilibrio, en cada
 nodo y en cada elemento.
 
 27
-00:01:47.380 --> 00:01:51.236
+00:01:47.147 --> 00:01:50.888
 La ley constitutiva, que en un
 material homogéneo es la ley de Hooke.
 
 28
-00:01:51.286 --> 00:01:55.432
+00:01:50.938 --> 00:01:55.049
 Y la compatibilidad con los apoyos
 y los desplazamientos impuestos.
 
 29
-00:01:55.482 --> 00:01:58.554
+00:01:55.099 --> 00:01:58.126
 Con pequeñas deformaciones
 y material elástico lineal,
 
 30
-00:01:58.594 --> 00:02:01.666
+00:01:58.166 --> 00:02:01.192
 el equilibrio se plantea en
 la geometría sin deformar,
 
 31
-00:02:01.706 --> 00:02:05.341
+00:02:01.232 --> 00:02:04.818
 y por eso las deformadas siempre
 se dibujan amplificadas.
 
 32
-00:02:05.391 --> 00:02:09.147
+00:02:04.868 --> 00:02:08.624
 El resultado es un sistema lineal:
 la matriz de rigidez por los
 
 33
-00:02:09.187 --> 00:02:13.694
+00:02:08.664 --> 00:02:13.171
 desplazamientos es igual a las fuerzas
 exteriores más las reacciones.
 
 34
-00:02:15.344 --> 00:02:19.583
+00:02:14.821 --> 00:02:19.095
 Todos los temas siguen el mismo esquema,
 que es el que programarás en MATLAB.
 
 35
-00:02:19.633 --> 00:02:22.101
+00:02:19.145 --> 00:02:21.563
 Primero la geometría:
 nodos, elementos y las
 
 36
-00:02:22.141 --> 00:02:25.684
+00:02:21.603 --> 00:02:25.080
 tablas de conectividad de
 nodos y de grados de libertad.
 
 37
-00:02:25.734 --> 00:02:28.870
+00:02:25.130 --> 00:02:28.208
 Después la matriz de
 rigidez de cada elemento.
 
 38
-00:02:28.920 --> 00:02:30.869
+00:02:28.258 --> 00:02:30.212
 Luego el ensamblaje, que suma cada
 
 39
-00:02:30.909 --> 00:02:33.833
+00:02:30.252 --> 00:02:33.183
 contribución en su grado
 de libertad global.
 
 40
-00:02:33.883 --> 00:02:36.145
+00:02:33.233 --> 00:02:35.506
 A continuación se separan los grados de
 
 41
-00:02:36.185 --> 00:02:39.074
+00:02:35.546 --> 00:02:38.447
 libertad libres y
 prescritos y se resuelve.
 
 42
-00:02:39.124 --> 00:02:41.731
+00:02:38.497 --> 00:02:40.991
 Y por último el postproceso: reacciones,
 
 43
-00:02:41.771 --> 00:02:45.430
+00:02:41.031 --> 00:02:44.548
 deformaciones, tensiones
 y comprobación de pandeo.
 
 44
-00:02:47.080 --> 00:02:51.319
+00:02:46.198 --> 00:02:50.425
 Para terminar, las preguntas típicas
 del oral sobre esta introducción.
 
 45
-00:02:51.369 --> 00:02:55.852
+00:02:50.475 --> 00:02:54.947
 Justifica el modelo de cada pieza a
 partir de su esbeltez y de sus uniones.
 
 46
-00:02:55.902 --> 00:02:58.018
+00:02:54.997 --> 00:02:57.112
 Señala en tu código dónde se impone el
 
 47
-00:02:58.058 --> 00:03:01.698
+00:02:57.152 --> 00:03:00.792
 equilibrio, dónde la compatibilidad
 y dónde la ley de Hooke.
 
 48
-00:03:01.748 --> 00:03:04.174
+00:03:00.842 --> 00:03:03.311
 Explica qué supone trabajar con pequeños
 
 49
-00:03:04.214 --> 00:03:08.820
+00:03:03.351 --> 00:03:08.030
 desplazamientos: linealidad,
 superposición y deformadas amplificadas.
 
 50
-00:03:08.870 --> 00:03:12.160
+00:03:08.080 --> 00:03:11.370
 Y ten preparadas comprobaciones:
 el equilibrio global de
 
 51
-00:03:12.200 --> 00:03:16.058
+00:03:11.410 --> 00:03:15.269
 reacciones y cargas, y algún
 caso sencillo resuelto a mano.
