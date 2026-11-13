@@ -39,7 +39,7 @@ $$\boxed{\begin{aligned} q(s) = &-\frac{S_xI_{xx}-S_yI_{xy}}{I_{xx}I_{yy}-I_{xy}
 <p>Si $x$ o $y$ es eje de simetría ($I_{xy}=0$):</p>
 $$q(s) = -\frac{S_x}{I_{yy}}\int_0^s t\,x\,ds - \frac{S_y}{I_{xx}}\int_0^s t\,y\,ds .$$
 <p>Las integrales son los <strong>momentos estáticos</strong> de la parte de sección recorrida. Por eso $q$ es lineal en las paredes paralelas al eje neutro y parabólica en las perpendiculares,
-y en una pared $dq/ds$ es proporcional a $t\,\partial\sigma_z/\partial z$ (con solo $S_y$ e $I_{xy}=0$, a $t\,y$): si no se le unen otras ramas, $|q|$ tiene un extremo local donde la pared cruza el eje neutro. Un $q$ negativo significa que fluye en sentido contrario a $s$.</p>
+y en una pared $dq/ds = -t\,\partial\sigma_z/\partial z$: si no se le unen otras ramas, $|q|$ tiene un extremo local donde $\partial\sigma_z/\partial z = 0$. Con solo $S_y$ e $I_{xy}=0$, $dq/ds \propto t\,y$ y ese punto es donde la pared cruza el eje centroidal $y=0$ (el eje neutro de la flexión por $M_x$). Ojo: un $M_y$ constante puede inclinar el eje neutro de $\sigma_z$ sin cambiar $q$, así que la regla es $\partial\sigma_z/\partial z=0$, no «el eje neutro de $\sigma_z$». Un $q$ negativo significa que fluye en sentido contrario a $s$.</p>
 <div class="box key">
   <span class="box-title">Uniones de paredes (secciones ramificadas)</span>
   <p>En un nudo donde se juntan varias paredes, el equilibrio longitudinal de un pequeño elemento del nudo da la misma regla que la corriente en un nudo de un circuito:

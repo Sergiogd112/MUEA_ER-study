@@ -145,7 +145,7 @@
         for (let i = 1; i < 2 * z; i++) pts.push([a + 12 + (b - a - 24) * i / (2 * z), y + (i % 2 ? -9 : 9)]);
         pts.push([b, y]);
         s('path', { d: `M${a} ${y} L${a + 12} ${y}` + path(pts.slice(1, -1)).replace('M', 'L') + ` L${b} ${y}`, fill: 'none', stroke: cols[e], 'stroke-width': 2.5 }, svg);
-        s('text', { x: (a + b) / 2, y: y - 18, 'text-anchor': 'middle', 'font-size': 13, fill: cols[e] }, svg, `(${e + 1}) k=${k[e]}k`);
+        s('text', { x: (a + b) / 2, y: y - 18, 'text-anchor': 'middle', 'font-size': 13, fill: cols[e] }, svg, `(${e + 1}) k=${String(k[e]).replace('.', ',')}k`);
         s('text', { x: (a + b) / 2, y: y + 30, 'text-anchor': 'middle', 'font-size': 12, fill: c.ink2 }, svg, `N=${fmt(N[e], 2)} kN`);
       }
       for (let i = 0; i < nn; i++) { const xx = x0 + i * dx; s('circle', { cx: xx, cy: y, r: 6, fill: c.surface, stroke: c.ink, 'stroke-width': 2 }, svg);
@@ -470,7 +470,7 @@
       if (at) s('text', { x: X(at[0]) + 6, y: Y(at[1]) - 6, 'font-size': 12, fill: c.ten }, svg, 'σmáx');
       if (atm) s('text', { x: X(atm[0]) + 6, y: Y(atm[1]) + 14, 'font-size': 12, fill: c.comp }, svg, 'σmín');
       const naDeg = (Mx || My) ? Math.atan2(-ax, ay) * 180 / Math.PI : NaN;
-      out.innerHTML = `<p>Centroide $(\\bar x;\\ \\bar y) = (${fmt(sp.xc, 1)};\\ ${fmt(sp.yc, 1)})$ mm. $I_{xx} = ${fmt(sp.Ixx / 1e6, 3)}$, $I_{yy} = ${fmt(sp.Iyy / 1e6, 3)}$, $I_{xy} = ${fmt(sp.Ixy / 1e6, 3)}\\times10^6$ mm⁴.
+      out.innerHTML = `<p>Centroide $(\\bar x;\\ \\bar y) = (${fmt(sp.xc, 1)};\\ ${fmt(sp.yc, 1)})$ mm. $I_{xx} = ${fmt(sp.Ixx / 1e6, 3)}\\times10^6$, $I_{yy} = ${fmt(sp.Iyy / 1e6, 3)}\\times10^6$, $I_{xy} = ${fmt(sp.Ixy / 1e6, 3)}\\times10^6$ mm⁴.
         Ejes principales a $\\alpha = ${fmt(alpha * 180 / Math.PI, 1)}°$ (punteado gris).<br>
         $\\sigma_z = ${fmt(ax, 4)}\\,x ${ay >= 0 ? '+' : ''}${fmt(ay, 4)}\\,y$ (MPa, mm desde el centroide). ${isFinite(naDeg) ? `Eje neutro a ${fmt(naDeg, 1)}° de $x$.` : ''}
         Máx. tracción $${fmt(smax, 1)}$ MPa; máx. compresión $${fmt(smin, 1)}$ MPa.

@@ -32,7 +32,54 @@
                    { left: '\\(', right: '\\)', display: false }, { left: '$', right: '$', display: false }],
       throwOnError: false, ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option']
     });
+    ERA.fitDisplays(el);
   };
+
+  /* Phones: a display equation wider than its box is re-rendered with its top-level \qquad / ",\quad"
+     separators as line breaks; if it still overflows it is scaled down (not below 72 %). Wide screens keep
+     the original one-line form. */
+  function splitTop(src) {
+    const parts = []; let depth = 0, env = 0, last = 0;
+    for (let i = 0; i < src.length; i++) {
+      const c = src[i];
+      if (c === '\\' && src.startsWith('\\begin{', i)) env++;
+      else if (c === '\\' && src.startsWith('\\end{', i)) env--;
+      else if (c === '\\' && (src[i + 1] === '{' || src[i + 1] === '}')) { i++; continue; }
+      else if (c === '{') depth++;
+      else if (c === '}') depth--;
+      else if (c === '\\' && depth === 0 && env === 0) {
+        const m = /^\\(qquad|quad)(?![a-zA-Z])/.exec(src.slice(i));
+        if (m && (m[1] === 'qquad' || /,\s*$/.test(src.slice(last, i)))) {
+          parts.push(src.slice(last, i).trim()); i += m[0].length - 1; last = i + 1;
+        }
+        else if (/^\\(Rightarrow|Longrightarrow)(?![a-zA-Z])/.test(src.slice(i)) && i > last) { parts.push(src.slice(last, i).trim()); last = i; }   // break before an implication
+      }
+    }
+    parts.push(src.slice(last).trim());
+    // drop spacing commands left at the cut ("\\ ", "\\,", "\\quad"), or a lone "\\" would eat the next line's command
+    const clean = t => t.replace(/(?:\\[ ,;:!]|\\q?quad(?![a-zA-Z])|\s|\\$)+$/, '').replace(/^(?:\\[ ,;:!]|\\q?quad(?![a-zA-Z])|\s)+/, '');
+    return parts.map(clean).filter(Boolean);
+  }
+  ERA.fitDisplays = function (el) {
+    if (!window.katex) return;
+    (el || document).querySelectorAll('.katex-display').forEach(d => {
+      const ann = d.querySelector('annotation');
+      if (!d.dataset.src && ann) d.dataset.src = ann.textContent;
+      const src = d.dataset.src; if (!src) return;
+      const fits = () => d.scrollWidth <= d.clientWidth + 1;
+      const render = tex => { try { const t = document.createElement('div'); t.innerHTML = katex.renderToString(tex, { displayMode: true, throwOnError: false }); d.innerHTML = t.firstElementChild.innerHTML; } catch (e) { /* keep */ } };
+      d.style.fontSize = '';
+      if (d.dataset.fit) { render(src); delete d.dataset.fit; }
+      if (fits()) return;
+      const parts = splitTop(src);
+      if (parts.length > 1) { render('\\begin{gathered}' + parts.join('\\\\') + '\\end{gathered}'); d.dataset.fit = '1'; }
+      for (let k = 0, f = 1; k < 4 && !fits() && f > 0.72; k++) { f = Math.max(0.72, f * d.clientWidth / d.scrollWidth * 0.98); d.style.fontSize = f + 'em'; }
+    });
+  };
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => ERA.fitDisplays(document), 200); });
+  // widths are only right once the KaTeX fonts have loaded
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ERA.fitDisplays(document));
+  window.addEventListener('load', () => ERA.fitDisplays(document));
   ERA.tex = function (s, display) {
     if (!window.katex) return s;
     try { return katex.renderToString(s, { displayMode: !!display, throwOnError: false }); } catch (e) { return s; }
